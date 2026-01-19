@@ -1,0 +1,3160 @@
+{
+  "total_found": 187,
+  "top_30": [
+    {
+      "name": "Bryant Park",
+      "place_id": "ChIJ7T_P62dmBzsRqa88VYB0q9w",
+      "rating": 4.2,
+      "user_ratings_total": 28181,
+      "types": [
+        "park",
+        "tourist_attraction",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "6FJV+H7W, Lower Shola Rd, Kodaikanal, Tamil Nadu 624101, India",
+      "lat": 10.2314998,
+      "lng": 77.493196
+    },
+    {
+      "name": "Kodaikanal Hill Station",
+      "place_id": "ChIJd_JRE1hnBzsRjIKzBls1VY0",
+      "rating": 4.6,
+      "user_ratings_total": 23215,
+      "types": [
+        "tourist_attraction",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "Kodaikanal, Tamil Nadu 624101, India",
+      "lat": 10.2381136,
+      "lng": 77.4891822
+    },
+    {
+      "name": "Pine Forest",
+      "place_id": "ChIJBz2iNldmBzsR4bJprNHYtX0",
+      "rating": 4.4,
+      "user_ratings_total": 19213,
+      "types": [
+        "tourist_attraction",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "6F75+FG4, Lake Rd, Berijam, Kodaikanal, Tamil Nadu 624103, India",
+      "lat": 10.2136358,
+      "lng": 77.4588208
+    },
+    {
+      "name": "Guna Cave",
+      "place_id": "ChIJWWd7PbFlBzsRMLd8ZKYoH_c",
+      "rating": 4.2,
+      "user_ratings_total": 18310,
+      "types": [
+        "tourist_attraction",
+        "travel_agency",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "Pillar Rocks Rd, Kodaikanal, Tamil Nadu 624103, India",
+      "lat": 10.2101457,
+      "lng": 77.46302399999999
+    },
+    {
+      "name": "Moir Point",
+      "place_id": "ChIJe7Xyx-xlBzsRbTqk6FNIUM0",
+      "rating": 4.2,
+      "user_ratings_total": 12034,
+      "types": [
+        "tourist_attraction",
+        "park",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "6C6X+57V, Ten Mile Round, Tamil Nadu 624103, India",
+      "lat": 10.210484,
+      "lng": 77.4481595
+    },
+    {
+      "name": "Green Valley Viewpoint",
+      "place_id": "ChIJO_tpLw9mBzsRI2egOTdZwOc",
+      "rating": 4.3,
+      "user_ratings_total": 10010,
+      "types": [
+        "tourist_attraction",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "6F6G+C58, Kodaikanal, Tamil Nadu 624103, India",
+      "lat": 10.2110418,
+      "lng": 77.4754523
+    },
+    {
+      "name": "Liril Falls",
+      "place_id": "ChIJA1eKX3RmBzsRbeKfAnGzXk0",
+      "rating": 4.1,
+      "user_ratings_total": 9496,
+      "types": [
+        "tourist_attraction",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "6FCJ+GQ6, Golf Links Road, Kodaikanal, Tamil Nadu 624101, India",
+      "lat": 10.2212793,
+      "lng": 77.4819052
+    },
+    {
+      "name": "Upper Lake View",
+      "place_id": "ChIJ0-FQUndmBzsRcnHt49dUoJg",
+      "rating": 4.3,
+      "user_ratings_total": 8519,
+      "types": [
+        "tourist_attraction",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "6FJG+45X, Upper Lake Rd, Kodaikanal, Tamil Nadu 624103, India",
+      "lat": 10.2303509,
+      "lng": 77.4754961
+    },
+    {
+      "name": "Coakers Walk",
+      "place_id": "ChIJrXHkrEJmBzsRRUhKRDw0X_M",
+      "rating": 4.4,
+      "user_ratings_total": 8465,
+      "types": [
+        "tourist_attraction",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "6FHV+XGC Coakers Walk, Kodaikanal, Tamil Nadu 624101, India",
+      "lat": 10.2324008,
+      "lng": 77.4936446
+    },
+    {
+      "name": "Kodaikanal Lake",
+      "place_id": "ChIJb0YpF2RmBzsRCgTLNkaku-0",
+      "rating": 4.5,
+      "user_ratings_total": 8318,
+      "types": [
+        "natural_feature",
+        "establishment"
+      ],
+      "address": "Kodaikanal Lake, Kodaikanal, Tamil Nadu 624101",
+      "lat": 10.2343586,
+      "lng": 77.4863295
+    },
+    {
+      "name": "Kurinji Andavar Temple",
+      "place_id": "ChIJy4TZFu5mBzsRZ4t4DtUraaU",
+      "rating": 4.7,
+      "user_ratings_total": 7374,
+      "types": [
+        "hindu_temple",
+        "tourist_attraction",
+        "place_of_worship",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "113, Kurinji Andavar Temple Road, Kodaikanal, Tamil Nadu 624101, India",
+      "lat": 10.2531684,
+      "lng": 77.5019133
+    },
+    {
+      "name": "Dolphin Nose",
+      "place_id": "ChIJg83_KBdmBzsRLcSDcCeOEms",
+      "rating": 4.5,
+      "user_ratings_total": 6763,
+      "types": [
+        "tourist_attraction",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "6F5P+JVP, Tamil Nadu 624101, India",
+      "lat": 10.2090856,
+      "lng": 77.4872073
+    },
+    {
+      "name": "Silver Cascade Falls",
+      "place_id": "ChIJWV8fmgFnBzsRFyCKSAKIEEA",
+      "rating": 4.4,
+      "user_ratings_total": 5744,
+      "types": [
+        "tourist_attraction",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "6GR6+P87, Adukkam, Tamil Nadu 624101, India",
+      "lat": 10.2417788,
+      "lng": 77.51080770000002
+    },
+    {
+      "name": "Hotel Kodai International",
+      "place_id": "ChIJ-S674GJmBzsRFcoFM3YHwbA",
+      "rating": 4.3,
+      "user_ratings_total": 5034,
+      "types": [
+        "spa",
+        "bar",
+        "lodging",
+        "restaurant",
+        "food",
+        "store",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "17/328, Laws Ghat Rd, Kodaikanal, Tamil Nadu 624101, India",
+      "lat": 10.2427911,
+      "lng": 77.4984734
+    },
+    {
+      "name": "Poombarai View Point",
+      "place_id": "ChIJTcR3J-9kBzsRbx_mACyDLcU",
+      "rating": 4.6,
+      "user_ratings_total": 4997,
+      "types": [
+        "tourist_attraction",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "7C25+J55, Mannavanur to Kodaikanal Rd, Tamil Nadu 624103, India",
+      "lat": 10.2515245,
+      "lng": 77.4079805
+    },
+    {
+      "name": "Kumbakkarai Falls",
+      "place_id": "ChIJG48RHGloBzsRUwSUPlafkU4",
+      "rating": 4.3,
+      "user_ratings_total": 4452,
+      "types": [
+        "tourist_attraction",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "5GJJ+47W, Kumbakarai Road, Tamil Nadu 625605, India",
+      "lat": 10.1803695,
+      "lng": 77.5307187
+    },
+    {
+      "name": "Kodai INN Tent Stay Kodaikanal",
+      "place_id": "ChIJkYPpOmRmBzsRUrYD_oubKfw",
+      "rating": 4.5,
+      "user_ratings_total": 4007,
+      "types": [
+        "campground",
+        "park",
+        "lodging",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "Lake Rd, Kodaikanal, Tamil Nadu 624101, India",
+      "lat": 10.2358615,
+      "lng": 77.4848228
+    },
+    {
+      "name": "Chettiar Park",
+      "place_id": "ChIJ86zE5PBmBzsREusdPr1RGtY",
+      "rating": 4,
+      "user_ratings_total": 3835,
+      "types": [
+        "park",
+        "tourist_attraction",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "7F2X+GF7, Chettiar Park Rd, Kodaikanal, Tamil Nadu 624101, India",
+      "lat": 10.2512814,
+      "lng": 77.49866229999999
+    },
+    {
+      "name": "Kodaikanal Solar Observatory Museum",
+      "place_id": "ChIJBQsA0tZlBzsR39oFGeRH9is",
+      "rating": 4.3,
+      "user_ratings_total": 3582,
+      "types": [
+        "tourist_attraction",
+        "museum",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "6FJ8+V5C, Observatory Rd, near Govt Rose Garden, Kodaikanal, Tamil Nadu 624103, India",
+      "lat": 10.2288692,
+      "lng": 77.4627297
+    },
+    {
+      "name": "Mannavanur Lake",
+      "place_id": "ChIJ5U3FUsN6BzsRXLUT1A2krkE",
+      "rating": 4.6,
+      "user_ratings_total": 3543,
+      "types": [
+        "tourist_attraction",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "69F6+X6G Elumpallam Lake, Mannavanur, Tamil Nadu 624103, India",
+      "lat": 10.2249444,
+      "lng": 77.3605705
+    },
+    {
+      "name": "Zostel Kodaikanal",
+      "place_id": "ChIJpepGJP9nBzsRXueVTz7NwM0",
+      "rating": 4.5,
+      "user_ratings_total": 3440,
+      "types": [
+        "lodging",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "6FWW+4VC Sunnydale Bungalow, Sivanandi Rd, Kodaikanal, Tamil Nadu 624101, India",
+      "lat": 10.2454091,
+      "lng": 77.4977438
+    },
+    {
+      "name": "Sacred Heart College Museum",
+      "place_id": "ChIJJVL5OVtmBzsRUckwMD4cMi0",
+      "rating": 4.3,
+      "user_ratings_total": 3358,
+      "types": [
+        "museum",
+        "tourist_attraction",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "6GJ2+F97, Laws Ghat Rd, Shenbaganur, Kodaikanal, Tamil Nadu 624101, India",
+      "lat": 10.2310016,
+      "lng": 77.5008842
+    },
+    {
+      "name": "Fairy Falls",
+      "place_id": "ChIJa7-sOdllBzsR6w3FFIkgxuM",
+      "rating": 4,
+      "user_ratings_total": 2775,
+      "types": [
+        "tourist_attraction",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "6FF8+FQH, Fairy Falls Rd, Kodaikanal, Tamil Nadu 624103, India",
+      "lat": 10.2236905,
+      "lng": 77.466973
+    },
+    {
+      "name": "Natural History Museum",
+      "place_id": "ChIJYewoCmFmBzsRx10h0PF8yx0",
+      "rating": 4.4,
+      "user_ratings_total": 2407,
+      "types": [
+        "museum",
+        "tourist_attraction",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "6GJ2+F97, Laws Ghat Rd, Shenbaganur, Kodaikanal, Tamil Nadu 624101, India",
+      "lat": 10.2311609,
+      "lng": 77.5009153
+    },
+    {
+      "name": "WESTERN VALLEY HOME STAYS",
+      "place_id": "ChIJrwEc0fhnBzsRwEP6JYavo_8",
+      "rating": 4.6,
+      "user_ratings_total": 2044,
+      "types": [
+        "lodging",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "Kurinji Andavar Temple Road, near jain temple, Kodaikanal, Tamil Nadu 624101, India",
+      "lat": 10.2507347,
+      "lng": 77.49311709999999
+    },
+    {
+      "name": "VINTAGE LOVER MUSEUM",
+      "place_id": "ChIJb58OOQBnBzsRptAdmVeGEaU",
+      "rating": 4.8,
+      "user_ratings_total": 1941,
+      "types": [
+        "museum",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "KRR kalaiarangam Lake, opposite to BSNL Office, Kodaikanal, Tamil Nadu 624101, India",
+      "lat": 10.2380324,
+      "lng": 77.4867762
+    },
+    {
+      "name": "Sarts gallery",
+      "place_id": "ChIJu3CiBmRmBzsRS71lv4f1BDg",
+      "rating": 4.3,
+      "user_ratings_total": 1743,
+      "types": [
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "Lake municipality, township road, Kodaikanal, Tamil Nadu 624101, India",
+      "lat": 10.2335382,
+      "lng": 77.48838719999999
+    },
+    {
+      "name": "Silent Valley View",
+      "place_id": "ChIJm8ACu3hvBzsR9iqNgFYrwqg",
+      "rating": 4.5,
+      "user_ratings_total": 1517,
+      "types": [
+        "tourist_attraction",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "5CQG+73C, Berijam Rd, Tamil Nadu 624103, India",
+      "lat": 10.1881916,
+      "lng": 77.4251537
+    },
+    {
+      "name": "Government Rose Garden , Kodaikanal",
+      "place_id": "ChIJ8xVlk3hlBzsRQ7OHHFhpxGQ",
+      "rating": 4.2,
+      "user_ratings_total": 1496,
+      "types": [
+        "park",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "Observatory, Kodaikanal, Tamil Nadu 624103, India",
+      "lat": 10.2287533,
+      "lng": 77.463872
+    },
+    {
+      "name": "Pampadum Shola National Park",
+      "place_id": "ChIJVWZY8et2BzsRQuxWBaRgWcc",
+      "rating": 4.5,
+      "user_ratings_total": 1491,
+      "types": [
+        "tourist_attraction",
+        "park",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "47G5+M73, Pampadam National Park Road, Vattavada, Kerala 685615, India",
+      "lat": 10.1266264,
+      "lng": 77.2581703
+    }
+  ],
+  "all_places": [
+    {
+      "name": "Bryant Park",
+      "place_id": "ChIJ7T_P62dmBzsRqa88VYB0q9w",
+      "rating": 4.2,
+      "user_ratings_total": 28181,
+      "types": [
+        "park",
+        "tourist_attraction",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "6FJV+H7W, Lower Shola Rd, Kodaikanal, Tamil Nadu 624101, India",
+      "lat": 10.2314998,
+      "lng": 77.493196
+    },
+    {
+      "name": "Kodaikanal Hill Station",
+      "place_id": "ChIJd_JRE1hnBzsRjIKzBls1VY0",
+      "rating": 4.6,
+      "user_ratings_total": 23215,
+      "types": [
+        "tourist_attraction",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "Kodaikanal, Tamil Nadu 624101, India",
+      "lat": 10.2381136,
+      "lng": 77.4891822
+    },
+    {
+      "name": "Pine Forest",
+      "place_id": "ChIJBz2iNldmBzsR4bJprNHYtX0",
+      "rating": 4.4,
+      "user_ratings_total": 19213,
+      "types": [
+        "tourist_attraction",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "6F75+FG4, Lake Rd, Berijam, Kodaikanal, Tamil Nadu 624103, India",
+      "lat": 10.2136358,
+      "lng": 77.4588208
+    },
+    {
+      "name": "Guna Cave",
+      "place_id": "ChIJWWd7PbFlBzsRMLd8ZKYoH_c",
+      "rating": 4.2,
+      "user_ratings_total": 18310,
+      "types": [
+        "tourist_attraction",
+        "travel_agency",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "Pillar Rocks Rd, Kodaikanal, Tamil Nadu 624103, India",
+      "lat": 10.2101457,
+      "lng": 77.46302399999999
+    },
+    {
+      "name": "Moir Point",
+      "place_id": "ChIJe7Xyx-xlBzsRbTqk6FNIUM0",
+      "rating": 4.2,
+      "user_ratings_total": 12034,
+      "types": [
+        "tourist_attraction",
+        "park",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "6C6X+57V, Ten Mile Round, Tamil Nadu 624103, India",
+      "lat": 10.210484,
+      "lng": 77.4481595
+    },
+    {
+      "name": "Green Valley Viewpoint",
+      "place_id": "ChIJO_tpLw9mBzsRI2egOTdZwOc",
+      "rating": 4.3,
+      "user_ratings_total": 10010,
+      "types": [
+        "tourist_attraction",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "6F6G+C58, Kodaikanal, Tamil Nadu 624103, India",
+      "lat": 10.2110418,
+      "lng": 77.4754523
+    },
+    {
+      "name": "Liril Falls",
+      "place_id": "ChIJA1eKX3RmBzsRbeKfAnGzXk0",
+      "rating": 4.1,
+      "user_ratings_total": 9496,
+      "types": [
+        "tourist_attraction",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "6FCJ+GQ6, Golf Links Road, Kodaikanal, Tamil Nadu 624101, India",
+      "lat": 10.2212793,
+      "lng": 77.4819052
+    },
+    {
+      "name": "Upper Lake View",
+      "place_id": "ChIJ0-FQUndmBzsRcnHt49dUoJg",
+      "rating": 4.3,
+      "user_ratings_total": 8519,
+      "types": [
+        "tourist_attraction",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "6FJG+45X, Upper Lake Rd, Kodaikanal, Tamil Nadu 624103, India",
+      "lat": 10.2303509,
+      "lng": 77.4754961
+    },
+    {
+      "name": "Coakers Walk",
+      "place_id": "ChIJrXHkrEJmBzsRRUhKRDw0X_M",
+      "rating": 4.4,
+      "user_ratings_total": 8465,
+      "types": [
+        "tourist_attraction",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "6FHV+XGC Coakers Walk, Kodaikanal, Tamil Nadu 624101, India",
+      "lat": 10.2324008,
+      "lng": 77.4936446
+    },
+    {
+      "name": "Kodaikanal Lake",
+      "place_id": "ChIJb0YpF2RmBzsRCgTLNkaku-0",
+      "rating": 4.5,
+      "user_ratings_total": 8318,
+      "types": [
+        "natural_feature",
+        "establishment"
+      ],
+      "address": "Kodaikanal Lake, Kodaikanal, Tamil Nadu 624101",
+      "lat": 10.2343586,
+      "lng": 77.4863295
+    },
+    {
+      "name": "Kurinji Andavar Temple",
+      "place_id": "ChIJy4TZFu5mBzsRZ4t4DtUraaU",
+      "rating": 4.7,
+      "user_ratings_total": 7374,
+      "types": [
+        "hindu_temple",
+        "tourist_attraction",
+        "place_of_worship",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "113, Kurinji Andavar Temple Road, Kodaikanal, Tamil Nadu 624101, India",
+      "lat": 10.2531684,
+      "lng": 77.5019133
+    },
+    {
+      "name": "Dolphin Nose",
+      "place_id": "ChIJg83_KBdmBzsRLcSDcCeOEms",
+      "rating": 4.5,
+      "user_ratings_total": 6763,
+      "types": [
+        "tourist_attraction",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "6F5P+JVP, Tamil Nadu 624101, India",
+      "lat": 10.2090856,
+      "lng": 77.4872073
+    },
+    {
+      "name": "Silver Cascade Falls",
+      "place_id": "ChIJWV8fmgFnBzsRFyCKSAKIEEA",
+      "rating": 4.4,
+      "user_ratings_total": 5744,
+      "types": [
+        "tourist_attraction",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "6GR6+P87, Adukkam, Tamil Nadu 624101, India",
+      "lat": 10.2417788,
+      "lng": 77.51080770000002
+    },
+    {
+      "name": "Hotel Kodai International",
+      "place_id": "ChIJ-S674GJmBzsRFcoFM3YHwbA",
+      "rating": 4.3,
+      "user_ratings_total": 5034,
+      "types": [
+        "spa",
+        "bar",
+        "lodging",
+        "restaurant",
+        "food",
+        "store",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "17/328, Laws Ghat Rd, Kodaikanal, Tamil Nadu 624101, India",
+      "lat": 10.2427911,
+      "lng": 77.4984734
+    },
+    {
+      "name": "Poombarai View Point",
+      "place_id": "ChIJTcR3J-9kBzsRbx_mACyDLcU",
+      "rating": 4.6,
+      "user_ratings_total": 4997,
+      "types": [
+        "tourist_attraction",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "7C25+J55, Mannavanur to Kodaikanal Rd, Tamil Nadu 624103, India",
+      "lat": 10.2515245,
+      "lng": 77.4079805
+    },
+    {
+      "name": "Kumbakkarai Falls",
+      "place_id": "ChIJG48RHGloBzsRUwSUPlafkU4",
+      "rating": 4.3,
+      "user_ratings_total": 4452,
+      "types": [
+        "tourist_attraction",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "5GJJ+47W, Kumbakarai Road, Tamil Nadu 625605, India",
+      "lat": 10.1803695,
+      "lng": 77.5307187
+    },
+    {
+      "name": "Kodai INN Tent Stay Kodaikanal",
+      "place_id": "ChIJkYPpOmRmBzsRUrYD_oubKfw",
+      "rating": 4.5,
+      "user_ratings_total": 4007,
+      "types": [
+        "campground",
+        "park",
+        "lodging",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "Lake Rd, Kodaikanal, Tamil Nadu 624101, India",
+      "lat": 10.2358615,
+      "lng": 77.4848228
+    },
+    {
+      "name": "Chettiar Park",
+      "place_id": "ChIJ86zE5PBmBzsREusdPr1RGtY",
+      "rating": 4,
+      "user_ratings_total": 3835,
+      "types": [
+        "park",
+        "tourist_attraction",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "7F2X+GF7, Chettiar Park Rd, Kodaikanal, Tamil Nadu 624101, India",
+      "lat": 10.2512814,
+      "lng": 77.49866229999999
+    },
+    {
+      "name": "Kodaikanal Solar Observatory Museum",
+      "place_id": "ChIJBQsA0tZlBzsR39oFGeRH9is",
+      "rating": 4.3,
+      "user_ratings_total": 3582,
+      "types": [
+        "tourist_attraction",
+        "museum",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "6FJ8+V5C, Observatory Rd, near Govt Rose Garden, Kodaikanal, Tamil Nadu 624103, India",
+      "lat": 10.2288692,
+      "lng": 77.4627297
+    },
+    {
+      "name": "Mannavanur Lake",
+      "place_id": "ChIJ5U3FUsN6BzsRXLUT1A2krkE",
+      "rating": 4.6,
+      "user_ratings_total": 3543,
+      "types": [
+        "tourist_attraction",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "69F6+X6G Elumpallam Lake, Mannavanur, Tamil Nadu 624103, India",
+      "lat": 10.2249444,
+      "lng": 77.3605705
+    },
+    {
+      "name": "Zostel Kodaikanal",
+      "place_id": "ChIJpepGJP9nBzsRXueVTz7NwM0",
+      "rating": 4.5,
+      "user_ratings_total": 3440,
+      "types": [
+        "lodging",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "6FWW+4VC Sunnydale Bungalow, Sivanandi Rd, Kodaikanal, Tamil Nadu 624101, India",
+      "lat": 10.2454091,
+      "lng": 77.4977438
+    },
+    {
+      "name": "Sacred Heart College Museum",
+      "place_id": "ChIJJVL5OVtmBzsRUckwMD4cMi0",
+      "rating": 4.3,
+      "user_ratings_total": 3358,
+      "types": [
+        "museum",
+        "tourist_attraction",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "6GJ2+F97, Laws Ghat Rd, Shenbaganur, Kodaikanal, Tamil Nadu 624101, India",
+      "lat": 10.2310016,
+      "lng": 77.5008842
+    },
+    {
+      "name": "Fairy Falls",
+      "place_id": "ChIJa7-sOdllBzsR6w3FFIkgxuM",
+      "rating": 4,
+      "user_ratings_total": 2775,
+      "types": [
+        "tourist_attraction",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "6FF8+FQH, Fairy Falls Rd, Kodaikanal, Tamil Nadu 624103, India",
+      "lat": 10.2236905,
+      "lng": 77.466973
+    },
+    {
+      "name": "Natural History Museum",
+      "place_id": "ChIJYewoCmFmBzsRx10h0PF8yx0",
+      "rating": 4.4,
+      "user_ratings_total": 2407,
+      "types": [
+        "museum",
+        "tourist_attraction",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "6GJ2+F97, Laws Ghat Rd, Shenbaganur, Kodaikanal, Tamil Nadu 624101, India",
+      "lat": 10.2311609,
+      "lng": 77.5009153
+    },
+    {
+      "name": "WESTERN VALLEY HOME STAYS",
+      "place_id": "ChIJrwEc0fhnBzsRwEP6JYavo_8",
+      "rating": 4.6,
+      "user_ratings_total": 2044,
+      "types": [
+        "lodging",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "Kurinji Andavar Temple Road, near jain temple, Kodaikanal, Tamil Nadu 624101, India",
+      "lat": 10.2507347,
+      "lng": 77.49311709999999
+    },
+    {
+      "name": "VINTAGE LOVER MUSEUM",
+      "place_id": "ChIJb58OOQBnBzsRptAdmVeGEaU",
+      "rating": 4.8,
+      "user_ratings_total": 1941,
+      "types": [
+        "museum",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "KRR kalaiarangam Lake, opposite to BSNL Office, Kodaikanal, Tamil Nadu 624101, India",
+      "lat": 10.2380324,
+      "lng": 77.4867762
+    },
+    {
+      "name": "Sarts gallery",
+      "place_id": "ChIJu3CiBmRmBzsRS71lv4f1BDg",
+      "rating": 4.3,
+      "user_ratings_total": 1743,
+      "types": [
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "Lake municipality, township road, Kodaikanal, Tamil Nadu 624101, India",
+      "lat": 10.2335382,
+      "lng": 77.48838719999999
+    },
+    {
+      "name": "Silent Valley View",
+      "place_id": "ChIJm8ACu3hvBzsR9iqNgFYrwqg",
+      "rating": 4.5,
+      "user_ratings_total": 1517,
+      "types": [
+        "tourist_attraction",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "5CQG+73C, Berijam Rd, Tamil Nadu 624103, India",
+      "lat": 10.1881916,
+      "lng": 77.4251537
+    },
+    {
+      "name": "Government Rose Garden , Kodaikanal",
+      "place_id": "ChIJ8xVlk3hlBzsRQ7OHHFhpxGQ",
+      "rating": 4.2,
+      "user_ratings_total": 1496,
+      "types": [
+        "park",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "Observatory, Kodaikanal, Tamil Nadu 624103, India",
+      "lat": 10.2287533,
+      "lng": 77.463872
+    },
+    {
+      "name": "Pampadum Shola National Park",
+      "place_id": "ChIJVWZY8et2BzsRQuxWBaRgWcc",
+      "rating": 4.5,
+      "user_ratings_total": 1491,
+      "types": [
+        "tourist_attraction",
+        "park",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "47G5+M73, Pampadam National Park Road, Vattavada, Kerala 685615, India",
+      "lat": 10.1266264,
+      "lng": 77.2581703
+    },
+    {
+      "name": "Wax Museum",
+      "place_id": "ChIJyUXxxAxmBzsRLz-gdAB5H4Q",
+      "rating": 3.3,
+      "user_ratings_total": 1390,
+      "types": [
+        "museum",
+        "tourist_attraction",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "6F9H+345 Republic of, Golf Links Road, Kodaikanal, Tamil Nadu 624103, India",
+      "lat": 10.2176422,
+      "lng": 77.4778459
+    },
+    {
+      "name": "Macofa Chocolate Kitchen",
+      "place_id": "ChIJH_7Z8bVnBzsRkgSCDD-Bgw8",
+      "rating": 4.8,
+      "user_ratings_total": 1332,
+      "types": [
+        "store",
+        "point_of_interest",
+        "food",
+        "establishment"
+      ],
+      "address": "A1, Golden Park inn Complex, Bazaar Rd, Kodaikanal, Tamil Nadu 624101, India",
+      "lat": 10.2351649,
+      "lng": 77.49177929999999
+    },
+    {
+      "name": "Vattakanal Waterfalls",
+      "place_id": "ChIJ2QZzGIpnBzsRvMwx2IZHSV0",
+      "rating": 4.3,
+      "user_ratings_total": 1255,
+      "types": [
+        "tourist_attraction",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "6FCJ+CP3, Vattakanal, Kodaikanal, Tamil Nadu 624101, India",
+      "lat": 10.2210101,
+      "lng": 77.4817875
+    },
+    {
+      "name": "Zacs Valley Resort & Wellness Retreat kodaikanal",
+      "place_id": "ChIJI3Al8uBgBzsRfAPz6xjmMQI",
+      "rating": 4.4,
+      "user_ratings_total": 1201,
+      "types": [
+        "spa",
+        "lodging",
+        "restaurant",
+        "food",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "Palani piruve, Ganesh Puram, Via Perumal Malai Road, 5km from perumalmalai, Pethuparai, Kodaikanal, Tamil Nadu 624104, India",
+      "lat": 10.3096884,
+      "lng": 77.5189262
+    },
+    {
+      "name": "Palani Hills Northern Slope East RF",
+      "place_id": "ChIJZboRTz_iqTsRHs8ZgdzvcHw",
+      "rating": 4.3,
+      "user_ratings_total": 1187,
+      "types": [
+        "park",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "CM2G+XJ2, Pachalur, Tamil Nadu 624622, India",
+      "lat": 10.4023789,
+      "lng": 77.67651839999999
+    },
+    {
+      "name": "Palani Hills Northern Slope West RF",
+      "place_id": "ChIJX_qmZw5iBzsR-fwzeqOE_BQ",
+      "rating": 4.4,
+      "user_ratings_total": 1151,
+      "types": [
+        "park",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "9C57+J44, Kudhrayar Dam-Gundupetti Trail, Sitharevu, Tamil Nadu 624615, India",
+      "lat": 10.3590136,
+      "lng": 77.4128193
+    },
+    {
+      "name": "Meltiez Chocolate Factory",
+      "place_id": "ChIJJ0iVsdtnBzsRgNUebhe1pXk",
+      "rating": 4.7,
+      "user_ratings_total": 951,
+      "types": [
+        "food",
+        "store",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "SHOP NO 6 MELTIEZ, CHOCOLATE FACTORY GOLDAN PARKS INN COMPLEX, Bazaar Rd, Kodaikanal, Tamil Nadu 624101, India",
+      "lat": 10.2350985,
+      "lng": 77.4916152
+    },
+    {
+      "name": "The Hosteller Kodaikanal",
+      "place_id": "ChIJr7gX6GNnBzsRdm68IujmzjM",
+      "rating": 4.9,
+      "user_ratings_total": 882,
+      "types": [
+        "lodging",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "Survey No- 356, Vazhakkattu Odai, Pallangi Rd, Vilpatti, Kodaikanal, Tamil Nadu 624101, India",
+      "lat": 10.2697095,
+      "lng": 77.473703
+    },
+    {
+      "name": "TTDC Boat House-I",
+      "place_id": "ChIJM5UTeWFmBzsRi-4sXZKgEXw",
+      "rating": 4.2,
+      "user_ratings_total": 799,
+      "types": [
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "6FJR+V96 Boat Rowing Club, Lake Rd, near Kodaikanal, Kodaikanal, Tamil Nadu 624101, India",
+      "lat": 10.2348806,
+      "lng": 77.4876817
+    },
+    {
+      "name": "Poombarai Village View Point",
+      "place_id": "ChIJgVE2YZZlBzsRk721Q3kBmc8",
+      "rating": 4.6,
+      "user_ratings_total": 794,
+      "types": [
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "7C45+H4F, Poombarai, Tamil Nadu 624103, India",
+      "lat": 10.2563446,
+      "lng": 77.4077952
+    },
+    {
+      "name": "Danish Display",
+      "place_id": "ChIJsXzVHF5mBzsRxqY5fKcBQHs",
+      "rating": 4.4,
+      "user_ratings_total": 755,
+      "types": [
+        "shopping_mall",
+        "food",
+        "store",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "S. COMPLEX, C.L, Bazaar Rd, Kodaikanal, Tamil Nadu 624101, India",
+      "lat": 10.2357213,
+      "lng": 77.49322599999999
+    },
+    {
+      "name": "Kodai Jeep Safari | Kodaikanal jeep safari",
+      "place_id": "ChIJIcfDBQpnBzsR8G6Qge9mPOw",
+      "rating": 5,
+      "user_ratings_total": 740,
+      "types": [
+        "travel_agency",
+        "park",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "Wood Will Road, Kodaikanal, Tamil Nadu 624101, India",
+      "lat": 10.2350758,
+      "lng": 77.4927946
+    },
+    {
+      "name": "Remas Resorts and Adventure Park",
+      "place_id": "ChIJvbLnEFdnBzsRgU4JkMc7Wuo",
+      "rating": 4.2,
+      "user_ratings_total": 723,
+      "types": [
+        "campground",
+        "park",
+        "bar",
+        "lodging",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "2/3-168, Perumal Malai Rd, Pirivu, Palani, Kodaikanal, Tamil Nadu 624101, India",
+      "lat": 10.2661387,
+      "lng": 77.5401275
+    },
+    {
+      "name": "Berijam Lake",
+      "place_id": "ChIJK-NBl_NvBzsRWiBRgD_TszE",
+      "rating": 4.4,
+      "user_ratings_total": 692,
+      "types": [
+        "natural_feature",
+        "establishment"
+      ],
+      "address": "Berijam Lake, Tamil Nadu 624103",
+      "lat": 10.1841444,
+      "lng": 77.3959592
+    },
+    {
+      "name": "Coakers Walk View Point",
+      "place_id": "ChIJvZLk8NhnBzsR0Xhnm6r55Jo",
+      "rating": 4.4,
+      "user_ratings_total": 664,
+      "types": [
+        "tourist_attraction",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "6FJV+2F4, Kodaikanal, Tamil Nadu 624101, India",
+      "lat": 10.2300184,
+      "lng": 77.49371800000002
+    },
+    {
+      "name": "STAR CRAFT",
+      "place_id": "ChIJf1wr9nNmBzsRErqyd_e-XfM",
+      "rating": 3.9,
+      "user_ratings_total": 555,
+      "types": [
+        "store",
+        "shopping_mall",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "KODAI BIG BAZAAR, Pamparpuram, Tamil Nadu 624103, India",
+      "lat": 10.2232,
+      "lng": 77.4761281
+    },
+    {
+      "name": "Thalaiyar Waterfalls",
+      "place_id": "ChIJcwiubRhdBzsRmR57QGZa8ko",
+      "rating": 4.5,
+      "user_ratings_total": 554,
+      "types": [
+        "tourist_attraction",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "6HFX+J95, Pannaikadu, Tamil Nadu 624101, India",
+      "lat": 10.2240126,
+      "lng": 77.5984868
+    },
+    {
+      "name": "Kodai Chocolate Factory",
+      "place_id": "ChIJG6hFLnNmBzsROcKdU1CHqAM",
+      "rating": 4.1,
+      "user_ratings_total": 545,
+      "types": [
+        "food",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "Pambarpuram, Golf Club road, Kodaikanal, Tamil Nadu 624103, India",
+      "lat": 10.2190392,
+      "lng": 77.4783102
+    },
+    {
+      "name": "Hotel JC Grand",
+      "place_id": "ChIJCUzTXmdmBzsRbjlzrqxYMRI",
+      "rating": 3.7,
+      "user_ratings_total": 538,
+      "types": [
+        "lodging",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "Woodville Rd, opp. Bus stand, Kodaikanal, Tamil Nadu 624101, India",
+      "lat": 10.2352242,
+      "lng": 77.4926989
+    },
+    {
+      "name": "Kodai Spices Supermarket & Kodai Chocolate Factory Outlet",
+      "place_id": "ChIJMY2wrpFnBzsR5NdHAc0PRAA",
+      "rating": 4.8,
+      "user_ratings_total": 521,
+      "types": [
+        "food",
+        "store",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "Kalai Arangam, Observatory Rd, near BSNL Office, Kodaikanal, Tamil Nadu 624101, India",
+      "lat": 10.2387239,
+      "lng": 77.486464
+    },
+    {
+      "name": "Campers Valley",
+      "place_id": "ChIJ38geW7RkBzsR4RzQq9CctzU",
+      "rating": 4.7,
+      "user_ratings_total": 501,
+      "types": [
+        "campground",
+        "park",
+        "lodging",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "Poombarai, Kodaikanal, Tamil Nadu 624103, India",
+      "lat": 10.2660747,
+      "lng": 77.3861441
+    },
+    {
+      "name": "WTC Hilltop Adventure stay Kodaikanal",
+      "place_id": "ChIJLZRq3UBlBzsRbwHJ-gIL_fs",
+      "rating": 4.7,
+      "user_ratings_total": 491,
+      "types": [
+        "campground",
+        "park",
+        "lodging",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "Unnamed Road, Poombarai, Tamil Nadu 624103, India",
+      "lat": 10.2659375,
+      "lng": 77.3860625
+    },
+    {
+      "name": "The Cocoa Bean Chocolate factory kodaikanal",
+      "place_id": "ChIJ4zNETWdmBzsRc3xczI4jZ3c",
+      "rating": 4.9,
+      "user_ratings_total": 486,
+      "types": [
+        "store",
+        "point_of_interest",
+        "food",
+        "establishment"
+      ],
+      "address": "Maratha shopping complex, Bazaar Rd, near bus stand, Kodaikanal, Tamil Nadu 624101, India",
+      "lat": 10.2355652,
+      "lng": 77.49233029999999
+    },
+    {
+      "name": "Poombarai village",
+      "place_id": "ChIJeWszxFhlBzsRE9vL42hXhVI",
+      "rating": 4.6,
+      "user_ratings_total": 484,
+      "types": [
+        "tourist_attraction",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "7C45+H4F, Poombarai, Tamil Nadu 624103, India",
+      "lat": 10.2564219,
+      "lng": 77.4078158
+    },
+    {
+      "name": "JC Woodville Manor",
+      "place_id": "ChIJYewoCmFmBzsRmrEj1EGn7NQ",
+      "rating": 3.8,
+      "user_ratings_total": 480,
+      "types": [
+        "lodging",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "Woodville Road,, Opp bus stand, Kodaikanal, Tamil Nadu 624101, India",
+      "lat": 10.235328,
+      "lng": 77.49260749999999
+    },
+    {
+      "name": "Silver Cascade Waterfall",
+      "place_id": "ChIJp8cjuPhmBzsRVpEVle-lH98",
+      "rating": 4.3,
+      "user_ratings_total": 427,
+      "types": [
+        "natural_feature",
+        "establishment"
+      ],
+      "address": "Silver Cascade Waterfall, Adukkam, Tamil Nadu 624101, India",
+      "lat": 10.2420079,
+      "lng": 77.510677
+    },
+    {
+      "name": "Spice Village",
+      "place_id": "ChIJ9-1tBF9mBzsRBMdWfIZCr0Q",
+      "rating": 4.2,
+      "user_ratings_total": 413,
+      "types": [
+        "store",
+        "point_of_interest",
+        "food",
+        "establishment"
+      ],
+      "address": "Laws Ghat Rd, Kodaikanal, Tamil Nadu 624101, India",
+      "lat": 10.244667,
+      "lng": 77.5025538
+    },
+    {
+      "name": "Spice valley camp",
+      "place_id": "ChIJvYStbPphBzsRfyVILy4BIWc",
+      "rating": 4.7,
+      "user_ratings_total": 406,
+      "types": [
+        "campground",
+        "park",
+        "lodging",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "1080/1, via, pulior,Ganeshpuram, Pethuparai, Kodaikanal, Tamil Nadu 624101, India",
+      "lat": 10.3059356,
+      "lng": 77.5094099
+    },
+    {
+      "name": "Lisk Xocolatl Chocolate Factory and Cafe",
+      "place_id": "ChIJv43FKuxnBzsRU-YMFGP9LGk",
+      "rating": 4.6,
+      "user_ratings_total": 404,
+      "types": [
+        "cafe",
+        "store",
+        "point_of_interest",
+        "food",
+        "establishment"
+      ],
+      "address": "Golf Links Road, Kodaikanal, Tamil Nadu 624103, India",
+      "lat": 10.2193751,
+      "lng": 77.4784512
+    },
+    {
+      "name": "Elite chocolate factory",
+      "place_id": "ChIJjZN6FuhnBzsRxWQLAr35bNY",
+      "rating": 4.4,
+      "user_ratings_total": 398,
+      "types": [
+        "shopping_mall",
+        "store",
+        "point_of_interest",
+        "food",
+        "establishment"
+      ],
+      "address": "Apn complex, Laws Ghat Rd, Kodaikanal, Tamil Nadu 624101, India",
+      "lat": 10.2446302,
+      "lng": 77.5026041
+    },
+    {
+      "name": "Upper Lake View Point",
+      "place_id": "ChIJfXz7onBmBzsR44tMW4669i4",
+      "rating": 4.1,
+      "user_ratings_total": 375,
+      "types": [
+        "natural_feature",
+        "establishment"
+      ],
+      "address": "Upper Lake View Point, Kodaikanal, Tamil Nadu 624103",
+      "lat": 10.2289652,
+      "lng": 77.4772167
+    },
+    {
+      "name": "Manjalar Dam - THENI DISTRICT",
+      "place_id": "ChIJwXO5QEhDBzsRFziXg2BAJRM",
+      "rating": 4.3,
+      "user_ratings_total": 369,
+      "types": [
+        "tourist_attraction",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "5JXM+5V2, Manjalar Dam, Tamil Nadu 625602, India",
+      "lat": 10.1978844,
+      "lng": 77.6346294
+    },
+    {
+      "name": "Kodaikanal Adventures Delight camping",
+      "place_id": "ChIJu49jqI9lBzsRIGy_zDtaFY0",
+      "rating": 4.5,
+      "user_ratings_total": 319,
+      "types": [
+        "campground",
+        "travel_agency",
+        "park",
+        "lodging",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "shop No.2, palani View point poombarai, Kodaikanal, Tamil Nadu 624103, India",
+      "lat": 10.2485382,
+      "lng": 77.4169848
+    },
+    {
+      "name": "Pambar Water Falls",
+      "place_id": "ChIJ5SJgBQBnBzsRZQDlmd4Lmys",
+      "rating": 3.9,
+      "user_ratings_total": 300,
+      "types": [
+        "tourist_attraction",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "6FCF+GWW, Kodaikanal, Tamil Nadu 624103, India",
+      "lat": 10.2211823,
+      "lng": 77.4746183
+    },
+    {
+      "name": "Kaleeswari Oils, Spices and Chocolate Factory",
+      "place_id": "ChIJwUTWRmdmBzsRWvn3ODJwWXs",
+      "rating": 4.9,
+      "user_ratings_total": 280,
+      "types": [
+        "store",
+        "grocery_or_supermarket",
+        "food",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "Shop No 7 and 8, Golden Park Complex, near Seven Road, Kodaikanal, Tamil Nadu 624101, India",
+      "lat": 10.2349783,
+      "lng": 77.4916174
+    },
+    {
+      "name": "MSM Stores",
+      "place_id": "ChIJf7hyZl5mBzsR4T99NEhDx0c",
+      "rating": 4,
+      "user_ratings_total": 276,
+      "types": [
+        "grocery_or_supermarket",
+        "store",
+        "point_of_interest",
+        "food",
+        "establishment"
+      ],
+      "address": "6FPW+P45, Bazaar Rd, Kodaikanal, Tamil Nadu 624101, India",
+      "lat": 10.2368199,
+      "lng": 77.4953788
+    },
+    {
+      "name": "KODAIKANAL CAMPERS AND RESORTS PICKUP POINT",
+      "place_id": "ChIJU7mp9v1lBzsRKhfQDgCYphE",
+      "rating": 4.4,
+      "user_ratings_total": 272,
+      "types": [
+        "tourist_attraction",
+        "campground",
+        "park",
+        "lodging",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "Poombarai, Kodaikanal, Tamil Nadu 624103, India",
+      "lat": 10.2525397,
+      "lng": 77.4093977
+    },
+    {
+      "name": "Kodai Trails",
+      "place_id": "ChIJLfj5B-JnBzsRvm66g4Cfn1k",
+      "rating": 4.8,
+      "user_ratings_total": 271,
+      "types": [
+        "car_rental",
+        "travel_agency",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "3/37E, Srinivasapuram, Kodaikanal, Tamil Nadu 624101, India",
+      "lat": 10.2409319,
+      "lng": 77.5066418
+    },
+    {
+      "name": "Kauveri spices - CHOCOLATE FACTORY",
+      "place_id": "ChIJBaxwK2RnBzsRapx-iIYawyM",
+      "rating": 4.9,
+      "user_ratings_total": 270,
+      "types": [
+        "shopping_mall",
+        "store",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "Pamparpuram, Kodaikanal, Tamil Nadu 624103, India",
+      "lat": 10.2214452,
+      "lng": 77.4743699
+    },
+    {
+      "name": "Kodai cheese",
+      "place_id": "ChIJdxAYTWJmBzsR3veF7BPgLd8",
+      "rating": 4.2,
+      "user_ratings_total": 269,
+      "types": [
+        "food",
+        "store",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "6FPP+MM4, Kodaikanal, Tamil Nadu 624101, India",
+      "lat": 10.2366915,
+      "lng": 77.4867013
+    },
+    {
+      "name": "Jeba hot chocolate",
+      "place_id": "ChIJG6QaAzFnBzsR-71tXv7zA3Y",
+      "rating": 4.8,
+      "user_ratings_total": 261,
+      "types": [
+        "cafe",
+        "food",
+        "store",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "Js heritage building, Poet Tyagaraja Rd, near aavin society, Kodaikanal, Tamil Nadu 624101, India",
+      "lat": 10.2360857,
+      "lng": 77.4909667
+    },
+    {
+      "name": "Adukkam Forest",
+      "place_id": "ChIJg4IinFhdBzsR2DGxOLYJqUM",
+      "rating": 4.5,
+      "user_ratings_total": 257,
+      "types": [
+        "park",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "6H84+CFW, Adukkam, Tamil Nadu 624101, India",
+      "lat": 10.2161037,
+      "lng": 77.55621
+    },
+    {
+      "name": "Eagle's Nest",
+      "place_id": "ChIJ1wRrUyFnBzsRNjj_pd-RJpQ",
+      "rating": 4.8,
+      "user_ratings_total": 249,
+      "types": [
+        "campground",
+        "park",
+        "lodging",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "Vellagavi, Tamil Nadu 624101, India",
+      "lat": 10.2009351,
+      "lng": 77.4957948
+    },
+    {
+      "name": "Mathikettan Forest View",
+      "place_id": "ChIJ64lD_5ZvBzsRhB2WlVkQ-xA",
+      "rating": 4.5,
+      "user_ratings_total": 246,
+      "types": [
+        "park",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "5CF5+WV7, Berijam Rd, Tamil Nadu 624103, India",
+      "lat": 10.1747803,
+      "lng": 77.4096586
+    },
+    {
+      "name": "Kodaikanal lake",
+      "place_id": "ChIJQ_NFHa5nBzsRrinBwzqhbvg",
+      "rating": 4.5,
+      "user_ratings_total": 246,
+      "types": [
+        "tourist_attraction",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "6FQQ+6MV, Kodaikanal, Tamil Nadu 624101, India",
+      "lat": 10.2381136,
+      "lng": 77.4891822
+    },
+    {
+      "name": "Boho Kodai",
+      "place_id": "ChIJXQRva5dnBzsR5hOKHJJYSEw",
+      "rating": 4.6,
+      "user_ratings_total": 235,
+      "types": [
+        "lodging",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "Thomas Summer House, Kurunji Nagar Road, Kodaikanal, Tamil Nadu 624101, India",
+      "lat": 10.2476648,
+      "lng": 77.50329579999999
+    },
+    {
+      "name": "De Huts Kodaikanal",
+      "place_id": "ChIJdyUjwWJmBzsRJaSW_JjQaGk",
+      "rating": 4.6,
+      "user_ratings_total": 233,
+      "types": [
+        "travel_agency",
+        "lodging",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "176, Avery Avenue road, Kodaikanal, Tamil Nadu 624101, India",
+      "lat": 10.2448583,
+      "lng": 77.4837179
+    },
+    {
+      "name": "KING FRUITS AND SPICES",
+      "place_id": "ChIJDxpoAvdmBzsR22gtajDMBvg",
+      "rating": 4,
+      "user_ratings_total": 228,
+      "types": [
+        "shopping_mall",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "6GV2+VPP, Kodaikanal, Tamil Nadu 624101, India",
+      "lat": 10.2447053,
+      "lng": 77.50182749999999
+    },
+    {
+      "name": "Thalasi aaru.",
+      "place_id": "ChIJ_9FH9vNtBzsRmXYNLbYolgI",
+      "rating": 4.5,
+      "user_ratings_total": 218,
+      "types": [
+        "park",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "Periyakulam Agamalai Road, Koduvilarpatty RF, Tamil Nadu 625582, India",
+      "lat": 10.0943669,
+      "lng": 77.3898602
+    },
+    {
+      "name": "Park",
+      "place_id": "ChIJC2aw0SNnBzsRyrqm9FxeG1A",
+      "rating": 4.3,
+      "user_ratings_total": 200,
+      "types": [
+        "park",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "6FJR+PJC, Kodaikanal, Tamil Nadu 624101, India",
+      "lat": 10.2318203,
+      "lng": 77.4915214
+    },
+    {
+      "name": "Kookal Waterfalls and Farmland View Point",
+      "place_id": "ChIJN19XBT59BzsRyb8TML1lBYk",
+      "rating": 4.4,
+      "user_ratings_total": 199,
+      "types": [
+        "tourist_attraction",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "79M9+XV, Kookal, Tamil Nadu 624103, India",
+      "lat": 10.2844076,
+      "lng": 77.3696544
+    },
+    {
+      "name": "Polur Falls",
+      "place_id": "ChIJR1bCnm56BzsRGJOXSGhXy7o",
+      "rating": 4.4,
+      "user_ratings_total": 198,
+      "types": [
+        "tourist_attraction",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "Kodaikanal Rd, Kodaikanal, Tamil Nadu 624103, India",
+      "lat": 10.2051128,
+      "lng": 77.3154715
+    },
+    {
+      "name": "Mountain View kodaikanal",
+      "place_id": "ChIJS2JuCyFnBzsRoZ30VhD2vzo",
+      "rating": 4.6,
+      "user_ratings_total": 195,
+      "types": [
+        "tourist_attraction",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "6F6P+WWG, Kodaikanal, Tamil Nadu 624101, India",
+      "lat": 10.2123077,
+      "lng": 77.487332
+    },
+    {
+      "name": "Rajesh's Kodai Jeep Safari | Best Jeep Safari in Kodaikanal",
+      "place_id": "ChIJrwse1kdnBzsRZ5jMutTQU9Q",
+      "rating": 5,
+      "user_ratings_total": 194,
+      "types": [
+        "tourist_attraction",
+        "travel_agency",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "Bus Stand, Kodaikanal, Tamil Nadu 624101, India",
+      "lat": 10.23579,
+      "lng": 77.4927743
+    },
+    {
+      "name": "Pativeeranpatti Reserve Forest",
+      "place_id": "ChIJZ23qtfhPBzsRTIyQR8ohio4",
+      "rating": 4.3,
+      "user_ratings_total": 192,
+      "types": [
+        "park",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "5PXX+F6G, Anna Nagar Road, Mankaradu R.F., Tamil Nadu 624202, India",
+      "lat": 10.198688,
+      "lng": 77.7480692
+    },
+    {
+      "name": "Aframe House",
+      "place_id": "ChIJMRsNFJBnBzsRambri7_jQM4",
+      "rating": 4.3,
+      "user_ratings_total": 186,
+      "types": [
+        "lodging",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "6FQQ+639, Kodaikanal, Tamil Nadu 624101, India",
+      "lat": 10.2287424,
+      "lng": 77.48930539999999
+    },
+    {
+      "name": "kookal village - view point",
+      "place_id": "ChIJXVXfAvd9BzsRaFVboY5q8wg",
+      "rating": 4.5,
+      "user_ratings_total": 186,
+      "types": [
+        "tourist_attraction",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "79J8+P27, Kookal, Tamil Nadu 624103, India",
+      "lat": 10.2817894,
+      "lng": 77.36504889999999
+    },
+    {
+      "name": "Guna cave entrance",
+      "place_id": "ChIJicqANQBlBzsRNO28Nwm8UBc",
+      "rating": 4.3,
+      "user_ratings_total": 186,
+      "types": [
+        "park",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "6F67+X2V, Kodaikanal, Tamil Nadu 624103, India",
+      "lat": 10.2124928,
+      "lng": 77.4625356
+    },
+    {
+      "name": "Pillar Rock Flower Garden",
+      "place_id": "ChIJTUYPoexlBzsRR4kqbGbEE-M",
+      "rating": 4.3,
+      "user_ratings_total": 158,
+      "types": [
+        "park",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "6F58+W4P, Pillar Rocks Rd, Tamil Nadu 624103, India",
+      "lat": 10.2098425,
+      "lng": 77.46533389999999
+    },
+    {
+      "name": "Black queen chocolatier",
+      "place_id": "ChIJoeKl3o5nBzsRbex29JYcS3g",
+      "rating": 4.9,
+      "user_ratings_total": 149,
+      "types": [
+        "store",
+        "point_of_interest",
+        "food",
+        "establishment"
+      ],
+      "address": "Bazaar Rd, near Astoria hotel Maratha shopping complex, Kodaikanal, Tamil Nadu 624101, India",
+      "lat": 10.2355321,
+      "lng": 77.49229220000001
+    },
+    {
+      "name": "Kookal Lake",
+      "place_id": "ChIJH48RTwB9BzsRWihm4tuYxK4",
+      "rating": 4.3,
+      "user_ratings_total": 149,
+      "types": [
+        "tourist_attraction",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "79P6+6F9, Kookal, Kodaikanal, Tamil Nadu 624103, India",
+      "lat": 10.2855497,
+      "lng": 77.361245
+    },
+    {
+      "name": "Moddys Chocolates and Cafe",
+      "place_id": "ChIJ65_K9DJnBzsRsCEJbgyzWoo",
+      "rating": 4.7,
+      "user_ratings_total": 144,
+      "types": [
+        "store",
+        "point_of_interest",
+        "food",
+        "establishment"
+      ],
+      "address": "Spencer Compound, 12/85, Club House Road, Kodaikanal, Tamil Nadu 624101, India",
+      "lat": 10.2373243,
+      "lng": 77.4893549
+    },
+    {
+      "name": "CHOCOLATE EMPORIUM",
+      "place_id": "ChIJmdO2nQhnBzsRU1iiKzmTWcI",
+      "rating": 4.9,
+      "user_ratings_total": 128,
+      "types": [
+        "store",
+        "point_of_interest",
+        "food",
+        "establishment"
+      ],
+      "address": "1, Nellai Nadar Bazaar, Pamparpuram, Kodaikanal, Tamil Nadu 624103, India",
+      "lat": 10.2214175,
+      "lng": 77.4743206
+    },
+    {
+      "name": "Mistycove",
+      "place_id": "ChIJ0YikdGdmBzsRiXE9lc8mEjQ",
+      "rating": 4.5,
+      "user_ratings_total": 124,
+      "types": [
+        "lodging",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "Lake Rd, Kodaikanal, Tamil Nadu 624101, India",
+      "lat": 10.2322726,
+      "lng": 77.49170529999999
+    },
+    {
+      "name": "Palani Hills View Point",
+      "place_id": "ChIJ0UljFm9mBzsRQ2b2xWIYHks",
+      "rating": 4.3,
+      "user_ratings_total": 121,
+      "types": [
+        "tourist_attraction",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "6FGQ+QXX, St Mary's Rd, Kodaikanal, Tamil Nadu 624101, India",
+      "lat": 10.2269908,
+      "lng": 77.48997059999999
+    },
+    {
+      "name": "Magizham",
+      "place_id": "ChIJYX3KdtNnBzsR1mYU1FIXQV0",
+      "rating": 4.6,
+      "user_ratings_total": 119,
+      "types": [
+        "lodging",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "14/947/3, Kurinji Nagar Road, near MM Street, Kodaikanal, Tamil Nadu 624101, India",
+      "lat": 10.2492354,
+      "lng": 77.5064307
+    },
+    {
+      "name": "BALU Inner World",
+      "place_id": "ChIJuZwmtuZnBzsR8VnOYtKoPYc",
+      "rating": 4.8,
+      "user_ratings_total": 112,
+      "types": [
+        "clothing_store",
+        "store",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "Bus Stand, Woodville Rd, Kodaikanal, Tamil Nadu 624101, India",
+      "lat": 10.2357739,
+      "lng": 77.4926619
+    },
+    {
+      "name": "Into The Wild wooden house",
+      "place_id": "ChIJK4L1VUJnBzsRVzL5lQRsIJc",
+      "rating": 4.6,
+      "user_ratings_total": 112,
+      "types": [
+        "campground",
+        "park",
+        "lodging",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "barathi nagar, Attuvampatti, Kodaikanal, Tamil Nadu 624101, India",
+      "lat": 10.2779553,
+      "lng": 77.4852714
+    },
+    {
+      "name": "Kodaikanal",
+      "place_id": "ChIJaU4g6W1nBzsRU7TOhCMtcWY",
+      "rating": 4.7,
+      "user_ratings_total": 109,
+      "types": [
+        "campground",
+        "park",
+        "lodging",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "6FQR+62F, SH 156, Kodaikanal, Tamil Nadu 624101, India",
+      "lat": 10.2380515,
+      "lng": 77.4900461
+    },
+    {
+      "name": "Kodaikanal Boat And Rowing Club",
+      "place_id": "ChIJC2t2WJNmBzsRUFEvtEpi-SI",
+      "rating": 4.2,
+      "user_ratings_total": 104,
+      "types": [
+        "lodging",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "6FMP+RWV, Vilpatti Rd, Kodaikanal, Tamil Nadu 624101, India",
+      "lat": 10.2346098,
+      "lng": 77.48728609999999
+    },
+    {
+      "name": "Rafael Tracker | Adventure Trip in Kodaikanal",
+      "place_id": "ChIJX324nVZnBzsR_fvzmSr2U0E",
+      "rating": 4.9,
+      "user_ratings_total": 102,
+      "types": [
+        "travel_agency",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "Veeramuthu Joseph Cottage, 441, Packiapuram Rd, Naidupuram, Kodaikanal, Tamil Nadu 624101, India",
+      "lat": 10.2481623,
+      "lng": 77.4848454
+    },
+    {
+      "name": "KIKI'S BOOK SHOP :Sathya Complex. P T Road, 7 Road Junction Kodaikanal.",
+      "place_id": "ChIJiWQkLWdmBzsR114bQ5LOYPI",
+      "rating": 4.1,
+      "user_ratings_total": 101,
+      "types": [
+        "book_store",
+        "food",
+        "store",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "Satya Commerical Complex, Opp. BP Petrol Bunk, Poet Tyagaraja Rd, Kodaikanal, Tamil Nadu 624101, India",
+      "lat": 10.2352346,
+      "lng": 77.4910668
+    },
+    {
+      "name": "Boat House (Kodaikanal Municipality)",
+      "place_id": "ChIJ6eHEIwBnBzsRA2yr5BfY5Fw",
+      "rating": 4.1,
+      "user_ratings_total": 99,
+      "types": [
+        "tourist_attraction",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "6FQQ+639, Kodaikanal, Tamil Nadu 624101, India",
+      "lat": 10.2382326,
+      "lng": 77.4878275
+    },
+    {
+      "name": "TTDC Boat House - 2",
+      "place_id": "ChIJOyCadwFnBzsRsvm9TzDyUo8",
+      "rating": 4.3,
+      "user_ratings_total": 97,
+      "types": [
+        "travel_agency",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "Kodaikanal, Tamil Nadu 624101, India",
+      "lat": 10.2322458,
+      "lng": 77.4909852
+    },
+    {
+      "name": "Dolphin Nose Vattakanal Falls Road",
+      "place_id": "ChIJHSAhUlRnBzsRKgPJeJr03a4",
+      "rating": 4.3,
+      "user_ratings_total": 94,
+      "types": [
+        "tourist_attraction",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "6FCG+XGV, St Theresa School Rd, Pamparpuram, Kodaikanal, Tamil Nadu 624101, India",
+      "lat": 10.2091869,
+      "lng": 77.486932
+    },
+    {
+      "name": "Pallangi falls",
+      "place_id": "ChIJ-Uw03zRlBzsRdPr7kqpEqJY",
+      "rating": 4.3,
+      "user_ratings_total": 89,
+      "types": [
+        "park",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "7FF3+XHW, Pallangi, Tamil Nadu 624101, India",
+      "lat": 10.2749793,
+      "lng": 77.4539563
+    },
+    {
+      "name": "Kelvin Eva wood house",
+      "place_id": "ChIJu9MzYwdnBzsRuEMS9ZYJFKs",
+      "rating": 4.6,
+      "user_ratings_total": 85,
+      "types": [
+        "lodging",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "Road, Vattakanal, Kodaikanal, Tamil Nadu 624101, India",
+      "lat": 10.2145336,
+      "lng": 77.4853321
+    },
+    {
+      "name": "Kodai heaven trekkers",
+      "place_id": "ChIJdXy1QZJlBzsR972pmEnGDgA",
+      "rating": 4.7,
+      "user_ratings_total": 82,
+      "types": [
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "5/366, Mattupatty, Pallangi, Kodaikanal, Tamil Nadu 624101, India",
+      "lat": 10.2729202,
+      "lng": 77.452365
+    },
+    {
+      "name": "KMC Telescope House",
+      "place_id": "ChIJGz4FZgBnBzsREwqnwi-TXnE",
+      "rating": 3.6,
+      "user_ratings_total": 81,
+      "types": [
+        "tourist_attraction",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "6FHV+XHJ, Kodaikanal, Tamil Nadu 624101, India",
+      "lat": 10.2299507,
+      "lng": 77.4938759
+    },
+    {
+      "name": "Shalimar Weaves",
+      "place_id": "ChIJFxtwtGBmBzsRZ0E_K1YqODI",
+      "rating": 4.3,
+      "user_ratings_total": 76,
+      "types": [
+        "store",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "2, Maratha Complex, Bazaar Rd, near Indian Bank, Kodaikanal, Tamil Nadu 624101, India",
+      "lat": 10.2353679,
+      "lng": 77.4921463
+    },
+    {
+      "name": "Kodai Hikers",
+      "place_id": "ChIJT7Bb3alnBzsRpkcR2wcZMjs",
+      "rating": 4.9,
+      "user_ratings_total": 74,
+      "types": [
+        "travel_agency",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "Pamparpuram, Kodaikanal, Tamil Nadu 624103, India",
+      "lat": 10.2254581,
+      "lng": 77.47784089999999
+    },
+    {
+      "name": "kodaikanal lion cave",
+      "place_id": "ChIJIf4tm45nBzsRqRU-RTAG78M",
+      "rating": 4.1,
+      "user_ratings_total": 74,
+      "types": [
+        "park",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "6FCM+X49, Kodaikanal, Tamil Nadu 624103, India",
+      "lat": 10.2224187,
+      "lng": 77.48286829999999
+    },
+    {
+      "name": "Tibetan Shops kodaikanal",
+      "place_id": "ChIJU1nGCmdmBzsR46asDgKNtZU",
+      "rating": 4.2,
+      "user_ratings_total": 70,
+      "types": [
+        "clothing_store",
+        "store",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "6FMR+6H7, Kodaikanal, Tamil Nadu 624101, India",
+      "lat": 10.2330407,
+      "lng": 77.4914311
+    },
+    {
+      "name": "Public park, Perumalmalai",
+      "place_id": "ChIJhZdiCAtnBzsRXrsTvC-1mk8",
+      "rating": 4.2,
+      "user_ratings_total": 66,
+      "types": [
+        "park",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "7G7Q+RMW, Adukkam, Tamil Nadu 624101, India",
+      "lat": 10.2646233,
+      "lng": 77.53919359999999
+    },
+    {
+      "name": "VKKKS Garments",
+      "place_id": "ChIJnQPxTGdmBzsRkCowjAK7Phs",
+      "rating": 4.6,
+      "user_ratings_total": 64,
+      "types": [
+        "clothing_store",
+        "store",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "Bazaar Rd, Kodaikanal, Tamil Nadu 624101, India",
+      "lat": 10.2356813,
+      "lng": 77.492308
+    },
+    {
+      "name": "Adventure Club Kodaikanal Glass and Woods",
+      "place_id": "ChIJF2aZ7YplBzsRI6ysvpc2H9g",
+      "rating": 4.3,
+      "user_ratings_total": 63,
+      "types": [
+        "campground",
+        "park",
+        "lodging",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "Pallangi Rd, Kodaikanal, Tamil Nadu 624101, India",
+      "lat": 10.279722,
+      "lng": 77.45521509999999
+    },
+    {
+      "name": "Coco fountain",
+      "place_id": "ChIJc4h0GgBnBzsRbBkLr-qs9XQ",
+      "rating": 4.8,
+      "user_ratings_total": 60,
+      "types": [
+        "store",
+        "point_of_interest",
+        "food",
+        "establishment"
+      ],
+      "address": "Fern Hill Rd, Kodaikanal, Tamil Nadu 624101, India",
+      "lat": 10.2420066,
+      "lng": 77.4951172
+    },
+    {
+      "name": "Thendral Chocolate Centre",
+      "place_id": "ChIJ5TlTjwVnBzsRiGc5MYLMoNU",
+      "rating": 4.9,
+      "user_ratings_total": 58,
+      "types": [
+        "store",
+        "point_of_interest",
+        "food",
+        "establishment"
+      ],
+      "address": "shop number 95, Bryant park, near parking zone, Kodaikanal, Tamil Nadu 624101, India",
+      "lat": 10.2322124,
+      "lng": 77.4916853
+    },
+    {
+      "name": "Kodaikanal seven hills jeep Safari",
+      "place_id": "ChIJY--pN0xnBzsRkmrN9wly6iI",
+      "rating": 4.9,
+      "user_ratings_total": 58,
+      "types": [
+        "park",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "R.Chellaiah Pillai complex, Naidupuram, Kodaikanal, Tamil Nadu 624101, India",
+      "lat": 10.2478717,
+      "lng": 77.48978199999999
+    },
+    {
+      "name": "Pallangi waterfalls view point",
+      "place_id": "ChIJU9-RmwNlBzsRAGrm8Hh3sho",
+      "rating": 4.6,
+      "user_ratings_total": 51,
+      "types": [
+        "tourist_attraction",
+        "park",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "7CGX+W3R, Tamil Nadu 624101, India",
+      "lat": 10.2773737,
+      "lng": 77.4476316
+    },
+    {
+      "name": "msm chocolate factory",
+      "place_id": "ChIJlxfcM4hnBzsR68KUvB8lOI0",
+      "rating": 4,
+      "user_ratings_total": 47,
+      "types": [
+        "shopping_mall",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "6FCG+C8C, Golf Links Road, Kodaikanal, Tamil Nadu 624103, India",
+      "lat": 10.2210844,
+      "lng": 77.47575929999999
+    },
+    {
+      "name": "KSJ COMPLEX",
+      "place_id": "ChIJbXm4uWpnBzsRFrjF8xfGNu0",
+      "rating": 4.5,
+      "user_ratings_total": 42,
+      "types": [
+        "shopping_mall",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "KSJ Complex, near post office, Pamparpuram, Kodaikanal, Tamil Nadu 624103, India",
+      "lat": 10.2246816,
+      "lng": 77.47723719999999
+    },
+    {
+      "name": "New udhyam store",
+      "place_id": "ChIJF4lS_I9nBzsRUA1Sr8hD42U",
+      "rating": 5,
+      "user_ratings_total": 41,
+      "types": [
+        "department_store",
+        "supermarket",
+        "grocery_or_supermarket",
+        "store",
+        "point_of_interest",
+        "food",
+        "establishment"
+      ],
+      "address": "Sj Honda showroom, Nvr complex observatory Kodaikanal 624103 Poombari, Observatory Rd, opposite observatory, Kodaikanal, Tamil Nadu 624103, India",
+      "lat": 10.2309147,
+      "lng": 77.4716121
+    },
+    {
+      "name": "AA NATURAL OIL AND SPICES",
+      "place_id": "ChIJjUdoFXFmBzsRs4st1qGHnfE",
+      "rating": 4.4,
+      "user_ratings_total": 40,
+      "types": [
+        "shopping_mall",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "Daneys building, golf course road, Pamparpuram, Kodaikanal, Tamil Nadu 624103, India",
+      "lat": 10.2251535,
+      "lng": 77.4773903
+    },
+    {
+      "name": "Spices Corner",
+      "place_id": "ChIJb9aYfXRmBzsRaqHiu671APw",
+      "rating": 3.9,
+      "user_ratings_total": 37,
+      "types": [
+        "food",
+        "store",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "Laws Ghat Rd, Kodaikanal, Tamil Nadu 624101, India",
+      "lat": 10.2381722,
+      "lng": 77.4921301
+    },
+    {
+      "name": "Kurunji super market shopping mall",
+      "place_id": "ChIJ4UfuAHRmBzsRrRTkoUyqEMY",
+      "rating": 4.4,
+      "user_ratings_total": 37,
+      "types": [
+        "grocery_or_supermarket",
+        "store",
+        "point_of_interest",
+        "food",
+        "establishment"
+      ],
+      "address": "India624101, Pamparpuram, Kodaikanal, Tamil Nadu 624103, India",
+      "lat": 10.223765,
+      "lng": 77.4758538
+    },
+    {
+      "name": "Kodaikanal municipality boathouse",
+      "place_id": "ChIJzbk22MFnBzsRHEVijOkbT0E",
+      "rating": 4,
+      "user_ratings_total": 36,
+      "types": [
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "101a, Lake Rd, Kodaikanal, Tamil Nadu 624101, India",
+      "lat": 10.2301814,
+      "lng": 77.4869005
+    },
+    {
+      "name": "Black Shades",
+      "place_id": "ChIJJ-G6IcNnBzsRDa7LJtfzxX4",
+      "rating": 3.9,
+      "user_ratings_total": 36,
+      "types": [
+        "clothing_store",
+        "store",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "Lake Rd, Kodaikanal, Tamil Nadu 624101, India",
+      "lat": 10.236713,
+      "lng": 77.4867931
+    },
+    {
+      "name": "Kalakshetra handloom &handicraft",
+      "place_id": "ChIJnbu1rYRnBzsRLagQK3qK8d8",
+      "rating": 4.8,
+      "user_ratings_total": 34,
+      "types": [
+        "store",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "Woodville Rd, near bus stand, Kodaikanal, Tamil Nadu 624101, India",
+      "lat": 10.2342453,
+      "lng": 77.4932006
+    },
+    {
+      "name": "Observatory Pine forest",
+      "place_id": "ChIJOdYVrr5lBzsRirSBZ88QAvs",
+      "rating": 4.4,
+      "user_ratings_total": 33,
+      "types": [
+        "park",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "6FH3+96, Kodaikanal, Tamil Nadu 624103, India",
+      "lat": 10.2284023,
+      "lng": 77.453096
+    },
+    {
+      "name": "kodaikanal offroad jeepsafari(Vaazhga vazhamudan adventures)",
+      "place_id": "ChIJ2bgLs-BnBzsRyMoVMv1BaXQ",
+      "rating": 5,
+      "user_ratings_total": 33,
+      "types": [
+        "park",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "W10, 894 GURUSWAMYPALLAM, Naidupuram, Kodaikanal, Tamil Nadu 624101, India",
+      "lat": 10.2530719,
+      "lng": 77.4811342
+    },
+    {
+      "name": "Queen of Hills",
+      "place_id": "ChIJfTFQGh5nBzsRUeSJCoEN6yg",
+      "rating": 4.5,
+      "user_ratings_total": 30,
+      "types": [
+        "lodging",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "Survey No. 905/2, Chinnapallam Area, Vilpatty, Village, Kodaikanal, Tamil Nadu 624101, India",
+      "lat": 10.2626552,
+      "lng": 77.4877777
+    },
+    {
+      "name": "Dolphin nose hiking - Starting Point",
+      "place_id": "ChIJH5RyUwBnBzsR2ZGrxWlYlf0",
+      "rating": 4.5,
+      "user_ratings_total": 29,
+      "types": [
+        "park",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "6F7P+Q3W, Vattakanal, Kodaikanal, Tamil Nadu 624101, India",
+      "lat": 10.2144779,
+      "lng": 77.48520839999999
+    },
+    {
+      "name": "Sunset point Kodai",
+      "place_id": "ChIJ0bmDnQlnBzsRPXg4C6xZdg8",
+      "rating": 4.2,
+      "user_ratings_total": 29,
+      "types": [
+        "tourist_attraction",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "7G32+9RP, Kodaikanal, Tamil Nadu 624101, India",
+      "lat": 10.2534715,
+      "lng": 77.5020649
+    },
+    {
+      "name": "ZOOK men's store",
+      "place_id": "ChIJLT3nFoRnBzsR142CLyE03Mg",
+      "rating": 4.1,
+      "user_ratings_total": 27,
+      "types": [
+        "clothing_store",
+        "store",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "1st floor,Sathya complex,7 Roads Junction, Kodaikanal, Tamil Nadu 624101, India",
+      "lat": 10.2351862,
+      "lng": 77.4910803
+    },
+    {
+      "name": "Earthen Works- Home Decor",
+      "place_id": "ChIJz5meVOlnBzsRuzjoawaBzkE",
+      "rating": 5,
+      "user_ratings_total": 26,
+      "types": [
+        "store",
+        "point_of_interest",
+        "food",
+        "establishment"
+      ],
+      "address": "6FPR+69V Formerly The Potter's Shed, Poet Tyagaraja Rd, Kodaikanal, Tamil Nadu 624101, India",
+      "lat": 10.235412,
+      "lng": 77.4910445
+    },
+    {
+      "name": "Hi Rich Chocolate Factory, Oils & Spices Kodaikanal",
+      "place_id": "ChIJT4BGidJnBzsRUmNYW8VACgc",
+      "rating": 4.6,
+      "user_ratings_total": 25,
+      "types": [
+        "health",
+        "store",
+        "point_of_interest",
+        "food",
+        "establishment"
+      ],
+      "address": "Club Rd, near Nellai Nadar Bazaar, Golf, Pambarpuram, Kodaikanal, Tamil Nadu 624103, India",
+      "lat": 10.2205338,
+      "lng": 77.4771326
+    },
+    {
+      "name": "Ruban House (Homestay)",
+      "place_id": "ChIJMbB1L9xnBzsRScj4Gwt4FHM",
+      "rating": 4,
+      "user_ratings_total": 25,
+      "types": [
+        "lodging",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "Vattakanal ( way to dolphins nose, 20/25 B, Vattakanal, Kodaikanal, Tamil Nadu 624101, India",
+      "lat": 10.2173155,
+      "lng": 77.48413029999999
+    },
+    {
+      "name": "kodaikanal dolphin view",
+      "place_id": "ChIJQX0sHDtnBzsRveo83dg7tLE",
+      "rating": 4.3,
+      "user_ratings_total": 24,
+      "types": [
+        "park",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "6FQQ+6MV, Kodaikanal, Tamil Nadu 624101, India",
+      "lat": 10.2381136,
+      "lng": 77.4891822
+    },
+    {
+      "name": "Dinosaur Park & Resort",
+      "place_id": "ChIJ0XE3O_x7BzsRNV-xK8tjM3E",
+      "rating": 2.8,
+      "user_ratings_total": 24,
+      "types": [
+        "lodging",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "Kilanelvayal, Mannavanur, Kodaikanal, Tamil Nadu 624103, India",
+      "lat": 10.2521712,
+      "lng": 77.3299068
+    },
+    {
+      "name": "Moir Point parking area",
+      "place_id": "ChIJVf_0MKdlBzsRd5LY4aT0NNo",
+      "rating": 4.3,
+      "user_ratings_total": 22,
+      "types": [
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "6C6W+RW, Kodaikanal, Tamil Nadu 624103, India",
+      "lat": 10.2120929,
+      "lng": 77.4473503
+    },
+    {
+      "name": "Palar Dam View",
+      "place_id": "ChIJGxC8oC5hBzsRqU2dUBEGUbQ",
+      "rating": 4.3,
+      "user_ratings_total": 20,
+      "types": [
+        "park",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "MDR171, Tamil Nadu 624101, India",
+      "lat": 10.293401,
+      "lng": 77.5432953
+    },
+    {
+      "name": "Kurunji super market",
+      "place_id": "ChIJQXvPAnpnBzsRlVpuxehAEy4",
+      "rating": 4.2,
+      "user_ratings_total": 18,
+      "types": [
+        "grocery_or_supermarket",
+        "store",
+        "point_of_interest",
+        "food",
+        "establishment"
+      ],
+      "address": "Kurunji supermarket, MM St, Kodaikanal, Tamil Nadu 624101, India",
+      "lat": 10.2459829,
+      "lng": 77.50048509999999
+    },
+    {
+      "name": "Wild Vellagavi trekking camp",
+      "place_id": "ChIJTUGL-QtnBzsR2LJmfw3C3aw",
+      "rating": 4.9,
+      "user_ratings_total": 17,
+      "types": [
+        "campground",
+        "park",
+        "lodging",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "5GX2+5MH, Vellagavi - Kodaikanal trail, Vellagavi, Kodaikanal, Tamil Nadu 624101, India",
+      "lat": 10.1979443,
+      "lng": 77.5017247
+    },
+    {
+      "name": "Kodaikanal adventure camping",
+      "place_id": "ChIJJ1mAgCZlBzsRNwLfCPTRglQ",
+      "rating": 4.6,
+      "user_ratings_total": 16,
+      "types": [
+        "campground",
+        "park",
+        "lodging",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "Kodai adventure kombai, Kodaikanal, Tamil Nadu 624101, India",
+      "lat": 10.2804146,
+      "lng": 77.459555
+    },
+    {
+      "name": "Kumaran Stores",
+      "place_id": "ChIJBQT8Bl5mBzsRVEgKiO9c3AQ",
+      "rating": 4.3,
+      "user_ratings_total": 16,
+      "types": [
+        "clothing_store",
+        "store",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "Bazaar Rd, Kodaikanal, Tamil Nadu 624101, India",
+      "lat": 10.2363005,
+      "lng": 77.4941793
+    },
+    {
+      "name": "Sunrise view point",
+      "place_id": "ChIJRYh0GZRnBzsRscPRs8qpunM",
+      "rating": 4.3,
+      "user_ratings_total": 16,
+      "types": [
+        "tourist_attraction",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "6FJG+46C, Upper Lake Rd, Kodaikanal, Tamil Nadu 624103, India",
+      "lat": 10.229976,
+      "lng": 77.475617
+    },
+    {
+      "name": "Park Regency Estate",
+      "place_id": "ChIJf5iNfftmBzsRHZ-qEIdlL1s",
+      "rating": 3.9,
+      "user_ratings_total": 16,
+      "types": [
+        "park",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "7G26+643, Kodaikanal, Tamil Nadu 624101, India",
+      "lat": 10.2505057,
+      "lng": 77.5103053
+    },
+    {
+      "name": "Spice valley camp car park",
+      "place_id": "ChIJmcjzLg5hBzsR3ww3cpk17Pg",
+      "rating": 4.8,
+      "user_ratings_total": 16,
+      "types": [
+        "campground",
+        "park",
+        "lodging",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "No.1080/1, Pulior, Perumal Malai Rd, Ganeshpuram, Kodaikanal, Tamil Nadu 624101, India",
+      "lat": 10.3056672,
+      "lng": 77.5111943
+    },
+    {
+      "name": "Anish Spices & Fruits",
+      "place_id": "ChIJU6srAvdmBzsR_knX-b57AO4",
+      "rating": 4.1,
+      "user_ratings_total": 15,
+      "types": [
+        "shopping_mall",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "6GV2+WR8, Laws Ghat Rd, Kallaraimadu, Kodaikanal, Tamil Nadu 624101, India",
+      "lat": 10.2448329,
+      "lng": 77.502071
+    },
+    {
+      "name": "Rabitha Store",
+      "place_id": "ChIJSZCXOghnBzsRr3hVr0aAYsw",
+      "rating": 3.9,
+      "user_ratings_total": 14,
+      "types": [
+        "shopping_mall",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "6FJC+CX5, Kodaikanal, Tamil Nadu 624103, India",
+      "lat": 10.2310457,
+      "lng": 77.4725509
+    },
+    {
+      "name": "Bismi Herbals",
+      "place_id": "ChIJM633hl5mBzsRW6DLkfVe9-k",
+      "rating": 4.1,
+      "user_ratings_total": 14,
+      "types": [
+        "shopping_mall",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "Nellainadar complex, Pamparpuram, Kodaikanal, Tamil Nadu 624103, India",
+      "lat": 10.2208981,
+      "lng": 77.4747003
+    },
+    {
+      "name": "SHREE KAMATCHI STORE",
+      "place_id": "ChIJYWnga9ZnBzsRBCdhrCeQRus",
+      "rating": 4.9,
+      "user_ratings_total": 14,
+      "types": [
+        "grocery_or_supermarket",
+        "store",
+        "point_of_interest",
+        "food",
+        "establishment"
+      ],
+      "address": "103, Maratha Complex, Bazaar Rd, Kodaikanal, Tamil Nadu 624101, India",
+      "lat": 10.2353261,
+      "lng": 77.4920528
+    },
+    {
+      "name": "Sumaiya 99",
+      "place_id": "ChIJKe4kB15mBzsRGvXz8GP2iEY",
+      "rating": 4.4,
+      "user_ratings_total": 13,
+      "types": [
+        "clothing_store",
+        "shopping_mall",
+        "store",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "Post Office Rd, Kodaikanal, Tamil Nadu 624101, India",
+      "lat": 10.238976,
+      "lng": 77.4935323
+    },
+    {
+      "name": "Danish Display",
+      "place_id": "ChIJgbrXsN9nBzsRpuIHPeNnIFo",
+      "rating": 4.5,
+      "user_ratings_total": 13,
+      "types": [
+        "store",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "J’ S Heritage Complex, Poet Tyagaraja Rd, near Aavin, Kodaikanal, Tamil Nadu 624101, India",
+      "lat": 10.2361482,
+      "lng": 77.4909517
+    },
+    {
+      "name": "Pear Glamp",
+      "place_id": "ChIJt5d1SgBnBzsRjq7p3dDIUk0",
+      "rating": 5,
+      "user_ratings_total": 13,
+      "types": [
+        "campground",
+        "park",
+        "lodging",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "7F3P+MF, Kodaikanal, Tamil Nadu 624101, India",
+      "lat": 10.254179,
+      "lng": 77.486223
+    },
+    {
+      "name": "ANIME WORLD KODAI",
+      "place_id": "ChIJ_SY8IbNnBzsRp31n6jVp-V4",
+      "rating": 5,
+      "user_ratings_total": 12,
+      "types": [
+        "store",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "114, Lake Rd, Kodaikanal, Tamil Nadu 624101, India",
+      "lat": 10.2340153,
+      "lng": 77.4882597
+    },
+    {
+      "name": "Hidden falls",
+      "place_id": "ChIJzdxyd2NnBzsRT4hpZtf6iY8",
+      "rating": 3.7,
+      "user_ratings_total": 12,
+      "types": [
+        "tourist_attraction",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "6F6P+JV7, Vellagavi, Periyur, Kodaikanal, Tamil Nadu 624101, India",
+      "lat": 10.2107268,
+      "lng": 77.4868797
+    },
+    {
+      "name": "Indian Arts And Craft",
+      "place_id": "ChIJQbk5pnlnBzsRwfsiETiVGaw",
+      "rating": 4.6,
+      "user_ratings_total": 11,
+      "types": [
+        "shopping_mall",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "7G32+7J4, Kodaikanal, Tamil Nadu 624101, India",
+      "lat": 10.2531488,
+      "lng": 77.5015677
+    },
+    {
+      "name": "The Craft Chain",
+      "place_id": "ChIJtTmkN2dmBzsRl8aJVAnwXpY",
+      "rating": 4.9,
+      "user_ratings_total": 11,
+      "types": [
+        "store",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "Club Rd, Kodaikanal, Tamil Nadu 624101, India",
+      "lat": 10.2352016,
+      "lng": 77.49171439999999
+    },
+    {
+      "name": "KFS DEPARTMENTAL STORE",
+      "place_id": "ChIJUSQYZ-JnBzsR8wphvfwMpNk",
+      "rating": 4.4,
+      "user_ratings_total": 10,
+      "types": [
+        "department_store",
+        "store",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "100 meters from Moonjikal, Dream Land Complex, Bus stop, Laws Ghat Rd, Kodaikanal, Tamil Nadu 624101, India",
+      "lat": 10.2389642,
+      "lng": 77.4961057
+    },
+    {
+      "name": "Squad Of Trails",
+      "place_id": "ChIJ8_Bwi1dnBzsRhUD7cach4JM",
+      "rating": 5,
+      "user_ratings_total": 9,
+      "types": [
+        "campground",
+        "tourist_attraction",
+        "travel_agency",
+        "park",
+        "lodging",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "Observatory Rd, opposite Elementary School, Kodaikanal, Tamil Nadu 624101, India",
+      "lat": 10.234255,
+      "lng": 77.4772811
+    },
+    {
+      "name": "Shafa Woodhouse",
+      "place_id": "ChIJn1e9cMxnBzsRJg0MSfGQYtk",
+      "rating": 4.6,
+      "user_ratings_total": 9,
+      "types": [
+        "tourist_attraction",
+        "lodging",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "Unnamed Road, Vattakanal, Kodaikanal, Tamil Nadu 624101, India",
+      "lat": 10.2161247,
+      "lng": 77.48650219999999
+    },
+    {
+      "name": "BOAT CLUB 2ND BOAT HOUSE",
+      "place_id": "ChIJTTvzbABnBzsRHLtX_RvJ3bk",
+      "rating": 3.8,
+      "user_ratings_total": 9,
+      "types": [
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "6FMP+CHW, Lake, Kodaikanal, Tamil Nadu 624101, India",
+      "lat": 10.2336016,
+      "lng": 77.4864569
+    },
+    {
+      "name": "KAUVERI SPICES - CHOCOLATE FACTORY",
+      "place_id": "ChIJ6T-PZHRmBzsR5PYFD-9NO48",
+      "rating": 4.9,
+      "user_ratings_total": 9,
+      "types": [
+        "store",
+        "point_of_interest",
+        "food",
+        "establishment"
+      ],
+      "address": "6FCF+GQR Nellai Nadar Bazaar, Golf Links Road, Kodaikanal, Tamil Nadu 624103, India",
+      "lat": 10.2213542,
+      "lng": 77.4743834
+    },
+    {
+      "name": "Picnic Shola",
+      "place_id": "ChIJAy_PSI1mBzsRn5zrusgmWsU",
+      "rating": 4.3,
+      "user_ratings_total": 9,
+      "types": [
+        "park",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "7F2V+C2F, Vilpatti Rd, Tamil Nadu 624101, India",
+      "lat": 10.2510577,
+      "lng": 77.4925375
+    },
+    {
+      "name": "Green valley view",
+      "place_id": "ChIJQb9CvFBnBzsRQcKWC03Ylpg",
+      "rating": 4.9,
+      "user_ratings_total": 9,
+      "types": [
+        "park",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "7GF2+93 green valley, kodai, Vilpatti, Tamil Nadu 624101, India",
+      "lat": 10.2756113,
+      "lng": 77.50066489999999
+    },
+    {
+      "name": "Target Crafts & Chocolates",
+      "place_id": "ChIJR1cDfmFmBzsRCTk3wGAJoJg",
+      "rating": 5,
+      "user_ratings_total": 8,
+      "types": [
+        "shopping_mall",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "Bruton Compound, Lake Rd, opposite to 7D Theatre, Kodaikanal, Tamil Nadu 624101, India",
+      "lat": 10.2379132,
+      "lng": 77.48746609999999
+    },
+    {
+      "name": "Forest View",
+      "place_id": "ChIJ50btE_VnBzsRf5UFLCjI52Q",
+      "rating": 4.8,
+      "user_ratings_total": 8,
+      "types": [
+        "park",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "6H96+X3X, Periyakulam-Adukkam Trail, Adukkam, Tamil Nadu 624101, India",
+      "lat": 10.2199905,
+      "lng": 77.5602365
+    },
+    {
+      "name": "Rangoli",
+      "place_id": "ChIJoRLMATVnBzsRIuqje0dC7bM",
+      "rating": 4.4,
+      "user_ratings_total": 7,
+      "types": [
+        "shopping_mall",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "Spencer’s Complex, opposite to Lake and Corporation Office, Kodaikanal, Tamil Nadu 624101, India",
+      "lat": 10.236935,
+      "lng": 77.4892448
+    },
+    {
+      "name": "Tibetan handicraft house",
+      "place_id": "ChIJh3j5rtJnBzsRjCQ8bri5s6A",
+      "rating": 5,
+      "user_ratings_total": 7,
+      "types": [
+        "jewelry_store",
+        "store",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "Poet Tyagaraja Rd, opposite aavin milk junction, Kodaikanal, Tamil Nadu 624101, India",
+      "lat": 10.2358916,
+      "lng": 77.49093429999999
+    },
+    {
+      "name": "KODAI TREKKERS",
+      "place_id": "ChIJ83gTrlRnBzsRkRsESNX58v0",
+      "rating": 4.8,
+      "user_ratings_total": 6,
+      "types": [
+        "park",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "9/136 A2, Anandagiri 4th Street, Kodaikanal, Tamil Nadu 624101, India",
+      "lat": 10.2400661,
+      "lng": 77.5031104
+    },
+    {
+      "name": "Shopping outlets",
+      "place_id": "ChIJ_wh93mZmBzsRLEg1Z5XzLPs",
+      "rating": 3.2,
+      "user_ratings_total": 5,
+      "types": [
+        "shopping_mall",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "6FMQ+PXG, Boat Club Rd, Kodaikanal, Tamil Nadu 624101, India",
+      "lat": 10.2343199,
+      "lng": 77.4899485
+    },
+    {
+      "name": "ASM Store",
+      "place_id": "ChIJZXIlOihnBzsRtCF4mtt-hk8",
+      "rating": 3.4,
+      "user_ratings_total": 5,
+      "types": [
+        "shopping_mall",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "MM St, Kodaikanal, Tamil Nadu 624101, India",
+      "lat": 10.2471823,
+      "lng": 77.5022815
+    },
+    {
+      "name": "K Kodaikanal market",
+      "place_id": "ChIJsZ5oC1ZnBzsRQ68Cl87W-BY",
+      "rating": 4.8,
+      "user_ratings_total": 4,
+      "types": [
+        "shopping_mall",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "6FQR+2J3, Poet Tyagaraja Rd, Kodaikanal, Tamil Nadu 624101, India",
+      "lat": 10.2375088,
+      "lng": 77.4915616
+    },
+    {
+      "name": "SEASHORE_JEWEL PARADISE",
+      "place_id": "ChIJzz38ZjhnBzsRMlP4hX-eF_M",
+      "rating": 5,
+      "user_ratings_total": 4,
+      "types": [
+        "store",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "Shop No 4005, Bryant park, near Tibetan sweater shop, Kodaikanal, Tamil Nadu 624101, India",
+      "lat": 10.2330144,
+      "lng": 77.49130459999999
+    },
+    {
+      "name": "Apache Adventure Camp",
+      "place_id": "ChIJW8E8PFt7BzsR5ByBGhGMDIE",
+      "rating": 3,
+      "user_ratings_total": 3,
+      "types": [
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "Kilanelvayal, Mannavanur, Kodaikannal, Tamil Nadu 624103, India",
+      "lat": 10.2410319,
+      "lng": 77.3344144
+    },
+    {
+      "name": "Ecopeak kodaikanal",
+      "place_id": "ChIJvw2N0sl7BzsR8UA_kw4Wwhk",
+      "rating": 4.3,
+      "user_ratings_total": 3,
+      "types": [
+        "park",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "68PR+2H, Kodaikanal, Tamil Nadu 624103, India",
+      "lat": 10.2350625,
+      "lng": 77.3414375
+    },
+    {
+      "name": "Kk's tree spot",
+      "place_id": "ChIJSXIXaABnBzsR2FMacB26KyM",
+      "rating": 4.7,
+      "user_ratings_total": 3,
+      "types": [
+        "park",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "6F4P+WR, Kodaikanal, Tamil Nadu 624101, India",
+      "lat": 10.2074879,
+      "lng": 77.4870406
+    },
+    {
+      "name": "The hanging sopt",
+      "place_id": "ChIJCfP9IVlnBzsR_V5M0QdVeoM",
+      "rating": 5,
+      "user_ratings_total": 2,
+      "types": [
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "6F2V+MXH, Vellagavi - Kodaikanal trail, Tamil Nadu 624101, India",
+      "lat": 10.201682,
+      "lng": 77.4949877
+    },
+    {
+      "name": "KTC: Kodaikanal Trekking Club",
+      "place_id": "ChIJLR9sG1lnBzsRXEbF-fSkego",
+      "rating": 5,
+      "user_ratings_total": 2,
+      "types": [
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "Attuvampatti, Kodaikanal, Tamil Nadu 624101, India",
+      "lat": 10.2665982,
+      "lng": 77.492288
+    },
+    {
+      "name": "Hills of the kodai",
+      "place_id": "ChIJ4_4WGxNnBzsRgxzmC50kItw",
+      "rating": 4.5,
+      "user_ratings_total": 2,
+      "types": [
+        "shopping_mall",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "6FCF+QJQ, Kodaikanal, Tamil Nadu 624103, India",
+      "lat": 10.2219686,
+      "lng": 77.4741141
+    },
+    {
+      "name": "Kodai Shopping Bazzar",
+      "place_id": "ChIJrVvwagBnBzsRb0KGthqjpAQ",
+      "rating": 5,
+      "user_ratings_total": 2,
+      "types": [
+        "home_goods_store",
+        "store",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "6FPW+Q6X, Bazaar Rd, Kodaikanal, Tamil Nadu 624101, India",
+      "lat": 10.2369676,
+      "lng": 77.495633
+    },
+    {
+      "name": "Khadi kraft (Govt of Tamilnadu Khadi Gramodyog)",
+      "place_id": "ChIJa-Vy3uNnBzsRkH9KGiZT4Es",
+      "rating": 4,
+      "user_ratings_total": 2,
+      "types": [
+        "shopping_mall",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "6FPV+84H, Bazaar Rd, Kodaikanal, Tamil Nadu 624101, India",
+      "lat": 10.235811,
+      "lng": 77.49287319999999
+    },
+    {
+      "name": "Madhu antiques",
+      "place_id": "ChIJ8bF2_05nBzsRq0y_F4YWrBU",
+      "rating": 1,
+      "user_ratings_total": 1,
+      "types": [
+        "museum",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "opp. to Presentation Convent, Kodaikanal, Tamil Nadu 624101, India",
+      "lat": 10.24258,
+      "lng": 77.4885068
+    },
+    {
+      "name": "Sri Akshaya Shopping Corner.....",
+      "place_id": "ChIJY-bYoL9nBzsRUMMalKz_v7Y",
+      "rating": 5,
+      "user_ratings_total": 1,
+      "types": [
+        "shopping_mall",
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "357, Park Entrance Road, Kodaikanal, Tamil Nadu 624101, India",
+      "lat": 10.2314483,
+      "lng": 77.491491
+    },
+    {
+      "name": "Kodai Rugged Rides",
+      "place_id": "ChIJ1z4fPV1nBzsR80GDIHrbBaU",
+      "rating": null,
+      "user_ratings_total": 0,
+      "types": [
+        "point_of_interest",
+        "establishment"
+      ],
+      "address": "10/31, Perumpallam Rd, near Anthapuram cottage, Kodaikanal, Tamil Nadu 624101, India",
+      "lat": 10.2511555,
+      "lng": 77.4723826
+    }
+  ]
+}

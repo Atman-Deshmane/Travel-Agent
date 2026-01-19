@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kodaikanal Places Explorer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <span class="logo-icon">🏔️</span>
+                <span class="logo-text">Kodaikanal Explorer</span>
+            </div>
+            <div class="header-stats" id="header-stats">
+                <span class="stat-badge">
+                    <span id="total-places">0</span> places
+                </span>
+            </div>
+        </header>
+
+        <!-- Main Search Section -->
+        <main class="main-content">
+            <div class="search-hero">
+                <h1 class="hero-title">Discover Kodaikanal</h1>
+                <p class="hero-subtitle">Search for any place to add it to your travel database</p>
+
+                <!-- Search Box -->
+                <div class="search-container">
+                    <div class="search-box" id="search-box">
+                        <div class="search-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <circle cx="11" cy="11" r="8"></circle>
+                                <path d="m21 21-4.35-4.35"></path>
+                            </svg>
+                        </div>
+                        <input type="text" id="place-input" class="search-input"
+                            placeholder="Search for a place in Kodaikanal..." autocomplete="off">
+                        <button class="search-btn" id="fetch-btn" disabled>
+                            <span class="btn-text">Add Place</span>
+                            <span class="btn-loader hidden"></span>
+                        </button>
+                    </div>
+                    <p class="search-hint">Try: Dolphin's Nose, Kodaikanal Lake, Bryant Park...</p>
+                </div>
+            </div>
+
+            <!-- Status Message -->
+            <div class="status-container hidden" id="status-container">
+                <div class="status-message" id="status-message"></div>
+            </div>
+
+            <!-- Results Section -->
+            <section class="results-section" id="results-section">
+                <div class="section-header">
+                    <h2 class="section-title">📍 Saved Places</h2>
+                    <span class="section-subtitle">Ranked by popularity</span>
+                </div>
+
+                <!-- Filter Bar -->
+                <div class="filter-bar">
+                    <button class="filter-btn active" data-category="all">All</button>
+                    <button class="filter-btn" data-category="nature">🌲 Nature</button>
+                    <button class="filter-btn" data-category="viewpoints">🔭 Viewpoints</button>
+                    <button class="filter-btn" data-category="adventure">🥾 Adventure</button>
+                    <button class="filter-btn" data-category="culture">🏛️ Culture</button>
+                    <button class="filter-btn" data-category="family">👨‍👩‍👧 Family</button>
+                </div>
+                <div class="places-grid" id="places-grid">
+                    <!-- Places will be dynamically inserted here -->
+                </div>
+                <div class="empty-state hidden" id="empty-state">
+                    <div class="empty-icon">🗺️</div>
+                    <p>No places added yet. Search above to add your first place!</p>
+                </div>
+            </section>
+        </main>
+
+        <!-- Latest Result Card (shows after fetch) -->
+        <div class="result-modal hidden" id="result-modal">
+            <div class="modal-backdrop" onclick="closeModal()"></div>
+            <div class="modal-content">
+                <button class="modal-close" onclick="closeModal()">×</button>
+                <div id="modal-body"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Google Maps API -->
+    <script
+        src="https://maps.googleapis.com/maps/api/js?key={{ maps_api_key }}&libraries=places&loading=async&callback=initAutocomplete"
+        async defer></script>
+    <script src="/static/app.js"></script>
+</body>
+
+</html>
