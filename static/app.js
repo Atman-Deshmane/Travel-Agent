@@ -186,39 +186,82 @@ async function loadPlaces() {
     }
 }
 
+// Sidebar Toggle Logic
+function toggleSidebar() {
+    const sidebar = document.getElementById('sidebar');
+    const icon = document.getElementById('sidebar-icon');
+    const texts = document.querySelectorAll('.sidebar-text');
+
+    // Toggle width
+    if (sidebar.classList.contains('w-64')) {
+        // Collapse
+        sidebar.classList.remove('w-64');
+        sidebar.classList.add('w-20');
+        icon.style.transform = 'rotate(180deg)';
+
+        // Hide text with opacity first for smooth transition
+        texts.forEach(el => el.classList.add('opacity-0', 'pointer-events-none'));
+    } else {
+        // Expand
+        sidebar.classList.remove('w-20');
+        sidebar.classList.add('w-64');
+        icon.style.transform = 'rotate(0deg)';
+
+        // Show text
+        texts.forEach(el => el.classList.remove('opacity-0', 'pointer-events-none'));
+    }
+}
+
 // Create HTML for a place card
 function createPlaceCard(place) {
-    const tags = (place.content?.tags || []).slice(0, 4);
+    const tags = (place.content?.tags || []).slice(0, 3);
     const rating = place.stats?.rating || 'N/A';
     const reviews = place.stats?.review_count || 0;
     const rank = place.stats?.popularity_rank || '-';
-    const cluster = place.location?.cluster_zone || 'Unknown';
+    // const cluster = place.location?.cluster_zone || 'Unknown';
     const photoRef = place.content?.photo_reference;
     const photoUrl = photoRef ? `/api/photo/${photoRef}` : null;
 
     return `
-        <div class="place-card" data-place-id="${place.id}" onclick="openPlaceModal('${place.id}')">`
-        + (photoUrl ? `
-            <div class="place-photo" style="background-image: url('${photoUrl}')"></div>
-            ` : `
-            <div class="place-photo place-photo-placeholder"></div>
-            `) + `
-            <div class="place-content">
-                <div class="place-rank">#${rank}</div>
-                <h3 class="place-name">${escapeHtml(place.name)}</h3>
-                <div class="place-cluster">📍 ${escapeHtml(cluster)}</div>
-                <div class="place-stats">
-                    <span class="place-stat">
-                        <span class="icon">⭐</span>
-                        ${rating}
-                    </span>
-                    <span class="place-stat">
-                        <span class="icon">💬</span>
-                        ${reviews.toLocaleString()} reviews
-                    </span>
+        <div class="group bg-white rounded-xl p-3 border border-slate-200 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 cursor-pointer flex flex-col h-full" 
+             data-place-id="${place.id}" 
+             onclick="openPlaceModal('${place.id}')">
+            
+            <!-- Photo/Rank Container - COMPACT HEIGHT (h-40) -->
+            <div class="relative h-40 mb-3 rounded-lg overflow-hidden bg-slate-100 border border-slate-100">
+                 ${photoUrl ? `
+                <div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105" 
+                     style="background-image: url('${photoUrl}')"></div>
+                ` : `
+                <div class="absolute inset-0 flex items-center justify-center text-slate-300">
+                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
                 </div>
-                <div class="place-tags">
-                    ${tags.map(tag => `<span class="tag">${escapeHtml(tag)}</span>`).join('')}
+                `}
+                
+                <!-- Rank Badge -->
+                <div class="absolute top-2 left-2 bg-white/95 backdrop-blur-md px-2 py-0.5 rounded-md text-[10px] font-bold text-slate-900 shadow-sm border border-slate-200">
+                    #${rank}
+                </div>
+            </div>
+
+            <!-- Content -->
+            <div class="flex-1 flex flex-col">
+                <h3 class="font-bold text-slate-900 text-base leading-tight mb-1 group-hover:text-indigo-600 transition-colors line-clamp-1">${escapeHtml(place.name)}</h3>
+                
+                <div class="flex items-center gap-3 text-xs font-medium text-slate-500 mb-3">
+                    <div class="flex items-center gap-1">
+                        <svg class="text-amber-400 fill-amber-400" width="10" height="10" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                        <span class="text-slate-700 font-semibold">${rating}</span>
+                        <span class="text-slate-400">(${reviews.toLocaleString()})</span>
+                    </div>
+                </div>
+
+                <div class="mt-auto flex flex-wrap gap-1.5">
+                    ${tags.map(tag => `
+                        <span class="px-2 py-0.5 rounded bg-indigo-50 text-indigo-700 text-[10px] font-semibold tracking-wide border border-indigo-100">
+                            ${escapeHtml(tag)}
+                        </span>
+                    `).join('')}
                 </div>
             </div>
         </div>
@@ -244,67 +287,109 @@ function showResultModal(place) {
     const summary = place.content?.short_summary || 'No description available.';
     const tips = place.content?.tips || [];
     const tags = place.content?.tags || [];
+    const photoRef = place.content?.photo_reference;
+    const photoUrl = photoRef ? `/api/photo/${photoRef}` : null;
 
     body.innerHTML = `
-        <div class="modal-header">
-            <h2 class="modal-title">${escapeHtml(place.name)}</h2>
-            <p class="modal-subtitle">📍 ${escapeHtml(place.location?.cluster_zone || 'Unknown')} • ${escapeHtml(place.location?.address || '')}</p>
-        </div>
-        
-        <div class="modal-section">
-            <p style="color: var(--text-secondary)">${escapeHtml(summary)}</p>
-        </div>
-        
-        <div class="modal-section">
-            <h4 class="modal-section-title">Stats</h4>
-            <div class="modal-stats-grid">
-                <div class="modal-stat">
-                    <div class="modal-stat-value">#${place.stats?.popularity_rank || '-'}</div>
-                    <div class="modal-stat-label">Popularity Rank</div>
-                </div>
-                <div class="modal-stat">
-                    <div class="modal-stat-value">⭐ ${place.stats?.rating || 'N/A'}</div>
-                    <div class="modal-stat-label">${(place.stats?.review_count || 0).toLocaleString()} reviews</div>
-                </div>
-                <div class="modal-stat">
-                    <div class="modal-stat-value">${timeSpent} min</div>
-                    <div class="modal-stat-label">Avg. Time Spent</div>
-                </div>
-                <div class="modal-stat">
-                    <div class="modal-stat-value">${difficulty}</div>
-                    <div class="modal-stat-label">Difficulty</div>
+        <!-- Hero Header -->
+        <div class="relative h-64 bg-slate-900">
+            ${photoUrl ? `
+            <div class="absolute inset-0 bg-cover bg-center opacity-60" style="background-image: url('${photoUrl}')"></div>
+            <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/40 to-transparent"></div>
+            ` : `
+            <div class="absolute inset-0 flex items-center justify-center text-slate-700">
+                 <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
+            </div>
+            `}
+            
+            <div class="absolute bottom-0 left-0 right-0 p-8">
+                <div class="flex items-end justify-between">
+                    <div>
+                        <div class="flex items-center gap-2 mb-2">
+                            <span class="px-2 py-0.5 rounded bg-white/10 backdrop-blur text-white text-[10px] font-bold uppercase tracking-wider border border-white/10">
+                                Rank #${place.stats?.popularity_rank || '-'}
+                            </span>
+                             <span class="px-2 py-0.5 rounded bg-amber-400/20 backdrop-blur text-amber-300 text-[10px] font-bold uppercase tracking-wider border border-amber-400/20 flex items-center gap-1">
+                                ⭐ ${place.stats?.rating || 'N/A'}
+                            </span>
+                        </div>
+                        <h2 class="text-3xl font-bold text-white mb-1">${escapeHtml(place.name)}</h2>
+                        <p class="text-slate-300 flex items-center gap-1 text-sm">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+                            ${escapeHtml(place.location?.cluster_zone || 'Unknown Location')}
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
         
-        <div class="modal-section">
-            <h4 class="modal-section-title">Best Time to Visit</h4>
-            <p style="color: var(--text-secondary)">${escapeHtml(bestTime)}</p>
-        </div>
-        
-        ${tips.length > 0 ? `
-        <div class="modal-section">
-            <h4 class="modal-section-title">Tips</h4>
-            <ul class="modal-tips">
-                ${tips.map(tip => `<li>${escapeHtml(tip)}</li>`).join('')}
-            </ul>
-        </div>
-        ` : ''}
-        
-        <div class="modal-section">
-            <h4 class="modal-section-title">Tags</h4>
-            <div class="place-tags">
-                ${tags.map(tag => `<span class="tag">${escapeHtml(tag)}</span>`).join('')}
+        <div class="p-8">
+            <!-- Stats Grid -->
+            <div class="grid grid-cols-3 gap-4 mb-8">
+                <div class="p-4 rounded-xl bg-slate-50 border border-slate-100">
+                    <div class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Reviews</div>
+                    <div class="font-semibold text-slate-900">${(place.stats?.review_count || 0).toLocaleString()}</div>
+                </div>
+                <div class="p-4 rounded-xl bg-slate-50 border border-slate-100">
+                    <div class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Duration</div>
+                    <div class="font-semibold text-slate-900">${timeSpent} min</div>
+                </div>
+                <div class="p-4 rounded-xl bg-slate-50 border border-slate-100">
+                    <div class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Difficulty</div>
+                    <div class="font-semibold text-slate-900">${difficulty}</div>
+                </div>
             </div>
+
+            <!-- Content -->
+            <div class="space-y-8">
+                <div>
+                    <h4 class="text-sm font-bold text-slate-900 uppercase tracking-wider mb-3">About</h4>
+                    <p class="text-slate-600 leading-relaxed text-sm">${escapeHtml(summary)}</p>
+                </div>
+                
+                <div>
+                    <h4 class="text-sm font-bold text-slate-900 uppercase tracking-wider mb-3">Best Time to Visit</h4>
+                    <p class="text-slate-600 text-sm bg-indigo-50/50 p-4 rounded-xl border border-indigo-100 text-indigo-900">
+                        ${escapeHtml(bestTime)}
+                    </p>
+                </div>
+
+                ${tips.length > 0 ? `
+                <div>
+                    <h4 class="text-sm font-bold text-slate-900 uppercase tracking-wider mb-3">Pro Tips</h4>
+                    <ul class="space-y-2">
+                        ${tips.map(tip => `
+                            <li class="flex items-start gap-3 text-sm text-slate-600">
+                                <span class="text-emerald-500 mt-0.5">✓</span>
+                                <span>${escapeHtml(tip)}</span>
+                            </li>
+                        `).join('')}
+                    </ul>
+                </div>
+                ` : ''}
+                
+                <div>
+                    <h4 class="text-sm font-bold text-slate-900 uppercase tracking-wider mb-3">Tags</h4>
+                    <div class="flex flex-wrap gap-2">
+                        ${tags.map(tag => `
+                            <span class="px-2.5 py-1 rounded-full bg-slate-100 text-slate-600 text-xs font-medium border border-slate-200">
+                                ${escapeHtml(tag)}
+                            </span>
+                        `).join('')}
+                    </div>
+                </div>
+            </div>
+
+             ${place.location?.google_maps_link ? `
+            <div class="mt-8 pt-6 border-t border-slate-100">
+                <a href="${place.location.google_maps_link}" target="_blank" 
+                   class="flex items-center justify-center gap-2 w-full py-3 bg-slate-900 text-white font-semibold rounded-xl hover:bg-slate-800 transition-colors shadow-lg shadow-slate-900/20">
+                    <span>Open in Google Maps</span>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                </a>
+            </div>
+            ` : ''}
         </div>
-        
-        ${place.location?.google_maps_link ? `
-        <div class="modal-section" style="margin-top: 24px">
-            <a href="${place.location.google_maps_link}" target="_blank" style="color: var(--accent-primary); text-decoration: none; font-weight: 500;">
-                🗺️ Open in Google Maps →
-            </a>
-        </div>
-        ` : ''}
     `;
 
     modal.classList.remove('hidden');

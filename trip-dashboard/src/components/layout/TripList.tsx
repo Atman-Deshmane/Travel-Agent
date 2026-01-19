@@ -1,100 +1,76 @@
 import { motion, AnimatePresence } from 'framer-motion'
 import { useUserStore } from '../../store/useUserStore'
-import { Plus, Trash2, MapPin, Calendar } from 'lucide-react'
+import { Plus, Trash2, MapPin, Calendar, MoreHorizontal } from 'lucide-react'
 
 export function TripList() {
     const { getUserTrips, activeTripId, setActiveTrip, createTrip, deleteTrip } = useUserStore()
     const trips = getUserTrips()
 
     return (
-        <div className="flex flex-col h-full">
+        <div className="flex flex-col h-full py-4">
             {/* Header */}
-            <div className="flex items-center justify-between px-5 py-4">
-                <h2 className="text-[10px] uppercase tracking-wider font-semibold text-slate-400">My Trips</h2>
+            <div className="flex items-center justify-between px-6 mb-4">
+                <h2 className="text-[10px] uppercase tracking-wider font-bold text-slate-500">Workspace</h2>
                 <motion.button
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                     onClick={createTrip}
-                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/10 hover:bg-white/15 text-white text-xs font-medium transition-colors"
+                    className="p-1.5 rounded-md hover:bg-slate-800 text-slate-400 hover:text-white transition-colors"
                 >
-                    <Plus size={14} />
-                    New Trip
+                    <Plus size={16} />
                 </motion.button>
             </div>
 
             {/* Trip List */}
-            <div className="flex-1 overflow-y-auto px-3">
+            <div className="flex-1 overflow-y-auto px-4 space-y-1">
                 {trips.length === 0 ? (
-                    <motion.div
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        className="flex flex-col items-center justify-center h-40 text-slate-400"
-                    >
-                        <MapPin size={28} className="mb-3 opacity-50" />
-                        <p className="text-sm font-medium text-slate-300">No trips yet</p>
+                    <div className="text-center py-8">
+                        <p className="text-sm text-slate-500">No trips found</p>
                         <button
                             onClick={createTrip}
-                            className="mt-3 text-sm text-indigo-400 hover:text-indigo-300 font-medium"
+                            className="text-xs text-indigo-400 hover:text-indigo-300 mt-2 font-medium"
                         >
-                            Create your first trip
+                            Create New
                         </button>
-                    </motion.div>
+                    </div>
                 ) : (
                     <AnimatePresence>
                         {trips.map((trip, index) => (
                             <motion.div
                                 key={trip.id}
-                                initial={{ opacity: 0, x: -20 }}
+                                initial={{ opacity: 0, x: -10 }}
                                 animate={{ opacity: 1, x: 0 }}
-                                exit={{ opacity: 0, x: -20 }}
-                                transition={{ delay: index * 0.05, type: "spring", stiffness: 300 }}
+                                exit={{ opacity: 0, x: -10 }}
+                                transition={{ delay: index * 0.03 }}
                                 onClick={() => setActiveTrip(trip.id)}
                                 className={`
-                  group relative flex items-center gap-3 px-4 py-3 mb-2 rounded-xl cursor-pointer transition-all duration-200
+                  group relative flex items-center gap-3 px-3 py-2.5 rounded-lg cursor-pointer transition-all duration-200
                   ${activeTripId === trip.id
-                                        ? 'bg-gradient-to-r from-indigo-500/20 to-violet-500/20 border border-indigo-500/30'
-                                        : 'hover:bg-white/5 border border-transparent'
+                                        ? 'bg-slate-800 text-white shadow-sm'
+                                        : 'text-slate-400 hover:bg-slate-800/50 hover:text-slate-200'
                                     }
                 `}
                             >
-                                {/* Active Indicator */}
-                                {activeTripId === trip.id && (
-                                    <motion.div
-                                        layoutId="active-trip-indicator"
-                                        className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 bg-gradient-to-b from-indigo-400 to-violet-400 rounded-full"
-                                        transition={{ type: "spring", stiffness: 400, damping: 30 }}
-                                    />
-                                )}
-
                                 <div className={`
-                  w-9 h-9 rounded-lg flex items-center justify-center
-                  ${activeTripId === trip.id
-                                        ? 'bg-gradient-to-br from-indigo-500 to-violet-500'
-                                        : 'bg-slate-700/50'
-                                    }
-                `}>
-                                    <Calendar size={16} className="text-white" />
-                                </div>
+                  w-1.5 h-1.5 rounded-full
+                  ${activeTripId === trip.id ? 'bg-indigo-400 shadow-[0_0_8px_rgba(129,140,248,0.5)]' : 'bg-slate-600'}
+                `} />
 
-                                <div className="flex-1 min-w-0">
-                                    <p className={`text-sm font-medium truncate ${activeTripId === trip.id ? 'text-white' : 'text-slate-200'}`}>
-                                        {trip.name}
-                                    </p>
-                                    <p className="text-[11px] text-slate-400 capitalize">
-                                        {trip.group_type} • {trip.accommodation.status}
-                                    </p>
-                                </div>
+                                <span className="flex-1 text-sm font-medium truncate">{trip.name}</span>
 
                                 <motion.button
                                     initial={{ opacity: 0 }}
-                                    whileHover={{ scale: 1.1 }}
+                                    whileHover={{ opacity: 1, scale: 1.1 }}
                                     onClick={(e) => {
                                         e.stopPropagation()
                                         deleteTrip(trip.id)
                                     }}
-                                    className="opacity-0 group-hover:opacity-100 p-2 rounded-lg hover:bg-rose-500/20 text-slate-400 hover:text-rose-400 transition-all"
+                                    className={`
+                    p-1.5 rounded-md hover:bg-slate-700/50 text-slate-500 hover:text-rose-400 transition-colors
+                    ${activeTripId === trip.id ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}
+                  `}
                                 >
-                                    <Trash2 size={14} />
+                                    <Trash2 size={12} />
                                 </motion.button>
                             </motion.div>
                         ))}

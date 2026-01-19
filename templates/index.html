@@ -8,88 +8,239 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        slate: {
+                            50: '#f8fafc',
+                            100: '#f1f5f9',
+                            200: '#e2e8f0',
+                            300: '#cbd5e1',
+                            400: '#94a3b8',
+                            500: '#64748b',
+                            600: '#475569',
+                            700: '#334155',
+                            800: '#1e293b',
+                            900: '#0f172a',
+                            950: '#020617',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
     <link rel="stylesheet" href="/static/style.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
 </head>
 
-<body>
-    <div class="app-container">
-        <!-- Header -->
-        <header class="header">
-            <div class="logo">
-                <span class="logo-icon">🏔️</span>
-                <span class="logo-text">Kodaikanal Explorer</span>
-            </div>
-            <div class="header-stats" id="header-stats">
-                <span class="stat-badge">
-                    <span id="total-places">0</span> places
-                </span>
-            </div>
-        </header>
+<body class="bg-slate-50 text-slate-900 h-screen flex overflow-hidden">
 
-        <!-- Main Search Section -->
-        <main class="main-content">
-            <div class="search-hero">
-                <h1 class="hero-title">Discover Kodaikanal</h1>
-                <p class="hero-subtitle">Search for any place to add it to your travel database</p>
+    <!-- Sidebar (Premium Dark Glass) -->
+    <aside id="sidebar"
+        class="w-64 bg-slate-950/95 backdrop-blur-xl border-r border-slate-800 flex flex-col shrink-0 z-20 transition-all duration-300 ease-in-out -translate-x-0 relative">
 
-                <!-- Search Box -->
-                <div class="search-container">
-                    <div class="search-box" id="search-box">
-                        <div class="search-icon">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2">
-                                <circle cx="11" cy="11" r="8"></circle>
-                                <path d="m21 21-4.35-4.35"></path>
-                            </svg>
-                        </div>
-                        <input type="text" id="place-input" class="search-input"
-                            placeholder="Search for a place in Kodaikanal..." autocomplete="off">
-                        <button class="search-btn" id="fetch-btn" disabled>
-                            <span class="btn-text">Add Place</span>
-                            <span class="btn-loader hidden"></span>
-                        </button>
+        <!-- Toggle Button (Absolute on the border) -->
+        <button id="sidebar-toggle" onclick="toggleSidebar()"
+            class="absolute -right-3 top-6 w-6 h-6 bg-slate-900 border border-slate-700 rounded-full text-slate-400 flex items-center justify-center hover:text-white hover:bg-indigo-600 hover:border-indigo-500 transition-all shadow-lg z-50">
+            <svg id="sidebar-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2" class="transform transition-transform">
+                <path d="m15 18-6-6 6-6" />
+            </svg>
+        </button>
+
+        <div class="h-16 flex items-center gap-3 px-6 border-b border-slate-800/50 overflow-hidden whitespace-nowrap">
+            <div
+                class="w-8 h-8 rounded-lg bg-gradient-to-br from-indigo-500 to-violet-600 flex items-center justify-center shadow-lg shadow-indigo-500/20 shrink-0">
+                <span class="text-white font-bold text-lg">M</span>
+            </div>
+            <div class="sidebar-text opacity-100 transition-opacity duration-300">
+                <h1 class="font-bold text-slate-100 leading-none">Kodai Planner</h1>
+                <p class="text-[10px] text-slate-500 mt-1 font-medium tracking-wide uppercase">v2.4.0 • Enterprise</p>
+            </div>
+        </div>
+
+        <div class="p-4 space-y-6 flex-1 overflow-y-auto hide-scrollbar overflow-hidden whitespace-nowrap">
+            <div>
+                <div
+                    class="sidebar-text text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-3 px-2 opacity-100 transition-opacity duration-300">
+                    Workspace</div>
+                <nav class="space-y-1">
+                    <a href="http://localhost:5173"
+                        class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-slate-400 hover:text-slate-200 hover:bg-white/5 transition-all group">
+                        <span
+                            class="w-1.5 h-1.5 rounded-full bg-slate-600 group-hover:bg-indigo-400 transition-colors shrink-0"></span>
+                        <span class="sidebar-text opacity-100 transition-opacity duration-300">Trip Dashboard</span>
+                    </a>
+                    <a href="#"
+                        class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium bg-white/10 text-white shadow-lg shadow-black/20 border border-white/5">
+                        <span
+                            class="w-1.5 h-1.5 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.5)] shrink-0"></span>
+                        <span class="sidebar-text opacity-100 transition-opacity duration-300">Places Explorer</span>
+                    </a>
+                </nav>
+            </div>
+
+            <div>
+                <div
+                    class="sidebar-text text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-3 px-2 opacity-100 transition-opacity duration-300">
+                    Library Stats</div>
+                <div class="bg-slate-900/50 rounded-xl p-4 border border-slate-800 transition-all duration-300">
+                    <div class="text-2xl font-bold text-white mb-1" id="total-places">0</div>
+                    <div class="sidebar-text text-xs text-slate-400 opacity-100 transition-opacity duration-300">Total
+                        Saved Places</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="p-4 border-t border-slate-800 bg-slate-950 overflow-hidden whitespace-nowrap">
+            <div class="flex items-center gap-3 px-2">
+                <div
+                    class="w-8 h-8 rounded-full bg-indigo-500/20 flex items-center justify-center border border-indigo-500/30 text-indigo-400 font-bold text-xs shrink-0">
+                    S
+                </div>
+                <div class="flex-1 min-w-0 sidebar-text opacity-100 transition-opacity duration-300">
+                    <div class="text-sm font-medium text-slate-200 truncate">System Admin</div>
+                    <div class="text-[10px] text-slate-500 truncate">admin@system.local</div>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 h-full overflow-y-auto bg-slate-50 relative transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-8 py-10">
+
+            <!-- Header Section -->
+            <div class="mb-8">
+                <div class="flex items-center gap-2 mb-2">
+                    <span
+                        class="px-2 py-1 rounded-md bg-amber-100/80 text-amber-900 border border-amber-200 text-[10px] font-bold uppercase tracking-wider">
+                        ⚡ AI Discovery Mode
+                    </span>
+                </div>
+                <h1 class="text-3xl font-bold text-slate-900 tracking-tight mb-2">Discover Kodaikanal</h1>
+                <p class="text-base text-slate-500 max-w-2xl">
+                    Search for any place to fetch real-time data, reviews, and insights.
+                </p>
+            </div>
+
+            <!-- Search Bar Hero -->
+            <div
+                class="bg-white rounded-2xl p-2 shadow-xl shadow-slate-200/50 border border-slate-200 mb-10 max-w-3xl relative z-30">
+                <div class="flex items-center px-4">
+                    <div class="text-slate-400 mr-3">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <path d="m21 21-4.35-4.35"></path>
+                        </svg>
                     </div>
-                    <p class="search-hint">Try: Dolphin's Nose, Kodaikanal Lake, Bryant Park...</p>
+                    <input type="text" id="place-input"
+                        class="flex-1 py-4 bg-transparent text-lg font-medium text-slate-900 placeholder:text-slate-400 focus:outline-none"
+                        placeholder="Search places (e.g. Dolphin's Nose)..." autocomplete="off">
+                    <button id="fetch-btn" disabled
+                        class="px-6 py-2.5 bg-slate-900 text-white font-semibold rounded-xl text-sm transition-all hover:bg-slate-800 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2">
+                        <span>Add Place</span>
+                        <span
+                            class="btn-loader hidden animate-spin h-3.5 w-3.5 border-2 border-white/30 border-t-white rounded-full"></span>
+                    </button>
                 </div>
             </div>
 
-            <!-- Status Message -->
-            <div class="status-container hidden" id="status-container">
-                <div class="status-message" id="status-message"></div>
+            <!-- Status Message Toast -->
+            <div id="status-container" class="hidden fixed bottom-6 right-6 max-w-md z-50">
+                <div id="status-message"
+                    class="px-4 py-3 rounded-xl bg-slate-900 text-white shadow-2xl border border-slate-700 font-medium text-sm flex items-center gap-3">
+                    <!-- JS injects content here -->
+                </div>
             </div>
 
-            <!-- Results Section -->
-            <section class="results-section" id="results-section">
-                <div class="section-header">
-                    <h2 class="section-title">📍 Saved Places</h2>
-                    <span class="section-subtitle">Ranked by popularity</span>
+            <!-- Results Grid Section -->
+            <section id="results-section">
+                <div class="flex items-center justify-between mb-6">
+                    <div>
+                        <h2 class="text-xl font-bold text-slate-900 flex items-center gap-2">
+                            Saved Places
+                            <span
+                                class="text-xs font-normal text-slate-400 bg-slate-100 px-2 py-0.5 rounded-full border border-slate-200">Ranked
+                                by Popularity</span>
+                        </h2>
+                    </div>
+
+                    <!-- Filters -->
+                    <div class="flex gap-2 p-1 bg-white border border-slate-200 rounded-xl shadow-sm">
+                        <button
+                            class="filter-btn active px-3 py-1.5 rounded-lg text-sm font-medium transition-all text-slate-600 hover:bg-slate-50 data-[active=true]:bg-slate-900 data-[active=true]:text-white data-[active=true]:shadow-md"
+                            data-category="all">All</button>
+                        <button
+                            class="filter-btn px-3 py-1.5 rounded-lg text-sm font-medium transition-all text-slate-600 hover:bg-slate-50 data-[active=true]:bg-slate-900 data-[active=true]:text-white data-[active=true]:shadow-md"
+                            data-category="nature">🌲 Nature</button>
+                        <button
+                            class="filter-btn px-3 py-1.5 rounded-lg text-sm font-medium transition-all text-slate-600 hover:bg-slate-50 data-[active=true]:bg-slate-900 data-[active=true]:text-white data-[active=true]:shadow-md"
+                            data-category="viewpoints">🔭 Viewpoints</button>
+                        <button
+                            class="filter-btn px-3 py-1.5 rounded-lg text-sm font-medium transition-all text-slate-600 hover:bg-slate-50 data-[active=true]:bg-slate-900 data-[active=true]:text-white data-[active=true]:shadow-md"
+                            data-category="adventure">🥾 Adventure</button>
+                        <button
+                            class="filter-btn px-3 py-1.5 rounded-lg text-sm font-medium transition-all text-slate-600 hover:bg-slate-50 data-[active=true]:bg-slate-900 data-[active=true]:text-white data-[active=true]:shadow-md"
+                            data-category="culture">🏛️ Culture</button>
+                        <button
+                            class="filter-btn px-3 py-1.5 rounded-lg text-sm font-medium transition-all text-slate-600 hover:bg-slate-50 data-[active=true]:bg-slate-900 data-[active=true]:text-white data-[active=true]:shadow-md"
+                            data-category="family">👨‍👩‍👧 Family</button>
+                    </div>
                 </div>
 
-                <!-- Filter Bar -->
-                <div class="filter-bar">
-                    <button class="filter-btn active" data-category="all">All</button>
-                    <button class="filter-btn" data-category="nature">🌲 Nature</button>
-                    <button class="filter-btn" data-category="viewpoints">🔭 Viewpoints</button>
-                    <button class="filter-btn" data-category="adventure">🥾 Adventure</button>
-                    <button class="filter-btn" data-category="culture">🏛️ Culture</button>
-                    <button class="filter-btn" data-category="family">👨‍👩‍👧 Family</button>
+                <div id="places-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 pb-20">
+                    <!-- Places dynamically inserted here -->
                 </div>
-                <div class="places-grid" id="places-grid">
-                    <!-- Places will be dynamically inserted here -->
-                </div>
-                <div class="empty-state hidden" id="empty-state">
-                    <div class="empty-icon">🗺️</div>
-                    <p>No places added yet. Search above to add your first place!</p>
+
+                <div id="empty-state" class="hidden flex flex-col items-center justify-center py-20 text-center">
+                    <div class="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mb-4 text-3xl">🗺️
+                    </div>
+                    <h3 class="text-slate-900 font-bold mb-1">No places added yet</h3>
+                    <p class="text-slate-500 text-sm">Use the search bar above to start building your database.</p>
                 </div>
             </section>
-        </main>
+        </div>
+    </main>
 
-        <!-- Latest Result Card (shows after fetch) -->
-        <div class="result-modal hidden" id="result-modal">
-            <div class="modal-backdrop" onclick="closeModal()"></div>
-            <div class="modal-content">
-                <button class="modal-close" onclick="closeModal()">×</button>
-                <div id="modal-body"></div>
+    <!-- Modal Portal -->
+    <div id="result-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center">
+        <!-- Backdrop -->
+        <div class="absolute inset-0 bg-slate-900/40 backdrop-blur-sm transition-opacity" onclick="closeModal()"></div>
+
+        <!-- Modal Content -->
+        <div
+            class="relative bg-white w-full max-w-2xl max-h-[90vh] rounded-2xl shadow-2xl shadow-black/20 overflow-hidden flex flex-col m-4 animate-[modalSlide_0.3s_ease-out]">
+            <button onclick="closeModal()"
+                class="absolute top-4 right-4 p-2 rounded-full bg-slate-100 text-slate-500 hover:bg-slate-200 transition-colors z-10">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M18 6 6 18" />
+                    <path d="m6 6 12 12" />
+                </svg>
+            </button>
+
+            <div id="modal-body" class="overflow-y-auto hide-scrollbar">
+                <!-- Content injected via JS -->
             </div>
         </div>
     </div>
