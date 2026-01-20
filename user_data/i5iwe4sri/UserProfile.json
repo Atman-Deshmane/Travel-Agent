@@ -1,0 +1,46 @@
+{
+  "user_id": "i5iwe4sri",
+  "name": "Atman",
+  "avatar_color": "hsl(111.35476449312736, 70%, 60%)",
+  "generated_at": "2026-01-20T11:08:59.136Z",
+  "defaults": {
+    "origin_city": {
+      "value": "Bangalore",
+      "required": false,
+      "is_default": true
+    },
+    "food_preference": {
+      "value": "veg",
+      "required": false,
+      "is_default": true
+    },
+    "mobility": {
+      "value": "high",
+      "required": false,
+      "is_default": true
+    },
+    "pace": {
+      "value": "balanced",
+      "required": false,
+      "is_default": true
+    },
+    "interests": {
+      "value": [
+        "Nature",
+        "Trekking",
+        "History",
+        "Adventure",
+        "Spiritual",
+        "Relaxation",
+        "Clouds"
+      ],
+      "required": true,
+      "is_default": true
+    },
+    "transport_mode_preference": {
+      "value": "flexible",
+      "required": false,
+      "is_default": true
+    }
+  }
+}

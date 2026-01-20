@@ -1,8 +1,10 @@
+import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useUserStore } from '../../store/useUserStore'
 import type { TripContext } from '../../store/useUserStore'
 import { MapPin, Car, Bus, Train, Plane, Sparkles, Building2 } from 'lucide-react'
 import { CLUSTER_OPTIONS } from '../../data/mock_users'
+import { SmartFieldWrapper } from '../ui/SmartFieldWrapper'
 
 interface JourneyStaySectionProps {
     trip: TripContext
@@ -12,6 +14,14 @@ export function JourneyStaySection({ trip }: JourneyStaySectionProps) {
     const { updateTrip, updateProfile, getCurrentUser } = useUserStore()
     const currentUser = getCurrentUser()
     const accommodation = trip.accommodation || { status: 'undecided', undecided_cluster: 'Town Center' }
+
+    // Track which fields should be saved as defaults
+    const [saveOriginAsDefault, setSaveOriginAsDefault] = useState(
+        Boolean(currentUser?.defaults.origin_city && currentUser.defaults.origin_city === trip.origin_city)
+    )
+    const [saveTransportAsDefault, setSaveTransportAsDefault] = useState(
+        currentUser?.defaults.transport_mode_preference === trip.transport_in_city
+    )
 
     const modeToKodaiOptions = [
         { value: 'own_vehicle', icon: <Car size={24} />, label: 'Own Vehicle' },
@@ -27,9 +37,32 @@ export function JourneyStaySection({ trip }: JourneyStaySectionProps) {
         { value: 'flexible', label: 'Flexible' },
     ]
 
-    const handleSaveOriginToProfile = () => {
-        if (currentUser && trip.origin_city) {
+    // Sync origin to profile when checkbox is checked and value changes
+    const handleOriginChange = (value: string) => {
+        updateTrip(trip.id, { origin_city: value })
+        if (saveOriginAsDefault && currentUser) {
+            updateProfile(currentUser.id, { origin_city: value })
+        }
+    }
+
+    const handleOriginDefaultToggle = (checked: boolean) => {
+        setSaveOriginAsDefault(checked)
+        if (checked && currentUser && trip.origin_city) {
             updateProfile(currentUser.id, { origin_city: trip.origin_city })
+        }
+    }
+
+    const handleTransportChange = (value: TripContext['transport_in_city']) => {
+        updateTrip(trip.id, { transport_in_city: value })
+        if (saveTransportAsDefault && currentUser) {
+            updateProfile(currentUser.id, { transport_mode_preference: value })
+        }
+    }
+
+    const handleTransportDefaultToggle = (checked: boolean) => {
+        setSaveTransportAsDefault(checked)
+        if (checked && currentUser) {
+            updateProfile(currentUser.id, { transport_mode_preference: trip.transport_in_city })
         }
     }
 
@@ -50,27 +83,24 @@ export function JourneyStaySection({ trip }: JourneyStaySectionProps) {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
                 {/* Journey Column */}
-                <div>
-                    <div className="mb-6">
-                        <label className="block text-label mb-2 text-slate-500">Origin City</label>
-                        <div className="flex gap-2">
-                            <input
-                                type="text"
-                                value={trip.origin_city}
-                                onChange={(e) => updateTrip(trip.id, { origin_city: e.target.value })}
-                                placeholder="e.g. Bangalore, Chennai..."
-                                className="flex-1 px-4 py-3 bg-white border border-slate-200 rounded-xl text-slate-900 placeholder-slate-400 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500"
-                            />
-                            <button
-                                onClick={handleSaveOriginToProfile}
-                                className="px-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold text-slate-600 hover:bg-slate-100 transition-colors"
-                            >
-                                Save
-                            </button>
-                        </div>
-                    </div>
+                <div className="space-y-6">
+                    {/* Origin City with Save as Default */}
+                    <SmartFieldWrapper
+                        label="Origin City"
+                        showDefaultCheckbox={true}
+                        isDefault={saveOriginAsDefault}
+                        onDefaultChange={handleOriginDefaultToggle}
+                    >
+                        <input
+                            type="text"
+                            value={trip.origin_city}
+                            onChange={(e) => handleOriginChange(e.target.value)}
+                            placeholder="e.g. Bangalore, Chennai..."
+                            className="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl text-slate-900 placeholder-slate-400 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500"
+                        />
+                    </SmartFieldWrapper>
 
-                    <div className="mb-6">
+                    <div>
                         <label className="block text-label mb-3 text-slate-500">Mode to Kodaikanal</label>
                         <div className="grid grid-cols-2 gap-3">
                             {modeToKodaiOptions.map(opt => (
@@ -80,12 +110,12 @@ export function JourneyStaySection({ trip }: JourneyStaySectionProps) {
                                     whileTap={{ scale: 0.98 }}
                                     onClick={() => updateTrip(trip.id, { mode_to_kodai: opt.value as TripContext['mode_to_kodai'] })}
                                     className={`
-                    flex flex-col items-center gap-2 py-4 rounded-xl border transition-all duration-200
-                    ${trip.mode_to_kodai === opt.value
+                                        flex flex-col items-center gap-2 py-4 rounded-xl border transition-all duration-200
+                                        ${trip.mode_to_kodai === opt.value
                                             ? 'border-emerald-500 bg-emerald-50 text-emerald-700 shadow-sm'
                                             : 'border-slate-200 bg-white text-slate-500 hover:border-slate-300'
                                         }
-                  `}
+                                    `}
                                 >
                                     {opt.icon}
                                     <span className="text-sm font-medium">{opt.label}</span>
@@ -96,24 +126,30 @@ export function JourneyStaySection({ trip }: JourneyStaySectionProps) {
 
                     {trip.mode_to_kodai !== 'own_vehicle' && (
                         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-                            <label className="block text-label mb-3 text-slate-500">Local Transport</label>
-                            <div className="flex flex-wrap gap-2">
-                                {transportInCityOptions.map(opt => (
-                                    <button
-                                        key={opt.value}
-                                        onClick={() => updateTrip(trip.id, { transport_in_city: opt.value as TripContext['transport_in_city'] })}
-                                        className={`
-                      px-4 py-2 rounded-lg text-sm font-medium transition-colors border
-                      ${trip.transport_in_city === opt.value
-                                                ? 'bg-emerald-500 border-emerald-500 text-white shadow-md shadow-emerald-200'
-                                                : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50'
-                                            }
-                    `}
-                                    >
-                                        {opt.label}
-                                    </button>
-                                ))}
-                            </div>
+                            <SmartFieldWrapper
+                                label="Local Transport"
+                                showDefaultCheckbox={true}
+                                isDefault={saveTransportAsDefault}
+                                onDefaultChange={handleTransportDefaultToggle}
+                            >
+                                <div className="flex flex-wrap gap-2">
+                                    {transportInCityOptions.map(opt => (
+                                        <button
+                                            key={opt.value}
+                                            onClick={() => handleTransportChange(opt.value as TripContext['transport_in_city'])}
+                                            className={`
+                                                px-4 py-2 rounded-lg text-sm font-medium transition-colors border
+                                                ${trip.transport_in_city === opt.value
+                                                    ? 'bg-emerald-500 border-emerald-500 text-white shadow-md shadow-emerald-200'
+                                                    : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50'
+                                                }
+                                            `}
+                                        >
+                                            {opt.label}
+                                        </button>
+                                    ))}
+                                </div>
+                            </SmartFieldWrapper>
                         </motion.div>
                     )}
                 </div>
@@ -126,18 +162,18 @@ export function JourneyStaySection({ trip }: JourneyStaySectionProps) {
                         <button
                             onClick={() => updateTrip(trip.id, { accommodation: { ...accommodation, status: 'booked' } })}
                             className={`
-          px-4 py-2 rounded-lg text-sm font-semibold transition-all
-          ${accommodation.status === 'booked' ? 'bg-slate-900 text-white shadow-md' : 'text-slate-500 hover:text-slate-900'}
-        `}
+                                px-4 py-2 rounded-lg text-sm font-semibold transition-all
+                                ${accommodation.status === 'booked' ? 'bg-slate-900 text-white shadow-md' : 'text-slate-500 hover:text-slate-900'}
+                            `}
                         >
                             Booked
                         </button>
                         <button
                             onClick={() => updateTrip(trip.id, { accommodation: { ...accommodation, status: 'undecided' } })}
                             className={`
-          px-4 py-2 rounded-lg text-sm font-semibold transition-all
-          ${accommodation.status === 'undecided' ? 'bg-slate-900 text-white shadow-md' : 'text-slate-500 hover:text-slate-900'}
-        `}
+                                px-4 py-2 rounded-lg text-sm font-semibold transition-all
+                                ${accommodation.status === 'undecided' ? 'bg-slate-900 text-white shadow-md' : 'text-slate-500 hover:text-slate-900'}
+                            `}
                         >
                             Undecided
                         </button>
@@ -177,12 +213,12 @@ export function JourneyStaySection({ trip }: JourneyStaySectionProps) {
                                         key={cluster.id}
                                         onClick={() => updateTrip(trip.id, { accommodation: { ...accommodation, undecided_cluster: cluster.name } })}
                                         className={`
-                w-full text-left p-4 rounded-xl border transition-all relative overflow-hidden group
-                ${accommodation.undecided_cluster === cluster.name
+                                            w-full text-left p-4 rounded-xl border transition-all relative overflow-hidden group
+                                            ${accommodation.undecided_cluster === cluster.name
                                                 ? 'bg-white border-emerald-500 shadow-md ring-1 ring-emerald-500/20'
                                                 : 'bg-white border-slate-200 hover:border-emerald-300 hover:shadow-sm'
                                             }
-              `}
+                                        `}
                                     >
                                         <div className="relative z-10">
                                             <div className="flex items-center justify-between mb-1">

@@ -1,6 +1,6 @@
 import { motion, AnimatePresence } from 'framer-motion'
 import { useUserStore } from '../../store/useUserStore'
-import { Plus, Trash2, MapPin, Calendar, MoreHorizontal } from 'lucide-react'
+import { Plus, Trash2 } from 'lucide-react'
 
 export function TripList() {
     const { getUserTrips, activeTripId, setActiveTrip, createTrip, deleteTrip } = useUserStore()

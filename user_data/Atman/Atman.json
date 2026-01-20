@@ -1,0 +1,46 @@
+{
+  "user_id": "ya3tpdlqz",
+  "name": "Atman",
+  "avatar_color": "hsl(47.248271515483914, 70%, 60%)",
+  "generated_at": "2026-01-20T11:21:14.144Z",
+  "defaults": {
+    "origin_city": {
+      "value": null,
+      "required": false,
+      "is_default": true
+    },
+    "food_preference": {
+      "value": "flexible",
+      "required": false,
+      "is_default": true
+    },
+    "mobility": {
+      "value": "medium",
+      "required": false,
+      "is_default": true
+    },
+    "pace": {
+      "value": "balanced",
+      "required": false,
+      "is_default": true
+    },
+    "interests": {
+      "value": [
+        "Cloud",
+        "Nature",
+        "Trekking",
+        "History",
+        "Adventure",
+        "Spiritual",
+        "Relaxation"
+      ],
+      "required": true,
+      "is_default": true
+    },
+    "transport_mode_preference": {
+      "value": "flexible",
+      "required": false,
+      "is_default": true
+    }
+  }
+}

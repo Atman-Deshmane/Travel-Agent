@@ -100,12 +100,116 @@ def get_photo(photo_reference):
         return jsonify({"error": str(e)}), 500
 
 
+# ===== USER DATA PERSISTENCE ENDPOINTS =====
+
+import json
+import re
+
+USER_DATA_DIR = os.path.join(os.path.dirname(__file__), 'user_data')
+
+def ensure_user_data_dir():
+    """Ensure the user_data directory exists."""
+    if not os.path.exists(USER_DATA_DIR):
+        os.makedirs(USER_DATA_DIR)
+
+def sanitize_filename(name):
+    """Sanitize a string to be safe for use as a filename."""
+    # Replace slashes and other unsafe characters
+    safe = re.sub(r'[<>:"/\\|?*]', '-', name)
+    return safe.strip()
+
+@app.route('/api/dashboard/data', methods=['GET'])
+def get_dashboard_data():
+    """Get all saved dashboard data (users, trips)."""
+    ensure_user_data_dir()
+    data_file = os.path.join(USER_DATA_DIR, 'dashboard_state.json')
+    
+    if os.path.exists(data_file):
+        try:
+            with open(data_file, 'r') as f:
+                return jsonify(json.load(f))
+        except Exception as e:
+            return jsonify({"error": str(e)}), 500
+    else:
+        return jsonify({"users": [], "trips": [], "currentUserId": None, "activeTripId": None})
+
+
+@app.route('/api/dashboard/data', methods=['POST'])
+def save_dashboard_data():
+    """Save all dashboard data (users, trips) to a file."""
+    ensure_user_data_dir()
+    data_file = os.path.join(USER_DATA_DIR, 'dashboard_state.json')
+    
+    try:
+        data = request.get_json()
+        with open(data_file, 'w') as f:
+            json.dump(data, f, indent=2)
+        return jsonify({"success": True, "message": "Dashboard data saved"})
+    except Exception as e:
+        return jsonify({"success": False, "error": str(e)}), 500
+
+
+@app.route('/api/user/<user_name>/profile', methods=['POST'])
+def save_user_profile(user_name):
+    """Save a user profile to a file. Folder and file named after user."""
+    ensure_user_data_dir()
+    
+    try:
+        data = request.get_json()
+        safe_name = sanitize_filename(user_name)
+        user_dir = os.path.join(USER_DATA_DIR, safe_name)
+        if not os.path.exists(user_dir):
+            os.makedirs(user_dir)
+        
+        # Profile file named after user: Atman.json
+        profile_file = os.path.join(user_dir, f'{safe_name}.json')
+        with open(profile_file, 'w') as f:
+            json.dump(data, f, indent=2)
+        
+        return jsonify({"success": True, "message": f"Profile saved for user {user_name}", "path": profile_file})
+    except Exception as e:
+        return jsonify({"success": False, "error": str(e)}), 500
+
+
+@app.route('/api/user/<user_name>/trip', methods=['POST'])
+def save_trip(user_name):
+    """Save a trip to a file. File named after trip name (date range)."""
+    ensure_user_data_dir()
+    
+    try:
+        data = request.get_json()
+        safe_user = sanitize_filename(user_name)
+        user_dir = os.path.join(USER_DATA_DIR, safe_user)
+        if not os.path.exists(user_dir):
+            os.makedirs(user_dir)
+        
+        # Trip file named after trip name (which is the date range): "Jan 25-27, 2026.json"
+        trip_name = data.get('name', 'New Trip')
+        safe_trip_name = sanitize_filename(trip_name)
+        trip_file = os.path.join(user_dir, f'{safe_trip_name}.json')
+        
+        # Delete old trip file if name changed (optional cleanup)
+        old_name = data.get('old_name')
+        if old_name and old_name != trip_name:
+            old_safe_name = sanitize_filename(old_name)
+            old_file = os.path.join(user_dir, f'{old_safe_name}.json')
+            if os.path.exists(old_file):
+                os.remove(old_file)
+        
+        with open(trip_file, 'w') as f:
+            json.dump(data, f, indent=2)
+        
+        return jsonify({"success": True, "message": f"Trip saved: {trip_name}", "path": trip_file})
+    except Exception as e:
+        return jsonify({"success": False, "error": str(e)}), 500
+
+
 if __name__ == '__main__':
     print("\n" + "="*60)
     print("Kodaikanal Intelligence Pipeline - Web Interface")
     print("="*60)
     print(f"API Key loaded: {'✅' if MAPS_API_KEY else '❌ Missing!'}")
-    print("Starting server at http://localhost:5000")
+    print("Starting server at http://localhost:5001")
     print("="*60 + "\n")
     
-    app.run(debug=True, port=5000)
+    app.run(debug=True, port=5001)

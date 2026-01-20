@@ -25,12 +25,12 @@ export interface TripContext {
     name: string
     created_at: number
 
-    // LOGISTICS
+    // LOGISTICS - Required fields (can be null until user selects)
     dates: { from: Date | null; to: Date | null }
-    arrival_time: 'morning' | 'noon' | 'evening'
-    departure_time: 'morning' | 'noon' | 'evening'
+    arrival_time: 'morning' | 'noon' | 'evening' | null
+    departure_time: 'morning' | 'noon' | 'evening' | null
 
-    group_type: 'solo' | 'couple' | 'family' | 'friends'
+    group_type: 'solo' | 'couple' | 'family' | 'friends' | null
     family_composition: { has_kids: boolean; has_elders: boolean }
 
     // JOURNEY
@@ -75,6 +75,17 @@ interface UserStore {
     updateTrip: (tripId: string, data: Partial<TripContext>) => void
 }
 
+// Helper to deserialize dates from storage (ISO string -> Date)
+function deserializeDates(trip: TripContext): TripContext {
+    return {
+        ...trip,
+        dates: {
+            from: trip.dates.from ? new Date(trip.dates.from) : null,
+            to: trip.dates.to ? new Date(trip.dates.to) : null,
+        }
+    }
+}
+
 export const useUserStore = create<UserStore>()(
     persist(
         (set, get) => ({
@@ -92,12 +103,15 @@ export const useUserStore = create<UserStore>()(
 
             getActiveTrip: () => {
                 const { trips, activeTripId } = get()
-                return trips.find(t => t.id === activeTripId) || null
+                const trip = trips.find(t => t.id === activeTripId)
+                if (!trip) return null
+                // Ensure dates are Date objects
+                return deserializeDates(trip)
             },
 
             getUserTrips: () => {
                 const { trips, currentUserId } = get()
-                return trips.filter(t => t.user_id === currentUserId)
+                return trips.filter(t => t.user_id === currentUserId).map(deserializeDates)
             },
 
             // Actions
@@ -164,11 +178,21 @@ export const useUserStore = create<UserStore>()(
                     trips: state.trips.map(t => {
                         if (t.id !== tripId) return t
 
-                        const updated = { ...t, ...data }
+                        // Deserialize existing trip dates first
+                        const existingTrip = deserializeDates(t)
+                        const updated = { ...existingTrip, ...data }
 
                         // Auto-update trip name based on dates
                         if (data.dates) {
-                            updated.name = formatDateRange(data.dates.from, data.dates.to)
+                            const fromDate = data.dates.from instanceof Date
+                                ? data.dates.from
+                                : (data.dates.from ? new Date(data.dates.from) : null)
+                            const toDate = data.dates.to instanceof Date
+                                ? data.dates.to
+                                : (data.dates.to ? new Date(data.dates.to) : null)
+                            updated.name = formatDateRange(fromDate, toDate)
+                            // Ensure dates are Date objects
+                            updated.dates = { from: fromDate, to: toDate }
                         }
 
                         // Smart logic: If elders checked, set mobility to low
@@ -188,12 +212,18 @@ export const useUserStore = create<UserStore>()(
         }),
         {
             name: 'trip-dashboard-storage',
-            // Initialize with mock users on first load
+            // Deserialize dates when rehydrating from storage
             onRehydrateStorage: () => (state) => {
-                if (state && state.users.length === 0) {
-                    const mockUsers = generateMockUsers()
-                    state.users = mockUsers
-                    state.currentUserId = mockUsers[0]?.id || null
+                if (state) {
+                    // Initialize with mock users if empty
+                    if (state.users.length === 0) {
+                        const mockUsers = generateMockUsers()
+                        state.users = mockUsers
+                        state.currentUserId = mockUsers[0]?.id || null
+                    }
+
+                    // Deserialize dates for all trips
+                    state.trips = state.trips.map(trip => deserializeDates(trip))
                 }
             },
         }

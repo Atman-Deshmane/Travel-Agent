@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useUserStore } from '../../store/useUserStore'
-import { ChevronUp, Plus, Check, User, LogOut } from 'lucide-react'
+import { ChevronUp, Plus, Check } from 'lucide-react'
 
 export function UserSwitcher() {
     const { users, currentUserId, setCurrentUser, createUser, getCurrentUser } = useUserStore()

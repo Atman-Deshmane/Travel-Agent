@@ -1,0 +1,83 @@
+{
+  "trip_id": "k3fj4rzee",
+  "user_id": "ya3tpdlqz",
+  "name": "Mar 21 - Mar 22",
+  "generated_at": "2026-01-20T11:21:14.144Z",
+  "logistics": {
+    "dates": {
+      "value": {
+        "from": "2026-03-21T00:00:00.000Z",
+        "to": "2026-03-22T00:00:00.000Z"
+      },
+      "required": false
+    },
+    "arrival_time": {
+      "value": "morning",
+      "required": true
+    },
+    "departure_time": {
+      "value": "evening",
+      "required": true
+    },
+    "group_type": {
+      "value": "couple",
+      "required": true
+    },
+    "family_composition": {
+      "value": {
+        "has_kids": false,
+        "has_elders": false
+      },
+      "required": false
+    }
+  },
+  "journey": {
+    "origin_city": {
+      "value": "",
+      "required": false
+    },
+    "mode_to_kodai": {
+      "value": "bus",
+      "required": false
+    },
+    "transport_in_city": {
+      "value": "flexible",
+      "required": false
+    }
+  },
+  "stay": {
+    "accommodation": {
+      "value": {
+        "status": "undecided",
+        "undecided_cluster": "Vattakanal"
+      },
+      "required": false
+    }
+  },
+  "preferences": {
+    "food_preference": {
+      "value": "flexible",
+      "required": false
+    },
+    "mobility": {
+      "value": "medium",
+      "required": false
+    },
+    "pace": {
+      "value": "balanced",
+      "required": false
+    },
+    "interests": {
+      "value": [
+        "Cloud",
+        "Nature",
+        "Trekking",
+        "History",
+        "Adventure",
+        "Spiritual",
+        "Relaxation"
+      ],
+      "required": true
+    }
+  }
+}

@@ -1,16 +1,37 @@
+import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { useUserStore } from '../../store/useUserStore'
 import type { TripContext } from '../../store/useUserStore'
-import { Sparkles, Footprints, Mountain, Accessibility } from 'lucide-react'
+import { Sparkles, Footprints, Mountain, Accessibility, Plus } from 'lucide-react'
 import { INTEREST_OPTIONS } from '../../data/mock_users'
+import { SmartFieldWrapper } from '../ui/SmartFieldWrapper'
 
 interface VibeSectionProps {
     trip: TripContext
+    errors?: {
+        interests?: boolean
+    }
 }
 
-export function VibeSection({ trip }: VibeSectionProps) {
+export function VibeSection({ trip, errors = {} }: VibeSectionProps) {
     const { updateTrip, updateProfile, getCurrentUser } = useUserStore()
     const currentUser = getCurrentUser()
+
+    // Track which fields should be saved as defaults
+    const [savePaceAsDefault, setSavePaceAsDefault] = useState(
+        currentUser?.defaults.pace === trip.pace
+    )
+    const [saveMobilityAsDefault, setSaveMobilityAsDefault] = useState(
+        currentUser?.defaults.mobility === trip.mobility
+    )
+    const [saveFoodAsDefault, setSaveFoodAsDefault] = useState(
+        currentUser?.defaults.food_preference === trip.food_preference
+    )
+    // Interests: Save as Default is checked by default
+    const [saveInterestsAsDefault, setSaveInterestsAsDefault] = useState(true)
+
+    // Custom interest input
+    const [customInterest, setCustomInterest] = useState('')
 
     const paceOptions: { value: TripContext['pace']; label: string; description: string; emoji: string }[] = [
         { value: 'chill', label: 'Chill', description: '2-3 spots/day', emoji: '🧘' },
@@ -35,21 +56,79 @@ export function VibeSection({ trip }: VibeSectionProps) {
         const updated = current.includes(interest)
             ? current.filter(i => i !== interest)
             : [...current, interest]
-
         updateTrip(trip.id, { interests: updated })
-        if (currentUser) {
+
+        // Save to profile if checkbox is checked
+        if (saveInterestsAsDefault && currentUser) {
             updateProfile(currentUser.id, { interests: updated })
         }
     }
 
-    const handleSavePaceToProfile = () => {
-        if (currentUser) {
+    const handleAddCustomInterest = () => {
+        const trimmed = customInterest.trim()
+        if (trimmed && !(trip.interests || []).includes(trimmed)) {
+            const updated = [...(trip.interests || []), trimmed]
+            updateTrip(trip.id, { interests: updated })
+
+            if (saveInterestsAsDefault && currentUser) {
+                updateProfile(currentUser.id, { interests: updated })
+            }
+            setCustomInterest('')
+        }
+    }
+
+    const handleInterestsDefaultToggle = (checked: boolean) => {
+        setSaveInterestsAsDefault(checked)
+        if (checked && currentUser) {
+            updateProfile(currentUser.id, { interests: trip.interests || [] })
+        }
+    }
+
+    const handlePaceChange = (value: TripContext['pace']) => {
+        updateTrip(trip.id, { pace: value })
+        if (savePaceAsDefault && currentUser) {
+            updateProfile(currentUser.id, { pace: value })
+        }
+    }
+
+    const handlePaceDefaultToggle = (checked: boolean) => {
+        setSavePaceAsDefault(checked)
+        if (checked && currentUser) {
             updateProfile(currentUser.id, { pace: trip.pace })
+        }
+    }
+
+    const handleMobilityChange = (value: TripContext['mobility']) => {
+        updateTrip(trip.id, { mobility: value })
+        if (saveMobilityAsDefault && currentUser) {
+            updateProfile(currentUser.id, { mobility: value })
+        }
+    }
+
+    const handleMobilityDefaultToggle = (checked: boolean) => {
+        setSaveMobilityAsDefault(checked)
+        if (checked && currentUser) {
+            updateProfile(currentUser.id, { mobility: trip.mobility })
+        }
+    }
+
+    const handleFoodChange = (value: TripContext['food_preference']) => {
+        updateTrip(trip.id, { food_preference: value })
+        if (saveFoodAsDefault && currentUser) {
+            updateProfile(currentUser.id, { food_preference: value })
+        }
+    }
+
+    const handleFoodDefaultToggle = (checked: boolean) => {
+        setSaveFoodAsDefault(checked)
+        if (checked && currentUser) {
+            updateProfile(currentUser.id, { food_preference: trip.food_preference })
         }
     }
 
     return (
         <motion.section
+            id="vibe-section"
             className="card-premium p-8"
             whileHover={{ y: -2 }}
         >
@@ -67,30 +146,26 @@ export function VibeSection({ trip }: VibeSectionProps) {
                 {/* Left Column: Pace & Mobility (Width 6) */}
                 <div className="col-span-6 space-y-8">
                     {/* Pace */}
-                    <div>
-                        <div className="flex items-center justify-between mb-3">
-                            <label className="text-label text-slate-500">Trip Pace</label>
-                            <button
-                                onClick={handleSavePaceToProfile}
-                                className="text-xs font-semibold text-violet-600 hover:text-violet-700 transition-colors"
-                            >
-                                Save Default
-                            </button>
-                        </div>
+                    <SmartFieldWrapper
+                        label="Trip Pace"
+                        showDefaultCheckbox={true}
+                        isDefault={savePaceAsDefault}
+                        onDefaultChange={handlePaceDefaultToggle}
+                    >
                         <div className="grid grid-cols-3 gap-3">
                             {paceOptions.map(opt => (
                                 <motion.button
                                     key={opt.value}
                                     whileHover={{ scale: 1.02 }}
                                     whileTap={{ scale: 0.98 }}
-                                    onClick={() => updateTrip(trip.id, { pace: opt.value })}
+                                    onClick={() => handlePaceChange(opt.value)}
                                     className={`
-                    relative p-4 rounded-xl border transition-all duration-200 text-center
-                    ${trip.pace === opt.value
+                                        relative p-4 rounded-xl border transition-all duration-200 text-center
+                                        ${trip.pace === opt.value
                                             ? 'bg-violet-50 border-violet-500 shadow-sm'
                                             : 'bg-white border-slate-200 text-slate-500 hover:border-slate-300'
                                         }
-                  `}
+                                    `}
                                 >
                                     <span className="text-2xl mb-2 block">{opt.emoji}</span>
                                     <p className={`font-bold ${trip.pace === opt.value ? 'text-violet-700' : 'text-slate-900'}`}>{opt.label}</p>
@@ -98,81 +173,134 @@ export function VibeSection({ trip }: VibeSectionProps) {
                                 </motion.button>
                             ))}
                         </div>
-                    </div>
+                    </SmartFieldWrapper>
 
                     {/* Mobility */}
-                    <div>
-                        <label className="block text-label mb-3 text-slate-500">Mobility Level</label>
+                    <SmartFieldWrapper
+                        label="Mobility Level"
+                        showDefaultCheckbox={true}
+                        isDefault={saveMobilityAsDefault}
+                        onDefaultChange={handleMobilityDefaultToggle}
+                    >
                         <div className="grid grid-cols-3 gap-3">
                             {mobilityOptions.map(opt => (
                                 <motion.button
                                     key={opt.value}
                                     whileHover={{ scale: 1.02 }}
                                     whileTap={{ scale: 0.98 }}
-                                    onClick={() => updateTrip(trip.id, { mobility: opt.value })}
+                                    onClick={() => handleMobilityChange(opt.value)}
                                     className={`
-                    flex flex-col items-center gap-2 p-4 rounded-xl border transition-all duration-200
-                    ${trip.mobility === opt.value
+                                        flex flex-col items-center gap-2 p-4 rounded-xl border transition-all duration-200
+                                        ${trip.mobility === opt.value
                                             ? 'bg-violet-50 border-violet-500 text-violet-700 shadow-sm'
                                             : 'bg-white border-slate-200 text-slate-500 hover:border-slate-300'
                                         }
-                  `}
+                                    `}
                                 >
                                     {opt.icon}
                                     <span className="text-sm font-semibold">{opt.label}</span>
                                 </motion.button>
                             ))}
                         </div>
-                    </div>
+                    </SmartFieldWrapper>
                 </div>
 
                 {/* Right Column: Interests & Food (Width 6) */}
-                <div className="col-span-6 bg-slate-50 rounded-2xl p-6 border border-slate-100 h-fit">
-                    <div className="mb-8">
-                        <div className="flex items-center gap-2 mb-4">
-                            <label className="text-label text-slate-500">Interests</label>
-                            <span className="bg-violet-100 text-violet-600 text-[10px] font-bold px-2 py-0.5 rounded-full">Auto-saved</span>
-                        </div>
-                        <div className="flex flex-wrap gap-2">
-                            {INTEREST_OPTIONS.map(interest => (
-                                <motion.button
-                                    key={interest}
-                                    layout
-                                    onClick={() => handleInterestToggle(interest)}
-                                    className={`
-                    px-4 py-2 rounded-lg text-sm font-medium transition-all
-                    ${(trip.interests || []).includes(interest)
-                                            ? 'bg-violet-600 text-white shadow-md shadow-violet-200'
-                                            : 'bg-white border border-slate-200 text-slate-600 hover:border-slate-300'
-                                        }
-                  `}
-                                >
-                                    {interest}
-                                </motion.button>
-                            ))}
-                        </div>
-                    </div>
+                <div className={`col-span-6 bg-slate-50 rounded-2xl p-6 border ${errors.interests ? 'border-red-300 ring-2 ring-red-100' : 'border-slate-100'} h-fit`}>
+                    {/* Interests with Save as Default */}
+                    <SmartFieldWrapper
+                        label="Interests"
+                        showDefaultCheckbox={true}
+                        isDefault={saveInterestsAsDefault}
+                        onDefaultChange={handleInterestsDefaultToggle}
+                        error={errors.interests}
+                        errorMessage="Please select at least one interest"
+                    >
+                        <div className="space-y-4">
+                            {/* Interest chips */}
+                            <div className="flex flex-wrap gap-2">
+                                {INTEREST_OPTIONS.map(interest => (
+                                    <motion.button
+                                        key={interest}
+                                        layout
+                                        onClick={() => handleInterestToggle(interest)}
+                                        className={`
+                                            px-4 py-2 rounded-lg text-sm font-medium transition-all
+                                            ${(trip.interests || []).includes(interest)
+                                                ? 'bg-violet-600 text-white shadow-md shadow-violet-200'
+                                                : errors.interests
+                                                    ? 'bg-white border border-red-200 text-slate-600 hover:border-red-300'
+                                                    : 'bg-white border border-slate-200 text-slate-600 hover:border-slate-300'
+                                            }
+                                        `}
+                                    >
+                                        {interest}
+                                    </motion.button>
+                                ))}
+                                {/* Show custom interests that aren't in the default list */}
+                                {(trip.interests || [])
+                                    .filter(i => !INTEREST_OPTIONS.includes(i))
+                                    .map(interest => (
+                                        <motion.button
+                                            key={interest}
+                                            layout
+                                            onClick={() => handleInterestToggle(interest)}
+                                            className="px-4 py-2 rounded-lg text-sm font-medium bg-violet-600 text-white shadow-md shadow-violet-200"
+                                        >
+                                            {interest}
+                                        </motion.button>
+                                    ))
+                                }
+                            </div>
 
-                    <div>
-                        <label className="block text-label mb-3 text-slate-500">Food Preference</label>
-                        <div className="flex gap-3">
-                            {foodOptions.map(opt => (
+                            {/* Custom interest input */}
+                            <div className="flex gap-2">
+                                <input
+                                    type="text"
+                                    value={customInterest}
+                                    onChange={(e) => setCustomInterest(e.target.value)}
+                                    onKeyDown={(e) => e.key === 'Enter' && handleAddCustomInterest()}
+                                    placeholder="Add custom interest..."
+                                    className="flex-1 px-4 py-2 bg-white border border-slate-200 rounded-lg text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:border-violet-500 focus:ring-1 focus:ring-violet-500"
+                                />
                                 <button
-                                    key={opt.value}
-                                    onClick={() => updateTrip(trip.id, { food_preference: opt.value })}
-                                    className={`
-                    flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold border transition-all
-                    ${trip.food_preference === opt.value
-                                            ? 'bg-white border-violet-500 text-violet-700 shadow-sm'
-                                            : 'bg-white border-slate-200 text-slate-600 hover:border-slate-300'
-                                        }
-                  `}
+                                    onClick={handleAddCustomInterest}
+                                    disabled={!customInterest.trim()}
+                                    className="px-3 py-2 bg-violet-600 text-white rounded-lg text-sm font-medium hover:bg-violet-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1"
                                 >
-                                    <span>{opt.emoji}</span>
-                                    {opt.label}
+                                    <Plus size={16} />
+                                    Add
                                 </button>
-                            ))}
+                            </div>
                         </div>
+                    </SmartFieldWrapper>
+
+                    <div className="mt-6">
+                        <SmartFieldWrapper
+                            label="Food Preference"
+                            showDefaultCheckbox={true}
+                            isDefault={saveFoodAsDefault}
+                            onDefaultChange={handleFoodDefaultToggle}
+                        >
+                            <div className="flex gap-3">
+                                {foodOptions.map(opt => (
+                                    <button
+                                        key={opt.value}
+                                        onClick={() => handleFoodChange(opt.value)}
+                                        className={`
+                                            flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold border transition-all
+                                            ${trip.food_preference === opt.value
+                                                ? 'bg-white border-violet-500 text-violet-700 shadow-sm'
+                                                : 'bg-white border-slate-200 text-slate-600 hover:border-slate-300'
+                                            }
+                                        `}
+                                    >
+                                        <span>{opt.emoji}</span>
+                                        {opt.label}
+                                    </button>
+                                ))}
+                            </div>
+                        </SmartFieldWrapper>
                     </div>
                 </div>
             </div>

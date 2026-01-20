@@ -48,26 +48,28 @@ export function createBlankTrip(userId: string, userDefaults: UserProfile['defau
         name: 'New Trip',
         created_at: Date.now(),
 
+        // Required fields start as null - user must select
         dates: { from: null, to: null },
-        arrival_time: 'morning',
-        departure_time: 'morning',
-
-        group_type: 'couple',
+        arrival_time: null,
+        departure_time: null,
+        group_type: null,
         family_composition: { has_kids: false, has_elders: false },
 
+        // Defaults from user profile
         origin_city: userDefaults.origin_city || '',
         mode_to_kodai: 'own_vehicle',
         transport_in_city: userDefaults.transport_mode_preference || 'flexible',
 
         accommodation: {
             status: 'undecided',
-            undecided_cluster: 'Town Center',
+            undecided_cluster: 'Vattakanal',
         },
 
         food_preference: userDefaults.food_preference || 'flexible',
         mobility: userDefaults.mobility || 'medium',
         pace: userDefaults.pace || 'balanced',
-        interests: [...(userDefaults.interests || [])],
+        // Interests start empty - user must select at least one
+        interests: [],
     }
 }
 

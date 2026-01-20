@@ -1,10 +1,17 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useUserStore } from '../../store/useUserStore'
 import { LogisticsSection } from './LogisticsSection'
 import { JourneyStaySection } from './JourneyStaySection'
 import { VibeSection } from './VibeSection'
-import { MapPin, Sparkles, ArrowRight, Terminal } from 'lucide-react'
+import { MapPin, Sparkles, ArrowRight, Terminal, CheckCircle, AlertCircle } from 'lucide-react'
+
+// Validation Error Types
+interface ValidationErrors {
+    group?: boolean
+    times?: boolean
+    interests?: boolean
+}
 
 // Hollywood Style Terminal Loader
 function TerminalLoader({ onComplete }: { onComplete: () => void }) {
@@ -20,7 +27,7 @@ function TerminalLoader({ onComplete }: { onComplete: () => void }) {
             { text: "Welcome back, Traveler.", delay: 2800 }
         ]
 
-        let timeouts: NodeJS.Timeout[] = []
+        let timeouts: ReturnType<typeof setTimeout>[] = []
 
         sequence.forEach(({ text, delay }) => {
             const timeout = setTimeout(() => {
@@ -75,21 +82,223 @@ function TerminalLoader({ onComplete }: { onComplete: () => void }) {
     )
 }
 
+// Toast Component
+function Toast({ message, type, onClose }: { message: string; type: 'success' | 'error'; onClose: () => void }) {
+    useEffect(() => {
+        const timer = setTimeout(onClose, 4000)
+        return () => clearTimeout(timer)
+    }, [onClose])
+
+    return (
+        <motion.div
+            initial={{ opacity: 0, y: 50, scale: 0.9 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 20, scale: 0.9 }}
+            className={`fixed bottom-8 right-8 flex items-center gap-3 px-5 py-4 rounded-xl shadow-2xl z-50 ${type === 'success'
+                ? 'bg-emerald-600 text-white'
+                : 'bg-red-600 text-white'
+                }`}
+        >
+            {type === 'success' ? <CheckCircle size={20} /> : <AlertCircle size={20} />}
+            <span className="font-medium">{message}</span>
+        </motion.div>
+    )
+}
+
 export function TripConfigurator() {
     const { getActiveTrip, getCurrentUser } = useUserStore()
     const activeTrip = getActiveTrip()
     const currentUser = getCurrentUser()
     const [loading, setLoading] = useState(true)
+    const [errors, setErrors] = useState<ValidationErrors>({})
+    const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' } | null>(null)
 
-    // Simulating initial load only once per session typically, 
-    // but for demo we load on mount if user exists
+    // Refs for scrolling
+    const logisticsRef = useRef<HTMLDivElement>(null)
+    const vibeRef = useRef<HTMLDivElement>(null)
+
     useEffect(() => {
         if (currentUser) {
             setLoading(true)
         } else {
             setLoading(false)
         }
-    }, [currentUser?.id]) // Re-trigger on user switch
+    }, [currentUser?.id])
+
+    // Clear errors when trip data changes
+    useEffect(() => {
+        if (activeTrip) {
+            setErrors({})
+        }
+    }, [activeTrip?.group_type, activeTrip?.arrival_time, activeTrip?.departure_time, activeTrip?.interests])
+
+    const validateTrip = (): boolean => {
+        if (!activeTrip) return false
+
+        const newErrors: ValidationErrors = {}
+
+        // Validate group type
+        if (activeTrip.group_type === null) {
+            newErrors.group = true
+        }
+
+        // Validate times
+        if (activeTrip.arrival_time === null || activeTrip.departure_time === null) {
+            newErrors.times = true
+        }
+
+        // Validate interests
+        if (!activeTrip.interests || activeTrip.interests.length === 0) {
+            newErrors.interests = true
+        }
+
+        setErrors(newErrors)
+
+        // If errors, scroll to first error section
+        if (Object.keys(newErrors).length > 0) {
+            if (newErrors.group || newErrors.times) {
+                logisticsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+            } else if (newErrors.interests) {
+                vibeRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+            }
+            return false
+        }
+
+        return true
+    }
+
+    const handleGenerate = async () => {
+        if (!validateTrip() || !activeTrip || !currentUser) {
+            setToast({ message: 'Please fill all required fields', type: 'error' })
+            return
+        }
+
+        // Helper to safely convert date to ISO string
+        const toISOString = (date: Date | string | null): string | null => {
+            if (!date) return null
+            if (date instanceof Date) return date.toISOString()
+            if (typeof date === 'string') return new Date(date).toISOString()
+            return null
+        }
+
+        // Construct User Profile JSON
+        const userProfileJson = {
+            user_id: currentUser.id,
+            name: currentUser.name,
+            avatar_color: currentUser.avatar_color,
+            generated_at: new Date().toISOString(),
+            defaults: {
+                origin_city: {
+                    value: currentUser.defaults.origin_city || null,
+                    required: false,
+                    is_default: true
+                },
+                food_preference: {
+                    value: currentUser.defaults.food_preference,
+                    required: false,
+                    is_default: true
+                },
+                mobility: {
+                    value: currentUser.defaults.mobility,
+                    required: false,
+                    is_default: true
+                },
+                pace: {
+                    value: currentUser.defaults.pace,
+                    required: false,
+                    is_default: true
+                },
+                interests: {
+                    value: currentUser.defaults.interests,
+                    required: true,
+                    is_default: true
+                },
+                transport_mode_preference: {
+                    value: currentUser.defaults.transport_mode_preference,
+                    required: false,
+                    is_default: true
+                },
+            }
+        }
+
+        // Construct Trip Context JSON
+        const tripContextJson = {
+            trip_id: activeTrip.id,
+            user_id: activeTrip.user_id,
+            name: activeTrip.name,
+            generated_at: new Date().toISOString(),
+            logistics: {
+                dates: {
+                    value: {
+                        from: toISOString(activeTrip.dates.from),
+                        to: toISOString(activeTrip.dates.to)
+                    },
+                    required: false
+                },
+                arrival_time: { value: activeTrip.arrival_time, required: true },
+                departure_time: { value: activeTrip.departure_time, required: true },
+                group_type: { value: activeTrip.group_type, required: true },
+                family_composition: { value: activeTrip.family_composition, required: false },
+            },
+            journey: {
+                origin_city: { value: activeTrip.origin_city, required: false },
+                mode_to_kodai: { value: activeTrip.mode_to_kodai, required: false },
+                transport_in_city: { value: activeTrip.transport_in_city, required: false },
+            },
+            stay: {
+                accommodation: { value: activeTrip.accommodation, required: false },
+            },
+            preferences: {
+                food_preference: { value: activeTrip.food_preference, required: false },
+                mobility: { value: activeTrip.mobility, required: false },
+                pace: { value: activeTrip.pace, required: false },
+                interests: { value: activeTrip.interests, required: true },
+            }
+        }
+
+        // Log to console
+        console.log('='.repeat(60))
+        console.log('📁 USER PROFILE JSON')
+        console.log('='.repeat(60))
+        console.log(JSON.stringify(userProfileJson, null, 2))
+        console.log('')
+        console.log('='.repeat(60))
+        console.log('🗺️ TRIP CONTEXT JSON')
+        console.log('='.repeat(60))
+        console.log(JSON.stringify(tripContextJson, null, 2))
+        console.log('')
+
+        // Save to Flask backend using user name for folder/file naming
+        try {
+            // Save user profile - folder and file named after user
+            const profileResponse = await fetch(`http://127.0.0.1:5001/api/user/${encodeURIComponent(currentUser.name)}/profile`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(userProfileJson)
+            })
+
+            if (!profileResponse.ok) {
+                throw new Error('Failed to save user profile')
+            }
+
+            // Save trip - file named after trip name (date range)
+            const tripResponse = await fetch(`http://127.0.0.1:5001/api/user/${encodeURIComponent(currentUser.name)}/trip`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(tripContextJson)
+            })
+
+            if (!tripResponse.ok) {
+                throw new Error('Failed to save trip')
+            }
+
+            // Show success toast
+            setToast({ message: `Saved to ${currentUser.name}/${activeTrip.name}.json`, type: 'success' })
+        } catch (error) {
+            console.error('Save error:', error)
+            setToast({ message: 'Saved to console (backend unavailable)', type: 'success' })
+        }
+    }
 
     if (!currentUser) {
         return (
@@ -151,71 +360,94 @@ export function TripConfigurator() {
         visible: {
             opacity: 1,
             y: 0,
-            transition: { type: "spring", stiffness: 280, damping: 24 }
+            transition: { type: "spring" as const, stiffness: 280, damping: 24 }
         }
     }
 
     return (
-        <motion.div
-            key={activeTrip.id} // Force re-render on trip switch
-            initial="hidden"
-            animate="visible"
-            variants={containerVariants}
-            className="max-w-5xl mx-auto p-12 pb-24" // Generous padding
-        >
-            {/* Header Section */}
-            <motion.div variants={itemVariants} className="mb-12">
-                <div className="flex items-center justify-between mb-2">
-                    <div className="flex items-center gap-2 px-3 py-1 bg-white border border-slate-200 rounded-full shadow-sm">
-                        <Sparkles size={12} className="text-amber-500" />
-                        <span className="text-[10px] font-bold text-slate-600 uppercase tracking-wider">AI Planning Mode</span>
-                    </div>
-                    <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">ID: {activeTrip.id.substring(0, 8)}</span>
-                </div>
-                <h1 className="text-5xl font-bold text-slate-900 tracking-tight mb-4">{activeTrip.name}</h1>
-                <p className="text-slate-500 text-lg max-w-2xl leading-relaxed">
-                    Configure your preferences below. Our AI will analyze {activeTrip.group_type} dynamics to generate the perfect itinerary.
-                </p>
-            </motion.div>
-
-            {/* Main Grid Layout */}
-            <div className="grid grid-cols-1 gap-10">
-                <motion.div variants={itemVariants}>
-                    <LogisticsSection trip={activeTrip} />
-                </motion.div>
-
-                <motion.div variants={itemVariants}>
-                    <JourneyStaySection trip={activeTrip} />
-                </motion.div>
-
-                <motion.div variants={itemVariants}>
-                    <VibeSection trip={activeTrip} />
-                </motion.div>
-            </div>
-
-            {/* Footer / Generate Action */}
+        <>
             <motion.div
-                variants={itemVariants}
-                className="mt-16 pt-10 border-t border-slate-200 flex items-center justify-between sticky bottom-6 bg-white/80 backdrop-blur-lg p-6 rounded-2xl border border-white/20 shadow-2xl"
+                key={activeTrip.id}
+                initial="hidden"
+                animate="visible"
+                variants={containerVariants}
+                className="max-w-5xl mx-auto p-12 pb-24"
             >
-                <div>
-                    <p className="text-label mb-1">Status</p>
-                    <div className="flex items-center gap-2">
-                        <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                        <span className="text-sm font-semibold text-slate-700">Ready to Generate</span>
+                {/* Header Section */}
+                <motion.div variants={itemVariants} className="mb-12">
+                    <div className="flex items-center justify-between mb-2">
+                        <div className="flex items-center gap-2 px-3 py-1 bg-white border border-slate-200 rounded-full shadow-sm">
+                            <Sparkles size={12} className="text-amber-500" />
+                            <span className="text-[10px] font-bold text-slate-600 uppercase tracking-wider">AI Planning Mode</span>
+                        </div>
+                        <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">ID: {activeTrip.id.substring(0, 8)}</span>
                     </div>
+                    <h1 className="text-5xl font-bold text-slate-900 tracking-tight mb-4">{activeTrip.name}</h1>
+                    <p className="text-slate-500 text-lg max-w-2xl leading-relaxed">
+                        Configure your preferences below. Our AI will analyze {activeTrip.group_type || 'your'} dynamics to generate the perfect itinerary.
+                    </p>
+                </motion.div>
+
+                {/* Main Grid Layout */}
+                <div className="grid grid-cols-1 gap-10">
+                    <motion.div variants={itemVariants} ref={logisticsRef}>
+                        <LogisticsSection trip={activeTrip} errors={{ group: errors.group, times: errors.times }} />
+                    </motion.div>
+
+                    <motion.div variants={itemVariants}>
+                        <JourneyStaySection trip={activeTrip} />
+                    </motion.div>
+
+                    <motion.div variants={itemVariants} ref={vibeRef}>
+                        <VibeSection trip={activeTrip} errors={{ interests: errors.interests }} />
+                    </motion.div>
                 </div>
 
-                <motion.button
-                    whileHover={{ scale: 1.02, translateY: -2 }}
-                    whileTap={{ scale: 0.98 }}
-                    className="flex items-center gap-3 px-8 py-4 bg-slate-900 text-white rounded-xl font-bold shadow-2xl hover:bg-slate-800 transition-all"
+                {/* Footer / Generate Action */}
+                <motion.div
+                    variants={itemVariants}
+                    className="mt-16 pt-10 border-t border-slate-200 flex items-center justify-between sticky bottom-6 bg-white/80 backdrop-blur-lg p-6 rounded-2xl border border-white/20 shadow-2xl"
                 >
-                    <Sparkles size={18} className="text-indigo-400" />
-                    Generate Itinerary
-                    <ArrowRight size={18} className="text-slate-400" />
-                </motion.button>
+                    <div>
+                        <p className="text-label mb-1">Status</p>
+                        <div className="flex items-center gap-2">
+                            {Object.keys(errors).length > 0 ? (
+                                <>
+                                    <div className="w-2 h-2 rounded-full bg-red-500" />
+                                    <span className="text-sm font-semibold text-red-600">Missing Required Fields</span>
+                                </>
+                            ) : (
+                                <>
+                                    <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                                    <span className="text-sm font-semibold text-slate-700">Ready to Generate</span>
+                                </>
+                            )}
+                        </div>
+                    </div>
+
+                    <motion.button
+                        whileHover={{ scale: 1.02, translateY: -2 }}
+                        whileTap={{ scale: 0.98 }}
+                        onClick={handleGenerate}
+                        className="flex items-center gap-3 px-8 py-4 bg-slate-900 text-white rounded-xl font-bold shadow-2xl hover:bg-slate-800 transition-all"
+                    >
+                        <Sparkles size={18} className="text-indigo-400" />
+                        Generate Itinerary
+                        <ArrowRight size={18} className="text-slate-400" />
+                    </motion.button>
+                </motion.div>
             </motion.div>
-        </motion.div>
+
+            {/* Toast Notification */}
+            <AnimatePresence>
+                {toast && (
+                    <Toast
+                        message={toast.message}
+                        type={toast.type}
+                        onClose={() => setToast(null)}
+                    />
+                )}
+            </AnimatePresence>
+        </>
     )
 }
