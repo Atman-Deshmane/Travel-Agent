@@ -6,3 +6,11 @@ flask>=3.0.0
 flask-cors>=4.0.0
 requests>=2.31.0
 
+# AI Chat Mode - Voice
+groq>=0.4.0
+
+
+# ML/Ranking
+numpy>=1.26.0
+scikit-learn>=1.3.0
+sentence-transformers>=2.2.0

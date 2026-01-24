@@ -4,7 +4,7 @@ import { useUserStore } from '../../store/useUserStore'
 import { LogisticsSection } from './LogisticsSection'
 import { JourneyStaySection } from './JourneyStaySection'
 import { VibeSection } from './VibeSection'
-import { MapPin, Sparkles, ArrowRight, Terminal, CheckCircle, AlertCircle } from 'lucide-react'
+import { MapPin, Sparkles, ArrowRight, Terminal, CheckCircle, AlertCircle, Loader2 } from 'lucide-react'
 
 // Validation Error Types
 interface ValidationErrors {
@@ -105,11 +105,16 @@ function Toast({ message, type, onClose }: { message: string; type: 'success' | 
     )
 }
 
-export function TripConfigurator() {
+interface TripConfiguratorProps {
+    onFetchPlaces?: () => void
+}
+
+export function TripConfigurator({ onFetchPlaces }: TripConfiguratorProps) {
     const { getActiveTrip, getCurrentUser } = useUserStore()
     const activeTrip = getActiveTrip()
     const currentUser = getCurrentUser()
     const [loading, setLoading] = useState(true)
+    const [isGenerating, setIsGenerating] = useState(false)
     const [errors, setErrors] = useState<ValidationErrors>({})
     const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' } | null>(null)
 
@@ -123,6 +128,9 @@ export function TripConfigurator() {
         } else {
             setLoading(false)
         }
+
+        // Warmup backend model (Fire and forget)
+        fetch('http://127.0.0.1:5001/api/warmup').catch(console.error)
     }, [currentUser?.id])
 
     // Clear errors when trip data changes
@@ -268,10 +276,21 @@ export function TripConfigurator() {
         console.log(JSON.stringify(tripContextJson, null, 2))
         console.log('')
 
+        setIsGenerating(true)
+
         // Save to Flask backend using user name for folder/file naming
         try {
+            // Helper for fetch with timeout
+            const fetchWithTimeout = async (url: string, options: RequestInit, timeout: number = 2000) => {
+                const controller = new AbortController();
+                const id = setTimeout(() => controller.abort(), timeout);
+                const response = await fetch(url, { ...options, signal: controller.signal });
+                clearTimeout(id);
+                return response;
+            };
+
             // Save user profile - folder and file named after user
-            const profileResponse = await fetch(`http://127.0.0.1:5001/api/user/${encodeURIComponent(currentUser.name)}/profile`, {
+            const profileResponse = await fetchWithTimeout(`http://127.0.0.1:5001/api/user/${encodeURIComponent(currentUser.name)}/profile`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(userProfileJson)
@@ -282,7 +301,7 @@ export function TripConfigurator() {
             }
 
             // Save trip - file named after trip name (date range)
-            const tripResponse = await fetch(`http://127.0.0.1:5001/api/user/${encodeURIComponent(currentUser.name)}/trip`, {
+            const tripResponse = await fetchWithTimeout(`http://127.0.0.1:5001/api/user/${encodeURIComponent(currentUser.name)}/trip`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(tripContextJson)
@@ -292,11 +311,17 @@ export function TripConfigurator() {
                 throw new Error('Failed to save trip')
             }
 
-            // Show success toast
             setToast({ message: `Saved to ${currentUser.name}/${activeTrip.name}.json`, type: 'success' })
+
         } catch (error) {
             console.error('Save error:', error)
             setToast({ message: 'Saved to console (backend unavailable)', type: 'success' })
+        } finally {
+            // Navigate to Places Explorer regardless of save status
+            setIsGenerating(false)
+            if (onFetchPlaces) {
+                onFetchPlaces()
+            }
         }
     }
 
@@ -429,11 +454,21 @@ export function TripConfigurator() {
                         whileHover={{ scale: 1.02, translateY: -2 }}
                         whileTap={{ scale: 0.98 }}
                         onClick={handleGenerate}
-                        className="flex items-center gap-3 px-8 py-4 bg-slate-900 text-white rounded-xl font-bold shadow-2xl hover:bg-slate-800 transition-all"
+                        disabled={isGenerating}
+                        className={`flex items-center gap-3 px-8 py-4 bg-slate-900 text-white rounded-xl font-bold shadow-2xl hover:bg-slate-800 transition-all ${isGenerating ? 'opacity-80 cursor-not-allowed' : ''}`}
                     >
-                        <Sparkles size={18} className="text-indigo-400" />
-                        Generate Itinerary
-                        <ArrowRight size={18} className="text-slate-400" />
+                        {isGenerating ? (
+                            <>
+                                <Loader2 size={18} className="animate-spin text-indigo-400" />
+                                Generating...
+                            </>
+                        ) : (
+                            <>
+                                <Sparkles size={18} className="text-indigo-400" />
+                                Fetch Places
+                                <ArrowRight size={18} className="text-slate-400" />
+                            </>
+                        )}
                     </motion.button>
                 </motion.div>
             </motion.div>

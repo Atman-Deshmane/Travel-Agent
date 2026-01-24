@@ -73,6 +73,9 @@ interface UserStore {
     createTrip: () => void
     deleteTrip: (tripId: string) => void
     updateTrip: (tripId: string, data: Partial<TripContext>) => void
+
+    // Hydration
+    hydrateFromBackend: () => Promise<void>
 }
 
 // Helper to deserialize dates from storage (ISO string -> Date)
@@ -209,6 +212,85 @@ export const useUserStore = create<UserStore>()(
                     }),
                 }))
             },
+
+            hydrateFromBackend: async () => {
+                try {
+                    const response = await fetch('http://127.0.0.1:5001/api/dashboard/data')
+                    if (!response.ok) {
+                        console.warn('Failed to fetch backend data')
+                        return
+                    }
+
+                    const data = await response.json()
+
+                    if (data.users && data.users.length > 0) {
+                        // Transform backend user format to frontend UserProfile format
+                        const users: UserProfile[] = data.users.map((u: Record<string, unknown>) => ({
+                            id: u.user_id as string,
+                            name: u.name as string,
+                            avatar_color: (u.avatar_color as string) || `hsl(${Math.random() * 360}, 70%, 60%)`,
+                            defaults: {
+                                origin_city: (u.defaults as Record<string, { value: unknown }>)?.origin_city?.value as string | undefined,
+                                food_preference: ((u.defaults as Record<string, { value: unknown }>)?.food_preference?.value as UserProfile['defaults']['food_preference']) || 'flexible',
+                                mobility: ((u.defaults as Record<string, { value: unknown }>)?.mobility?.value as UserProfile['defaults']['mobility']) || 'medium',
+                                pace: ((u.defaults as Record<string, { value: unknown }>)?.pace?.value as UserProfile['defaults']['pace']) || 'balanced',
+                                interests: ((u.defaults as Record<string, { value: unknown }>)?.interests?.value as string[]) || [],
+                                transport_mode_preference: ((u.defaults as Record<string, { value: unknown }>)?.transport_mode_preference?.value as UserProfile['defaults']['transport_mode_preference']) || 'flexible',
+                            }
+                        }))
+
+                        // Transform backend trip format to frontend TripContext format
+                        const trips: TripContext[] = data.trips.map((t: Record<string, unknown>) => {
+                            const logistics = t.logistics as Record<string, { value: unknown }>
+                            const journey = t.journey as Record<string, { value: unknown }>
+                            const stay = t.stay as Record<string, { value: unknown }>
+                            const preferences = t.preferences as Record<string, { value: unknown }>
+                            const dates = logistics?.dates?.value as { from: string | null; to: string | null } || { from: null, to: null }
+
+                            return {
+                                id: t.trip_id as string,
+                                user_id: t.user_id as string,
+                                name: t.name as string,
+                                created_at: Date.now(),
+                                dates: {
+                                    from: dates.from ? new Date(dates.from) : null,
+                                    to: dates.to ? new Date(dates.to) : null,
+                                },
+                                arrival_time: logistics?.arrival_time?.value as TripContext['arrival_time'],
+                                departure_time: logistics?.departure_time?.value as TripContext['departure_time'],
+                                group_type: logistics?.group_type?.value as TripContext['group_type'],
+                                family_composition: (logistics?.family_composition?.value as TripContext['family_composition']) || { has_kids: false, has_elders: false },
+                                origin_city: (journey?.origin_city?.value as string) || '',
+                                mode_to_kodai: (journey?.mode_to_kodai?.value as TripContext['mode_to_kodai']) || 'own_vehicle',
+                                transport_in_city: (journey?.transport_in_city?.value as TripContext['transport_in_city']) || 'flexible',
+                                accommodation: (stay?.accommodation?.value as TripContext['accommodation']) || { status: 'undecided', undecided_cluster: 'Vattakanal' },
+                                food_preference: (preferences?.food_preference?.value as TripContext['food_preference']) || 'flexible',
+                                mobility: (preferences?.mobility?.value as TripContext['mobility']) || 'medium',
+                                pace: (preferences?.pace?.value as TripContext['pace']) || 'balanced',
+                                interests: (preferences?.interests?.value as string[]) || [],
+                            }
+                        })
+
+                        // Merge with existing state (backend data takes priority for users that exist)
+                        const existingState = get()
+                        const existingUserIds = new Set(existingState.users.map(u => u.id))
+                        const newUsers = users.filter(u => !existingUserIds.has(u.id))
+
+                        const existingTripIds = new Set(existingState.trips.map(t => t.id))
+                        const newTrips = trips.filter(t => !existingTripIds.has(t.id))
+
+                        set(state => ({
+                            users: [...state.users, ...newUsers],
+                            trips: [...state.trips, ...newTrips],
+                            currentUserId: state.currentUserId || (newUsers.length > 0 ? newUsers[0].id : state.currentUserId),
+                        }))
+
+                        console.log(`Hydrated ${newUsers.length} users and ${newTrips.length} trips from backend`)
+                    }
+                } catch (error) {
+                    console.warn('Backend hydration failed:', error)
+                }
+            },
         }),
         {
             name: 'trip-dashboard-storage',
@@ -231,9 +313,15 @@ export const useUserStore = create<UserStore>()(
 )
 
 // Initialize store on first import if empty
-const initStore = () => {
+const initStore = async () => {
     const state = useUserStore.getState()
-    if (state.users.length === 0) {
+
+    // Try to hydrate from backend first
+    await state.hydrateFromBackend()
+
+    // If still empty after backend hydration, add mock users
+    const newState = useUserStore.getState()
+    if (newState.users.length === 0) {
         const mockUsers = generateMockUsers()
         useUserStore.setState({
             users: mockUsers,

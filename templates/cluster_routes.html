@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kodaikanal Cluster Routes Visualization</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            color: #fff;
+            padding: 40px;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(90deg, #00d4ff, #7c3aed);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #888;
+            margin-bottom: 40px;
+            font-size: 1.1rem;
+        }
+
+        .clusters-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        .cluster-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .cluster-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .cluster-dot {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+        }
+
+        .cluster-name {
+            font-size: 1.4rem;
+            font-weight: 600;
+        }
+
+        .cluster-stats {
+            margin-left: auto;
+            text-align: right;
+            font-size: 0.9rem;
+            color: #888;
+        }
+
+        .cluster-stats span {
+            display: block;
+        }
+
+        /* Metro Line Styles */
+        .metro-line {
+            position: relative;
+            padding-left: 40px;
+        }
+
+        .metro-line::before {
+            content: '';
+            position: absolute;
+            left: 7px;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            border-radius: 2px;
+        }
+
+        .stop {
+            position: relative;
+            padding: 12px 0;
+            margin-bottom: 8px;
+        }
+
+        .stop::before {
+            content: '';
+            position: absolute;
+            left: -40px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            border: 3px solid;
+            background: #1a1a2e;
+            z-index: 1;
+        }
+
+        .stop-content {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 10px;
+            padding: 12px 16px;
+            transition: all 0.2s ease;
+        }
+
+        .stop-content:hover {
+            background: rgba(255, 255, 255, 0.08);
+            transform: translateX(4px);
+        }
+
+        .stop-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .stop-number {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            width: 24px;
+            height: 24px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .stop-name {
+            font-weight: 500;
+            flex: 1;
+        }
+
+        .travel-time {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 0.85rem;
+            color: #888;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 4px 10px;
+            border-radius: 20px;
+            margin-top: 8px;
+        }
+
+        .travel-time svg {
+            width: 14px;
+            height: 14px;
+        }
+
+        /* Cluster Colors */
+        .town-center .cluster-dot,
+        .town-center .metro-line::before {
+            background: #3b82f6;
+        }
+
+        .town-center .stop::before {
+            border-color: #3b82f6;
+        }
+
+        .town-center .cluster-name {
+            color: #3b82f6;
+        }
+
+        .forest-circuit .cluster-dot,
+        .forest-circuit .metro-line::before {
+            background: #22c55e;
+        }
+
+        .forest-circuit .stop::before {
+            border-color: #22c55e;
+        }
+
+        .forest-circuit .cluster-name {
+            color: #22c55e;
+        }
+
+        .vattakanal .cluster-dot,
+        .vattakanal .metro-line::before {
+            background: #a855f7;
+        }
+
+        .vattakanal .stop::before {
+            border-color: #a855f7;
+        }
+
+        .vattakanal .cluster-name {
+            color: #a855f7;
+        }
+
+        .poombarai .cluster-dot,
+        .poombarai .metro-line::before {
+            background: #f59e0b;
+        }
+
+        .poombarai .stop::before {
+            border-color: #f59e0b;
+        }
+
+        .poombarai .cluster-name {
+            color: #f59e0b;
+        }
+
+        .anchor-badge {
+            background: linear-gradient(135deg, #fbbf24, #f59e0b);
+            color: #000;
+            font-size: 0.7rem;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-weight: 600;
+            margin-left: 8px;
+        }
+
+        .summary-bar {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 12px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .summary-item {
+            text-align: center;
+        }
+
+        .summary-value {
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(90deg, #00d4ff, #7c3aed);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .summary-label {
+            font-size: 0.9rem;
+            color: #888;
+            margin-top: 4px;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 60px;
+            color: #888;
+        }
+
+        .error {
+            text-align: center;
+            padding: 60px;
+            color: #ef4444;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>🚂 Kodaikanal Cluster Routes</h1>
+    <p class="subtitle">Optimized travel sequences by geographic zone</p>
+
+    <div class="summary-bar" id="summary">
+        <div class="summary-item">
+            <div class="summary-value" id="total-places">-</div>
+            <div class="summary-label">Total Places</div>
+        </div>
+        <div class="summary-item">
+            <div class="summary-value" id="total-clusters">4</div>
+            <div class="summary-label">Clusters</div>
+        </div>
+        <div class="summary-item">
+            <div class="summary-value" id="total-time">-</div>
+            <div class="summary-label">Total Drive (min)</div>
+        </div>
+    </div>
+
+    <div class="clusters-container" id="clusters-container">
+        <div class="loading">Loading cluster data...</div>
+    </div>
+
+    <script>
+        const CLUSTER_COLORS = {
+            'Town Center': { class: 'town-center', color: '#3b82f6' },
+            'Forest Circuit': { class: 'forest-circuit', color: '#22c55e' },
+            'Vattakanal': { class: 'vattakanal', color: '#a855f7' },
+            'Poombarai': { class: 'poombarai', color: '#f59e0b' }
+        };
+
+        async function loadData() {
+            try {
+                const response = await fetch('/data/cluster_routes.json');
+                if (!response.ok) throw new Error('Failed to load data');
+                const data = await response.json();
+                renderClusters(data);
+            } catch (error) {
+                document.getElementById('clusters-container').innerHTML = `
+                    <div class="error">
+                        <p>Error loading cluster data: ${error.message}</p>
+                        <p style="margin-top: 10px; color: #888;">Make sure the Flask server is running at http://localhost:5001</p>
+                    </div>
+                `;
+            }
+        }
+
+        function renderClusters(data) {
+            const container = document.getElementById('clusters-container');
+            container.innerHTML = '';
+
+            let totalPlaces = 0;
+            let totalTime = 0;
+
+            Object.entries(data).forEach(([clusterName, places]) => {
+                const clusterConfig = CLUSTER_COLORS[clusterName] || { class: 'town-center', color: '#888' };
+                const clusterTime = places.reduce((sum, p) => sum + (p.travel_time_to_next_min || 0), 0);
+                totalPlaces += places.length;
+                totalTime += clusterTime;
+
+                const card = document.createElement('div');
+                card.className = `cluster-card ${clusterConfig.class}`;
+
+                card.innerHTML = `
+                    <div class="cluster-header">
+                        <div class="cluster-dot"></div>
+                        <div class="cluster-name">${clusterName}</div>
+                        <div class="cluster-stats">
+                            <span>${places.length} stops</span>
+                            <span>~${clusterTime} min</span>
+                        </div>
+                    </div>
+                    <div class="metro-line">
+                        ${places.map((place, idx) => `
+                            <div class="stop">
+                                <div class="stop-content">
+                                    <div class="stop-header">
+                                        <div class="stop-number">${place.order_sequence}</div>
+                                        <div class="stop-name">
+                                            ${place.name}
+                                            ${idx === 0 ? '<span class="anchor-badge">ANCHOR</span>' : ''}
+                                        </div>
+                                    </div>
+                                    ${place.travel_time_to_next_min > 0 ? `
+                                        <div class="travel-time">
+                                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+                                            </svg>
+                                            ${place.travel_time_to_next_min} min to next
+                                        </div>
+                                    ` : idx < places.length - 1 ? `
+                                        <div class="travel-time">
+                                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+                                            </svg>
+                                            ~0 min (adjacent)
+                                        </div>
+                                    ` : `
+                                        <div class="travel-time" style="color: #f59e0b;">
+                                            ↩ Return to anchor
+                                        </div>
+                                    `}
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+
+                container.appendChild(card);
+            });
+
+            // Update summary
+            document.getElementById('total-places').textContent = totalPlaces;
+            document.getElementById('total-time').textContent = totalTime;
+        }
+
+        // Load data on page load
+        loadData();
+    </script>
+</body>
+
+</html>

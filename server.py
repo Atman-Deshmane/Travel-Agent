@@ -9,12 +9,33 @@ Flask server that provides:
 
 import os
 import sys
+import json
+from datetime import datetime
 from flask import Flask, render_template, jsonify, request
 from flask_cors import CORS
 from dotenv import load_dotenv
 
 # Import our pipeline
 from fetch_place_data import fetch_place_data, load_master_json, get_top_places
+
+# Import the vector scorer (lazy load to avoid startup delay if not used)
+ranker = None
+def get_ranker():
+    global ranker
+    if ranker is None:
+        from scorer import ItineraryRanker
+        ranker = ItineraryRanker()
+    return ranker
+
+
+# Import the scheduler (lazy load)
+scheduler = None
+def get_scheduler():
+    global scheduler
+    if scheduler is None:
+        from scheduler import ItineraryScheduler
+        scheduler = ItineraryScheduler()
+    return scheduler
 
 load_dotenv()
 
@@ -31,6 +52,50 @@ def index():
     return render_template('index.html', maps_api_key=MAPS_API_KEY)
 
 
+@app.route('/api/warmup', methods=['GET'])
+def warmup():
+    """Initialize the ranker model in background."""
+    try:
+        get_ranker()
+        return jsonify({"success": True, "message": "Model warmed up"})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route('/routes')
+def cluster_routes():
+    """Serve the cluster routes visualization."""
+    return render_template('cluster_routes.html')
+
+
+@app.route('/data/cluster_routes.json')
+def get_cluster_routes_json():
+    """Serve the cluster routes JSON data."""
+    try:
+        with open('data/cluster_routes.json', 'r') as f:
+            data = json.load(f)
+        return jsonify(data)
+    except FileNotFoundError:
+        return jsonify({"error": "cluster_routes.json not found"}), 404
+
+
+@app.route('/core-route')
+def core_route():
+    """Serve the core route (golden loop) visualization."""
+    return render_template('core_route.html')
+
+
+@app.route('/data/core_route.json')
+def get_core_route_json():
+    """Serve the core route JSON data."""
+    try:
+        with open('data/core_route.json', 'r') as f:
+            data = json.load(f)
+        return jsonify(data)
+    except FileNotFoundError:
+        return jsonify({"error": "core_route.json not found. Run: python build_core_route.py"}), 404
+
+
 @app.route('/api/places', methods=['GET'])
 def get_places():
     """Get all stored places."""
@@ -43,6 +108,171 @@ def get_top_n_places(n):
     """Get top N places by popularity."""
     places = get_top_places(n)
     return jsonify({"places": places, "count": len(places)})
+
+
+# ===== EQUALIZER API (Scoring) =====
+
+@app.route('/api/fetch-scored-places', methods=['POST'])
+def fetch_scored_places():
+    """
+    Score all places with soft-gate filtering.
+    Returns three sorted lists: by_popularity, by_similarity, and places (by final score).
+    
+    Request body:
+    {
+        "user_profile": {"interests": [...], "difficulty": "medium"},
+        "weight": {"popularity": 0.4, "similarity": 0.6}
+    }
+    """
+    try:
+        data = request.get_json()
+        
+        user_profile = data.get('user_profile', {})
+        weight = data.get('weight', {'popularity': 0.4, 'similarity': 0.6})
+        
+        # Validate
+        if not user_profile.get('interests'):
+            user_profile['interests'] = ['Nature', 'Sightseeing']  # Default interests
+        
+        # Get scorer
+        scorer = get_ranker()
+        result = scorer.score_places(user_profile, weight)
+        
+        return jsonify({
+            "success": True,
+            "places": result['places'],
+            "by_popularity": result['by_popularity'],
+            "by_similarity": result['by_similarity'],
+            "user_profile": user_profile,
+            "weight": weight
+        })
+        
+    except Exception as e:
+        print(f"Error in fetch-scored-places: {e}")
+        import traceback
+        traceback.print_exc()
+        return jsonify({"success": False, "error": str(e)}), 500
+
+
+# ===== TETRIS API (Scheduler) =====
+
+@app.route('/api/build-itinerary', methods=['POST'])
+def build_itinerary():
+    """
+    Build day-wise itinerary from selected places.
+    
+    Request body:
+    {
+        "selected_place_ids": ["pine-forest-kodaikanal", ...],
+        "user_config": {
+            "num_days": 3,
+            "pace": "medium",
+            "hotel_cluster": "Town Center"
+        }
+    }
+    """
+    try:
+        data = request.get_json()
+        
+        selected_place_ids = data.get('selected_place_ids', [])
+        user_config = data.get('user_config', {})
+        
+        # Validate
+        if not selected_place_ids:
+            return jsonify({"success": False, "error": "No places selected"}), 400
+        
+        # Set defaults
+        user_config.setdefault('num_days', 3)
+        user_config.setdefault('pace', 'medium')
+        user_config.setdefault('hotel_cluster', 'Town Center')
+        
+        # Get scheduler
+        itinerary_scheduler = get_scheduler()
+        result = itinerary_scheduler.build_itinerary(selected_place_ids, user_config)
+        
+        return jsonify({
+            "success": True,
+            "days": result['days'],
+            "user_config": user_config
+        })
+        
+    except Exception as e:
+        print(f"Error in build-itinerary: {e}")
+        import traceback
+        traceback.print_exc()
+        return jsonify({"success": False, "error": str(e)}), 500
+
+
+@app.route('/api/save-itinerary', methods=['POST'])
+def save_itinerary():
+    """
+    Save itinerary to user's folder.
+    
+    Request body:
+    {
+        "user_name": "Atman",
+        "trip_name": "Mar 21 - Mar 22",
+        "itinerary": { days: [...], user_config: {...} }
+    }
+    """
+    try:
+        data = request.get_json()
+        
+        user_name = data.get('user_name', 'Guest')
+        trip_name = data.get('trip_name', 'Trip')
+        itinerary = data.get('itinerary', {})
+        
+        # Create filename from trip name
+        safe_name = trip_name.replace(' ', '_').replace('/', '-')
+        filename = f"{safe_name}_itinerary.json"
+        
+        # Ensure user folder exists
+        user_folder = f"user_data/{user_name}"
+        os.makedirs(user_folder, exist_ok=True)
+        
+        # Save itinerary
+        filepath = f"{user_folder}/{filename}"
+        with open(filepath, 'w') as f:
+            json.dump({
+                "trip_name": trip_name,
+                "saved_at": datetime.now().isoformat(),
+                "itinerary": itinerary
+            }, f, indent=2)
+        
+        print(f"✅ Saved itinerary to {filepath}")
+        
+        return jsonify({
+            "success": True,
+            "filepath": filepath,
+            "message": f"Itinerary saved to {filename}"
+        })
+        
+    except Exception as e:
+        print(f"Error saving itinerary: {e}")
+        import traceback
+        traceback.print_exc()
+        return jsonify({"success": False, "error": str(e)}), 500
+
+
+@app.route('/api/rebuild-forest-route', methods=['POST'])
+def rebuild_forest_route():
+    """
+    Rebuild the Forest Circuit route using Google Maps API.
+    Call this when new places are added to Forest Circuit cluster.
+    """
+    try:
+        itinerary_scheduler = get_scheduler()
+        new_route = itinerary_scheduler.rebuild_forest_route()
+        
+        return jsonify({
+            "success": True,
+            "message": "Forest Circuit route rebuilt",
+            "route": new_route
+        })
+        
+    except Exception as e:
+        print(f"Error rebuilding Forest route: {e}")
+        return jsonify({"success": False, "error": str(e)}), 500
 
 
 @app.route('/api/fetch', methods=['POST'])
@@ -120,18 +350,50 @@ def sanitize_filename(name):
 
 @app.route('/api/dashboard/data', methods=['GET'])
 def get_dashboard_data():
-    """Get all saved dashboard data (users, trips)."""
+    """Get all saved dashboard data (users, trips) by scanning folders."""
     ensure_user_data_dir()
-    data_file = os.path.join(USER_DATA_DIR, 'dashboard_state.json')
     
-    if os.path.exists(data_file):
-        try:
-            with open(data_file, 'r') as f:
-                return jsonify(json.load(f))
-        except Exception as e:
-            return jsonify({"error": str(e)}), 500
-    else:
-        return jsonify({"users": [], "trips": [], "currentUserId": None, "activeTripId": None})
+    users = []
+    trips = []
+    
+    try:
+        # Iterate over all items in user_data directory
+        for user_folder in os.listdir(USER_DATA_DIR):
+            user_path = os.path.join(USER_DATA_DIR, user_folder)
+            
+            # Check if it's a directory
+            if os.path.isdir(user_path):
+                # 1. Look for User Profile: {UserFolder}.json
+                profile_path = os.path.join(user_path, f"{user_folder}.json")
+                if os.path.exists(profile_path):
+                    try:
+                        with open(profile_path, 'r') as f:
+                            user_data = json.load(f)
+                            users.append(user_data)
+                    except Exception as e:
+                        print(f"Error reading profile {profile_path}: {e}")
+                
+                # 2. Look for Trips: All other .json files
+                for file in os.listdir(user_path):
+                    if file.endswith('.json') and file != f"{user_folder}.json":
+                        trip_path = os.path.join(user_path, file)
+                        try:
+                            with open(trip_path, 'r') as f:
+                                trip_data = json.load(f)
+                                trips.append(trip_data)
+                        except Exception as e:
+                            print(f"Error reading trip {trip_path}: {e}")
+                            
+        return jsonify({
+            "users": users, 
+            "trips": trips, 
+            # Default to first user if exists
+            "currentUserId": users[0]['user_id'] if users else None, 
+            "activeTripId": None
+        })
+        
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 
 @app.route('/api/dashboard/data', methods=['POST'])
@@ -204,11 +466,305 @@ def save_trip(user_name):
         return jsonify({"success": False, "error": str(e)}), 500
 
 
+# ===== ITINERARY GENERATION ENDPOINT =====
+
+@app.route('/api/generate-itinerary', methods=['POST'])
+def generate_itinerary():
+    """Generate a ranked itinerary based on user profile and trip context."""
+    try:
+        data = request.get_json()
+        
+        if not data:
+            return jsonify({"error": "Request body is required"}), 400
+        
+        user_profile = data.get('user_profile', {})
+        trip_context = data.get('trip_context', {})
+        
+        # Validate required fields
+        if not user_profile:
+            return jsonify({"error": "user_profile is required"}), 400
+        
+        # Get the ranker and generate rankings
+        itinerary_ranker = get_ranker()
+        ranked_places = itinerary_ranker.rank_places(user_profile, trip_context)
+        
+        return jsonify({
+            "success": True,
+            "places": ranked_places,
+            "count": len(ranked_places),
+            "filters_applied": {
+                "mobility": user_profile.get('mobility', 'medium'),
+                "interests": user_profile.get('interests', [])
+            }
+        })
+        
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        return jsonify({"success": False, "error": str(e)}), 500
+
+
+@app.route('/api/rank-places', methods=['POST'])
+def rank_places():
+    """
+    Transparent ranking endpoint (V2).
+    Returns ALL filtered places with detailed score breakdown.
+    """
+    try:
+        data = request.get_json()
+        
+        if not data:
+            return jsonify({"error": "Request body is required"}), 400
+        
+        user_profile = data.get('user_profile', {})
+        trip_context = data.get('trip_context', {})
+        
+        # Get the ranker and generate rankings
+        itinerary_ranker = get_ranker()
+        ranked_places = itinerary_ranker.rank_places(user_profile, trip_context)
+        
+        # Format response with debug info visible
+        response_places = []
+        for item in ranked_places:
+            place = item['place_data']
+            debug = item['debug']
+            response_places.append({
+                'id': place.get('id'),
+                'name': place.get('name'),
+                'cluster': place.get('location', {}).get('cluster_zone', ''),
+                'difficulty': place.get('logic', {}).get('difficulty', 'Easy'),
+                'popularity_rank': debug['popularity_rank'],
+                'scores': {
+                    'similarity': debug['sim_score'],
+                    'popularity': debug['pop_score'],
+                    'final': debug['final_score']
+                },
+                'tags': place.get('content', {}).get('tags', [])
+            })
+        
+        return jsonify({
+            "success": True,
+            "places": response_places,
+            "count": len(response_places),
+            "user_interests": user_profile.get('interests', []),
+            "user_difficulty": user_profile.get('difficulty', 'medium')
+        })
+        
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        return jsonify({"success": False, "error": str(e)}), 500
+
+
+# ===== AI CHAT MODE ENDPOINTS =====
+
+# Session management for AI chat
+import uuid
+app.secret_key = os.getenv("FLASK_SECRET_KEY", os.urandom(24).hex())
+
+# Lazy load AI engine instances (per session)
+_ai_engine_instances = {}
+
+def get_ai_engine(session_id: str):
+    """Get or create AI engine for a session."""
+    if session_id not in _ai_engine_instances:
+        from services.trip_llm_engine import TripLLMEngine
+        _ai_engine_instances[session_id] = TripLLMEngine()
+    return _ai_engine_instances[session_id]
+
+
+@app.route('/api/ai/chat', methods=['POST'])
+def ai_chat():
+    """
+    Handle AI chat messages.
+    
+    Request JSON:
+        {"message": "user message", "session_id": "optional session id"}
+    
+    Response JSON:
+        {"status": "success", "response": "...", "ui_component": {...}}
+    """
+    try:
+        from flask import session
+        
+        data = request.get_json()
+        
+        if not data or "message" not in data:
+            return jsonify({
+                "status": "error",
+                "response": "No message provided"
+            }), 400
+        
+        user_message = data["message"].strip()
+        
+        if not user_message:
+            return jsonify({
+                "status": "error",
+                "response": "Empty message"
+            }), 400
+        
+        # Get or create session ID
+        session_id = data.get("session_id")
+        if not session_id:
+            session_id = str(uuid.uuid4())
+        
+        # Get engine for this session
+        engine = get_ai_engine(session_id)
+        
+        # Get response from LLM
+        result = engine.chat(user_message)
+        
+        return jsonify({
+            "status": "success",
+            "response": result.get("text", ""),
+            "ui_component": result.get("ui_hint"),
+            "session_id": session_id,
+            "session_state": engine.get_session_state()
+        })
+        
+    except ValueError as e:
+        return jsonify({
+            "status": "error",
+            "response": f"Configuration error: {str(e)}"
+        }), 500
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        return jsonify({
+            "status": "error",
+            "response": "I apologize, but I encountered an error. Please try again."
+        }), 500
+
+
+@app.route('/api/ai/voice', methods=['POST'])
+def ai_voice():
+    """
+    Handle voice messages from the frontend.
+    
+    Request: multipart/form-data with 'audio' file
+    
+    Response JSON:
+        {
+            "user_text": "transcribed user speech",
+            "agent_text": "agent response",
+            "audio_base64": "base64 encoded audio or null",
+            "ui_component": {...}
+        }
+    """
+    try:
+        # Check for audio file
+        if 'audio' not in request.files:
+            return jsonify({
+                "status": "error",
+                "message": "No audio file provided"
+            }), 400
+        
+        audio_file = request.files['audio']
+        session_id = request.form.get('session_id', str(uuid.uuid4()))
+        
+        # Import voice service
+        from services import groq_voice
+        
+        print("🎤 Receiving voice input...")
+        
+        # Step 1: Transcribe audio (STT)
+        print("🔊 Transcribing audio with Whisper...")
+        user_text = groq_voice.transcribe_audio(audio_file)
+        print(f"✅ Transcribed: '{user_text[:50]}...'")
+        
+        # Step 2: Get engine for this session
+        engine = get_ai_engine(session_id)
+        
+        # Step 3: Process with LLM
+        print("🧠 Processing with AI...")
+        result = engine.chat(user_text)
+        agent_text = result.get("text", "")
+        ui_component = result.get("ui_hint")
+        print("✅ AI response generated")
+        
+        # Step 4: Generate speech (TTS) - graceful failure
+        print("🔊 Generating speech with Orpheus TTS...")
+        audio_bytes = groq_voice.generate_audio(agent_text)
+        
+        audio_base64 = None
+        if audio_bytes:
+            audio_base64 = groq_voice.audio_to_base64(audio_bytes)
+            print("✅ Audio generated successfully")
+        else:
+            print("⚠️ TTS unavailable, text-only response")
+        
+        return jsonify({
+            "status": "success",
+            "user_text": user_text,
+            "agent_text": agent_text,
+            "ui_component": ui_component,
+            "audio_base64": audio_base64,
+            "session_id": session_id,
+            "session_state": engine.get_session_state()
+        })
+        
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        return jsonify({
+            "status": "error",
+            "message": f"Voice processing error: {str(e)}"
+        }), 500
+
+
+@app.route('/api/ai/reset', methods=['POST'])
+def ai_reset():
+    """Reset the AI conversation."""
+    try:
+        data = request.get_json() or {}
+        session_id = data.get("session_id")
+        
+        if session_id and session_id in _ai_engine_instances:
+            del _ai_engine_instances[session_id]
+        
+        return jsonify({
+            "status": "success",
+            "message": "Conversation reset"
+        })
+    except Exception as e:
+        return jsonify({
+            "status": "error",
+            "message": str(e)
+        }), 500
+
+
+@app.route('/api/ai/state', methods=['GET'])
+def ai_state():
+    """Get the current session state."""
+    try:
+        session_id = request.args.get("session_id")
+        
+        if not session_id or session_id not in _ai_engine_instances:
+            return jsonify({
+                "status": "success",
+                "session_state": None,
+                "message": "No active session"
+            })
+        
+        engine = _ai_engine_instances[session_id]
+        return jsonify({
+            "status": "success",
+            "session_state": engine.get_session_state()
+        })
+    except Exception as e:
+        return jsonify({
+            "status": "error",
+            "message": str(e)
+        }), 500
+
+
 if __name__ == '__main__':
     print("\n" + "="*60)
     print("Kodaikanal Intelligence Pipeline - Web Interface")
     print("="*60)
     print(f"API Key loaded: {'✅' if MAPS_API_KEY else '❌ Missing!'}")
+    print(f"Gemini API: {'✅' if os.getenv('GEMINI_API_KEY') else '❌ Missing!'}")
+    print(f"Groq API: {'✅' if os.getenv('GROQ_API_KEY') else '⚠️ Missing (voice disabled)'}")
     print("Starting server at http://localhost:5001")
     print("="*60 + "\n")
     

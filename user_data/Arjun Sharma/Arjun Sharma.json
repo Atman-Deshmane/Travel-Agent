@@ -1,21 +1,21 @@
 {
-  "user_id": "ya3tpdlqz",
-  "name": "Atman",
-  "avatar_color": "hsl(47.248271515483914, 70%, 60%)",
-  "generated_at": "2026-01-21T18:27:58.317Z",
+  "user_id": "34ozecrxb",
+  "name": "Arjun Sharma",
+  "avatar_color": "#8B5CF6",
+  "generated_at": "2026-01-21T12:21:00.593Z",
   "defaults": {
     "origin_city": {
-      "value": null,
+      "value": "Chennai",
       "required": false,
       "is_default": true
     },
     "food_preference": {
-      "value": "veg",
+      "value": "flexible",
       "required": false,
       "is_default": true
     },
     "mobility": {
-      "value": "low",
+      "value": "medium",
       "required": false,
       "is_default": true
     },
@@ -26,19 +26,14 @@
     },
     "interests": {
       "value": [
-        "Cloud",
-        "Nature",
-        "History",
-        "Adventure",
-        "Spiritual",
-        "Relaxation",
-        "Museum"
+        "Trekking",
+        "Nature"
       ],
       "required": true,
       "is_default": true
     },
     "transport_mode_preference": {
-      "value": "taxi",
+      "value": "own_vehicle",
       "required": false,
       "is_default": true
     }

@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kodaikanal Golden Loop - Core Route Visualization</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+            min-height: 100vh;
+            color: #fff;
+            padding: 40px 20px;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 8px;
+            background: linear-gradient(90deg, #f5af19, #f12711);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #888;
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+        }
+
+        .summary-bar {
+            display: flex;
+            justify-content: center;
+            gap: 50px;
+            margin-bottom: 40px;
+            padding: 24px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .summary-item {
+            text-align: center;
+        }
+
+        .summary-value {
+            font-size: 2.2rem;
+            font-weight: 700;
+            background: linear-gradient(90deg, #f5af19, #f12711);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .summary-label {
+            font-size: 0.9rem;
+            color: #888;
+            margin-top: 4px;
+        }
+
+        .route-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .route-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 30px;
+        }
+
+        .route-line-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(135deg, #f5af19, #f12711);
+            padding: 8px 20px;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        /* Route Track */
+        .route-track {
+            position: relative;
+            padding-left: 60px;
+        }
+
+        .route-track::before {
+            content: '';
+            position: absolute;
+            left: 24px;
+            top: 0;
+            bottom: 0;
+            width: 6px;
+            background: linear-gradient(180deg, #f5af19 0%, #f12711 50%, #f5af19 100%);
+            border-radius: 3px;
+        }
+
+        .stop {
+            position: relative;
+            padding: 16px 0;
+        }
+
+        .stop::before {
+            content: '';
+            position: absolute;
+            left: -60px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            border: 4px solid #f5af19;
+            background: #0f0c29;
+            z-index: 1;
+        }
+
+        .stop.anchor::before {
+            width: 30px;
+            height: 30px;
+            background: linear-gradient(135deg, #f5af19, #f12711);
+            border: none;
+            left: -63px;
+        }
+
+        .stop-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 14px;
+            padding: 18px 22px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.25s ease;
+        }
+
+        .stop-card:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateX(8px);
+            border-color: rgba(245, 175, 25, 0.3);
+        }
+
+        .stop-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .stop-number {
+            background: linear-gradient(135deg, #f5af19, #f12711);
+            color: #000;
+            min-width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            font-weight: 700;
+        }
+
+        .stop-name {
+            font-weight: 600;
+            font-size: 1.1rem;
+            flex: 1;
+        }
+
+        .anchor-badge {
+            background: linear-gradient(135deg, #f5af19, #f12711);
+            color: #000;
+            font-size: 0.7rem;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .stop-meta {
+            display: flex;
+            gap: 16px;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+
+        .meta-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.85rem;
+            color: #999;
+            background: rgba(255, 255, 255, 0.03);
+            padding: 4px 10px;
+            border-radius: 6px;
+        }
+
+        .meta-item.cluster {
+            color: #a8e6cf;
+        }
+
+        .meta-item.rating {
+            color: #ffd700;
+        }
+
+        .travel-connector {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 8px 0 8px 44px;
+            color: #f5af19;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .travel-connector svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        .travel-connector .time {
+            background: rgba(245, 175, 25, 0.15);
+            padding: 4px 12px;
+            border-radius: 20px;
+        }
+
+        .return-banner {
+            margin-top: 20px;
+            margin-left: 60px;
+            padding: 16px 24px;
+            background: linear-gradient(135deg, rgba(245, 175, 25, 0.2), rgba(241, 39, 17, 0.2));
+            border-radius: 12px;
+            border: 1px solid rgba(245, 175, 25, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .return-banner svg {
+            width: 24px;
+            height: 24px;
+            color: #f5af19;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 80px;
+            color: #888;
+            font-size: 1.2rem;
+        }
+
+        .error {
+            text-align: center;
+            padding: 80px;
+            color: #ef4444;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>🚌 Kodaikanal Golden Loop</h1>
+    <p class="subtitle">Optimized circular route through the core attractions</p>
+
+    <div class="summary-bar" id="summary">
+        <div class="summary-item">
+            <div class="summary-value" id="total-stops">-</div>
+            <div class="summary-label">Stops</div>
+        </div>
+        <div class="summary-item">
+            <div class="summary-value" id="total-time">-</div>
+            <div class="summary-label">Drive Time</div>
+        </div>
+        <div class="summary-item">
+            <div class="summary-value" id="route-type">Circular</div>
+            <div class="summary-label">Route Type</div>
+        </div>
+    </div>
+
+    <div class="route-container">
+        <div class="route-header">
+            <div class="route-line-label">
+                <span>🗺️</span>
+                <span>Core Route</span>
+            </div>
+        </div>
+
+        <div class="route-track" id="route-track">
+            <div class="loading">Loading golden loop...</div>
+        </div>
+    </div>
+
+    <script>
+        async function loadData() {
+            try {
+                const response = await fetch('/data/core_route.json');
+                if (!response.ok) throw new Error('Failed to load data');
+                const data = await response.json();
+                renderRoute(data);
+            } catch (error) {
+                document.getElementById('route-track').innerHTML = `
+                    <div class="error">
+                        <p>Error loading route data: ${error.message}</p>
+                        <p style="margin-top: 10px; color: #888;">Run: python build_core_route.py</p>
+                    </div>
+                `;
+            }
+        }
+
+        function renderRoute(stops) {
+            const container = document.getElementById('route-track');
+            container.innerHTML = '';
+
+            let totalTime = 0;
+            const anchor = stops.find(s => s.type === 'anchor');
+
+            stops.forEach((stop, idx) => {
+                totalTime += stop.next_stop_minutes || 0;
+
+                const stopDiv = document.createElement('div');
+                stopDiv.className = `stop ${stop.type === 'anchor' ? 'anchor' : ''}`;
+
+                stopDiv.innerHTML = `
+                    <div class="stop-card">
+                        <div class="stop-header">
+                            <div class="stop-number">${stop.sequence}</div>
+                            <div class="stop-name">${stop.name}</div>
+                            ${stop.type === 'anchor' ? '<span class="anchor-badge">Start/End</span>' : ''}
+                        </div>
+                        <div class="stop-meta">
+                            <div class="meta-item cluster">
+                                <span>📍</span>
+                                <span>${stop.cluster || 'Core'}</span>
+                            </div>
+                            ${stop.rating ? `
+                                <div class="meta-item rating">
+                                    <span>⭐</span>
+                                    <span>${stop.rating}</span>
+                                </div>
+                            ` : ''}
+                            ${stop.popularity_rank ? `
+                                <div class="meta-item">
+                                    <span>🏆</span>
+                                    <span>Rank #${stop.popularity_rank}</span>
+                                </div>
+                            ` : ''}
+                        </div>
+                    </div>
+                `;
+
+                container.appendChild(stopDiv);
+
+                // Add travel connector (except after last waypoint)
+                if (idx < stops.length - 1 && stop.next_stop_minutes > 0) {
+                    const connector = document.createElement('div');
+                    connector.className = 'travel-connector';
+                    connector.innerHTML = `
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+                        </svg>
+                        <span class="time">${stop.next_stop_minutes} min drive</span>
+                    `;
+                    container.appendChild(connector);
+                }
+            });
+
+            // Add return banner
+            if (anchor) {
+                const lastStop = stops[stops.length - 1];
+                const returnBanner = document.createElement('div');
+                returnBanner.className = 'return-banner';
+                returnBanner.innerHTML = `
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6"></path>
+                    </svg>
+                    <span>↩ Return to <strong>${anchor.name}</strong> (${lastStop.next_stop_minutes} min)</span>
+                `;
+                container.appendChild(returnBanner);
+            }
+
+            // Update summary
+            document.getElementById('total-stops').textContent = stops.length;
+            const hours = Math.floor(totalTime / 60);
+            const mins = totalTime % 60;
+            document.getElementById('total-time').textContent = hours > 0 ? `${hours}h ${mins}m` : `${mins}m`;
+        }
+
+        loadData();
+    </script>
+</body>
+
+</html>

@@ -82,6 +82,5 @@ export const INTEREST_OPTIONS = [
 export const CLUSTER_OPTIONS = [
     { id: 'town-center', name: 'Town Center', description: 'Near lake, shops, restaurants' },
     { id: 'vattakanal', name: 'Vattakanal', description: "Creator's Pick - Quiet, scenic", featured: true },
-    { id: 'forest-road', name: 'Forest Road', description: 'Peaceful, nature immersion' },
     { id: 'coakers-walk', name: "Coaker's Walk", description: 'Central, easy access' },
 ]

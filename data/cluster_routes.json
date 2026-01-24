@@ -1,0 +1,269 @@
+{
+  "Town Center": [
+    {
+      "place_id": "ChIJ7T_P62dmBzsRqa88VYB0q9w",
+      "internal_id": "bryant-park-kodaikanal",
+      "name": "Bryant Park",
+      "order_sequence": 1,
+      "travel_time_to_next_min": 1
+    },
+    {
+      "place_id": "ChIJrXHkrEJmBzsRRUhKRDw0X_M",
+      "internal_id": "coakers-walk-kodaikanal",
+      "name": "Coakers Walk",
+      "order_sequence": 2,
+      "travel_time_to_next_min": 5
+    },
+    {
+      "place_id": "ChIJb58OOQBnBzsRptAdmVeGEaU",
+      "internal_id": "vintage-lover-museum-kodaikanal",
+      "name": "VINTAGE LOVER MUSEUM",
+      "order_sequence": 3,
+      "travel_time_to_next_min": 1
+    },
+    {
+      "place_id": "ChIJ8XvV12NmBzsRihZ5RI-UeUY",
+      "internal_id": "7d-theater-kodaikanal",
+      "name": "7D Theater",
+      "order_sequence": 4,
+      "travel_time_to_next_min": 5
+    },
+    {
+      "place_id": "ChIJb0YpF2RmBzsRCgTLNkaku-0",
+      "internal_id": "kodaikanal-lake-kodaikanal",
+      "name": "Kodaikanal Lake",
+      "order_sequence": 5,
+      "travel_time_to_next_min": 5
+    },
+    {
+      "place_id": "ChIJu3CiBmRmBzsRS71lv4f1BDg",
+      "internal_id": "sarts-gallery-kodaikanal",
+      "name": "Sarts gallery",
+      "order_sequence": 6,
+      "travel_time_to_next_min": 1
+    },
+    {
+      "place_id": "ChIJM5UTeWFmBzsRi-4sXZKgEXw",
+      "internal_id": "ttdc-boat-house-i-kodaikanal",
+      "name": "TTDC Boat House-I",
+      "order_sequence": 7,
+      "travel_time_to_next_min": 13
+    },
+    {
+      "place_id": "ChIJy4TZFu5mBzsRZ4t4DtUraaU",
+      "internal_id": "kurinji-andavar-temple-kodaikanal",
+      "name": "Kurinji Andavar Temple",
+      "order_sequence": 8,
+      "travel_time_to_next_min": 2
+    },
+    {
+      "place_id": "ChIJ86zE5PBmBzsREusdPr1RGtY",
+      "internal_id": "chettiar-park-kodaikanal",
+      "name": "Chettiar Park",
+      "order_sequence": 9,
+      "travel_time_to_next_min": 26
+    },
+    {
+      "place_id": "ChIJvbLnEFdnBzsRgU4JkMc7Wuo",
+      "internal_id": "remas-resorts-and-adventure-park-kodaikanal",
+      "name": "Remas Resorts and Adventure Park",
+      "order_sequence": 10,
+      "travel_time_to_next_min": 84
+    },
+    {
+      "place_id": "ChIJcwiubRhdBzsRmR57QGZa8ko",
+      "internal_id": "thalaiyar-waterfalls-kodaikanal",
+      "name": "Thalaiyar Waterfalls",
+      "order_sequence": 11,
+      "travel_time_to_next_min": 254
+    },
+    {
+      "place_id": "ChIJVWZY8et2BzsRQuxWBaRgWcc",
+      "internal_id": "pampadum-shola-national-park-kodaikanal",
+      "name": "Pampadum Shola National Park",
+      "order_sequence": 12,
+      "travel_time_to_next_min": 234
+    },
+    {
+      "place_id": "ChIJG48RHGloBzsRUwSUPlafkU4",
+      "internal_id": "kumbakkarai-falls-kodaikanal",
+      "name": "Kumbakkarai Falls",
+      "order_sequence": 13,
+      "travel_time_to_next_min": 122
+    },
+    {
+      "place_id": "ChIJyUgXwhxeBzsRfCGsbBB538I",
+      "internal_id": "perumal-peak-kodaikanal",
+      "name": "Perumal Peak",
+      "order_sequence": 14,
+      "travel_time_to_next_min": 20
+    },
+    {
+      "place_id": "ChIJ92AhTWBnBzsRvna2kKjpVj8",
+      "internal_id": "cave-dolmen-kodaikanal-kodaikanal",
+      "name": "Cave (Dolmen) Kodaikanal",
+      "order_sequence": 15,
+      "travel_time_to_next_min": 19
+    },
+    {
+      "place_id": "ChIJWV8fmgFnBzsRFyCKSAKIEEA",
+      "internal_id": "silver-cascade-falls-kodaikanal",
+      "name": "Silver Cascade Falls",
+      "order_sequence": 16,
+      "travel_time_to_next_min": 6
+    },
+    {
+      "place_id": "ChIJYewoCmFmBzsRx10h0PF8yx0",
+      "internal_id": "natural-history-museum-kodaikanal",
+      "name": "Natural History Museum",
+      "order_sequence": 17,
+      "travel_time_to_next_min": 0
+    },
+    {
+      "place_id": "ChIJJVL5OVtmBzsRUckwMD4cMi0",
+      "internal_id": "sacred-heart-college-museum-kodaikanal",
+      "name": "Sacred Heart College Museum",
+      "order_sequence": 18,
+      "travel_time_to_next_min": 13
+    },
+    {
+      "place_id": "ChIJIcfDBQpnBzsR8G6Qge9mPOw",
+      "internal_id": "kodai-jeep-safari-kodaikanal-jeep-safari-kodaikanal",
+      "name": "Kodai Jeep Safari | Kodaikanal jeep safari",
+      "order_sequence": 19,
+      "travel_time_to_next_min": 5
+    },
+    {
+      "place_id": "ChIJHb_UMWxmBzsRANK5bcGH_LQ",
+      "internal_id": "saleth-matha-church-kodaikanal",
+      "name": "Saleth Matha Church",
+      "order_sequence": 20,
+      "travel_time_to_next_min": 4
+    }
+  ],
+  "Forest Circuit": [
+    {
+      "place_id": "ChIJBz2iNldmBzsR4bJprNHYtX0",
+      "internal_id": "pine-forest-kodaikanal",
+      "name": "Pine Forest",
+      "order_sequence": 1,
+      "travel_time_to_next_min": 3
+    },
+    {
+      "place_id": "ChIJe7Xyx-xlBzsRbTqk6FNIUM0",
+      "internal_id": "moir-point-kodaikanal",
+      "name": "Moir Point",
+      "order_sequence": 2,
+      "travel_time_to_next_min": 24
+    },
+    {
+      "place_id": "ChIJO_tpLw9mBzsRI2egOTdZwOc",
+      "internal_id": "green-valley-viewpoint-kodaikanal",
+      "name": "Green Valley Viewpoint",
+      "order_sequence": 3,
+      "travel_time_to_next_min": 5
+    },
+    {
+      "place_id": "ChIJWWd7PbFlBzsRMLd8ZKYoH_c",
+      "internal_id": "guna-cave-kodaikanal",
+      "name": "Guna Cave",
+      "order_sequence": 4,
+      "travel_time_to_next_min": 1
+    },
+    {
+      "place_id": "ChIJwdGjIN5lBzsRVZi51ZgI31M",
+      "internal_id": "pillar-rocks-road-kodaikanal",
+      "name": "Pillar Rocks Road",
+      "order_sequence": 5,
+      "travel_time_to_next_min": 4
+    }
+  ],
+  "Vattakanal": [
+    {
+      "place_id": "ChIJA1eKX3RmBzsRbeKfAnGzXk0",
+      "internal_id": "liril-falls-kodaikanal",
+      "name": "Liril Falls",
+      "order_sequence": 1,
+      "travel_time_to_next_min": 68
+    },
+    {
+      "place_id": "ChIJK-NBl_NvBzsRWiBRgD_TszE",
+      "internal_id": "berijam-lake-kodaikanal",
+      "name": "Berijam Lake",
+      "order_sequence": 2,
+      "travel_time_to_next_min": 27
+    },
+    {
+      "place_id": "ChIJm8ACu3hvBzsR9iqNgFYrwqg",
+      "internal_id": "silent-valley-view-kodaikanal",
+      "name": "Silent Valley View",
+      "order_sequence": 3,
+      "travel_time_to_next_min": 31
+    },
+    {
+      "place_id": "ChIJBQsA0tZlBzsR39oFGeRH9is",
+      "internal_id": "kodaikanal-solar-observatory-museum-kodaikanal",
+      "name": "Kodaikanal Solar Observatory Museum",
+      "order_sequence": 4,
+      "travel_time_to_next_min": 1
+    },
+    {
+      "place_id": "ChIJ8xVlk3hlBzsRQ7OHHFhpxGQ",
+      "internal_id": "government-rose-garden-kodaikanal-kodaikanal",
+      "name": "Government Rose Garden , Kodaikanal",
+      "order_sequence": 5,
+      "travel_time_to_next_min": 4
+    },
+    {
+      "place_id": "ChIJa7-sOdllBzsR6w3FFIkgxuM",
+      "internal_id": "fairy-falls-kodaikanal",
+      "name": "Fairy Falls",
+      "order_sequence": 6,
+      "travel_time_to_next_min": 6
+    },
+    {
+      "place_id": "ChIJ0-FQUndmBzsRcnHt49dUoJg",
+      "internal_id": "upper-lake-view-kodaikanal",
+      "name": "Upper Lake View",
+      "order_sequence": 7,
+      "travel_time_to_next_min": 3
+    },
+    {
+      "place_id": "ChIJ_2218x5nBzsR7jytPEz_dHw",
+      "internal_id": "new-wax-museum-kodaikanal-kodaikanal",
+      "name": "New Wax Museum Kodaikanal",
+      "order_sequence": 8,
+      "travel_time_to_next_min": 4
+    },
+    {
+      "place_id": "ChIJ2QZzGIpnBzsRvMwx2IZHSV0",
+      "internal_id": "vattakanal-waterfalls-kodaikanal",
+      "name": "Vattakanal Waterfalls",
+      "order_sequence": 9,
+      "travel_time_to_next_min": 6
+    },
+    {
+      "place_id": "ChIJg83_KBdmBzsRLcSDcCeOEms",
+      "internal_id": "dolphin-nose-kodaikanal",
+      "name": "Dolphin Nose",
+      "order_sequence": 10,
+      "travel_time_to_next_min": 6
+    }
+  ],
+  "Poombarai": [
+    {
+      "place_id": "ChIJ5U3FUsN6BzsRXLUT1A2krkE",
+      "internal_id": "mannavanur-lake-kodaikanal",
+      "name": "Mannavanur Lake",
+      "order_sequence": 1,
+      "travel_time_to_next_min": 36
+    },
+    {
+      "place_id": "ChIJgVE2YZZlBzsRk721Q3kBmc8",
+      "internal_id": "poombarai-village-view-point-kodaikanal",
+      "name": "Poombarai Village View Point",
+      "order_sequence": 2,
+      "travel_time_to_next_min": 37
+    }
+  ]
+}
