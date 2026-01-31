@@ -20,7 +20,11 @@ interface PlaceCarouselProps {
 }
 
 export function PlaceCarousel({ places, selectedIds = [], onConfirm }: PlaceCarouselProps) {
-    const [selected, setSelected] = useState<Set<string>>(new Set(selectedIds))
+    // Initialize with all places pre-selected if selectedIds matches places count
+    const initialSelected = selectedIds.length > 0
+        ? new Set(selectedIds)
+        : new Set(places.map(p => p.id))  // Auto-select all if no selection provided
+    const [selected, setSelected] = useState<Set<string>>(initialSelected)
     const scrollRef = useRef<HTMLDivElement>(null)
 
     const togglePlace = (id: string) => {
@@ -101,8 +105,8 @@ export function PlaceCarousel({ places, selectedIds = [], onConfirm }: PlaceCaro
                             whileHover={{ scale: 1.02 }}
                             whileTap={{ scale: 0.98 }}
                             className={`flex-shrink-0 w-48 p-3 rounded-xl border transition-all text-left ${selected.has(place.id)
-                                    ? 'bg-emerald-500/20 border-emerald-500'
-                                    : 'bg-slate-700/50 border-slate-600 hover:border-slate-500'
+                                ? 'bg-emerald-500/20 border-emerald-500'
+                                : 'bg-slate-700/50 border-slate-600 hover:border-slate-500'
                                 }`}
                         >
                             <div className="flex items-start justify-between mb-2">

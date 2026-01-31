@@ -1,21 +1,23 @@
 {
-  "user_id": "ai-atman",
-  "name": "Atman",
-  "avatar_color": "hsl(208, 70%, 60%)",
-  "generated_at": "2026-01-29T20:09:08.353033",
+  "user_id": "ai-ravi",
+  "name": "Ravi",
+  "avatar_color": "hsl(229, 70%, 60%)",
+  "generated_at": "2026-01-28T19:08:22.969457",
   "defaults": {
     "interests": {
       "value": [
-        "Nature & Viewpoints",
         "Peace & Serenity",
-        "Adventure & Trekking",
+        "Photography Spots",
         "Cafes & Food",
+        "Adventure & Trekking",
+        "Nature & Viewpoints",
+        "Wildlife & Gardens",
         "Waterfalls"
       ],
       "required": true
     },
     "pace": {
-      "value": "chill",
+      "value": "balanced",
       "required": false
     },
     "mobility": {

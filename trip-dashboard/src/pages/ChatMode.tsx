@@ -2,9 +2,9 @@ import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
     Send, Mic, MicOff, RotateCcw, Volume2, VolumeX,
-    Play, Loader2, Bot, User, Sparkles
+    Play, Loader2, Bot, User
 } from 'lucide-react'
-import { InterestSelector, PlaceCarousel, ItineraryWidget } from '../components/chat/widgets'
+import { InterestSelector, PlaceCarousel, ItineraryWidget, DatePickerWidget, PaceSelector } from '../components/chat/widgets'
 
 interface Message {
     id: string
@@ -18,11 +18,7 @@ interface Message {
     timestamp: Date
 }
 
-interface ChatModeProps {
-    onSwitchToManual?: () => void
-}
-
-export function ChatMode({ onSwitchToManual }: ChatModeProps) {
+export function ChatMode() {
     // Initial pinned greeting from Koda
     const initialGreeting: Message = {
         id: 'greeting',
@@ -267,14 +263,21 @@ export function ChatMode({ onSwitchToManual }: ChatModeProps) {
         setSessionState(null)
     }
 
-    const handleWidgetAction = (action: string, data: { interests?: string[]; places?: string[] }) => {
-        // Handle widget interactions (e.g., selecting places, submitting forms)
+    const handleWidgetAction = (action: string, data: { interests?: string[]; places?: string[]; dates?: { from: string; to: string }; pace?: string; group_type?: string; has_elders?: boolean; has_kids?: boolean }) => {
+        // Handle widget interactions
         if (action === 'select_interests' && data.interests) {
             sendMessage(`My interests are: ${data.interests.join(', ')}`)
         } else if (action === 'select_places' && data.places) {
-            sendMessage(`I want to visit: ${data.places.join(', ')}`)
+            sendMessage(`I want to visit these ${data.places.length} places. Please build my itinerary.`)
         } else if (action === 'confirm_itinerary') {
             sendMessage('This itinerary looks great! Please save it.')
+        } else if (action === 'select_dates' && data.dates) {
+            sendMessage(`I'm planning to visit from ${data.dates.from} to ${data.dates.to}`)
+        } else if (action === 'select_pace') {
+            const parts = [`My pace is ${data.pace}, traveling ${data.group_type}`]
+            if (data.has_elders) parts.push('with senior family members')
+            if (data.has_kids) parts.push('with kids')
+            sendMessage(parts.join(', '))
         }
     }
 
@@ -303,28 +306,34 @@ export function ChatMode({ onSwitchToManual }: ChatModeProps) {
                         onConfirm={() => handleWidgetAction('confirm_itinerary', {})}
                     />
                 )
+            case 'date_picker':
+                return (
+                    <DatePickerWidget
+                        onConfirm={(dates) => handleWidgetAction('select_dates', { dates })}
+                    />
+                )
+            case 'pace_selector':
+                return (
+                    <PaceSelector
+                        onConfirm={(selection) => handleWidgetAction('select_pace', selection)}
+                    />
+                )
             default:
                 return null
         }
     }
 
     return (
-        <div className="flex flex-col h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
-            {/* Header */}
-            <header className="flex-shrink-0 bg-slate-800/80 backdrop-blur-lg border-b border-slate-700 px-6 py-4">
+        <div className="flex flex-col h-[calc(100vh-3.5rem)] bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
+            {/* Chat Controls Header */}
+            <header className="flex-shrink-0 bg-slate-800/80 backdrop-blur-lg border-b border-slate-700 px-4 py-2">
                 <div className="max-w-4xl mx-auto flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center">
-                            <Sparkles className="w-5 h-5 text-white" />
-                        </div>
-                        <div>
-                            <h1 className="text-lg font-bold text-white">Koda</h1>
-                            <p className="text-xs text-slate-400">Your Kodaikanal Trip Planner</p>
-                        </div>
+                    <div className="text-sm text-slate-400">
+                        Kodaikanal • <span className="text-emerald-400">Koda</span>
                     </div>
 
-                    <div className="flex items-center gap-3">
-                        {/* Audio Controls */}
+                    {/* Chat Controls */}
+                    <div className="flex items-center gap-2">
                         <button
                             onClick={() => setIsMuted(!isMuted)}
                             className={`p-2 rounded-lg transition-colors ${isMuted ? 'bg-red-500/20 text-red-400' : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
@@ -349,15 +358,6 @@ export function ChatMode({ onSwitchToManual }: ChatModeProps) {
                         >
                             <RotateCcw size={18} />
                         </button>
-
-                        {onSwitchToManual && (
-                            <button
-                                onClick={onSwitchToManual}
-                                className="px-4 py-2 rounded-lg bg-indigo-600 text-white text-sm font-medium hover:bg-indigo-500 transition-colors"
-                            >
-                                Manual Mode
-                            </button>
-                        )}
                     </div>
                 </div>
             </header>

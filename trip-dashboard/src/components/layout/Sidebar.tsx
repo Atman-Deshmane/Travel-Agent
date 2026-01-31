@@ -9,7 +9,7 @@ interface SidebarProps {
 
 export function Sidebar({ children }: SidebarProps) {
     return (
-        <div className="flex h-screen bg-slate-50 overflow-hidden">
+        <div className="flex h-[calc(100vh-64px)] bg-slate-50 overflow-hidden">
             {/* Premium Dark Sidebar */}
             <motion.aside
                 initial={{ x: -20, opacity: 0 }}

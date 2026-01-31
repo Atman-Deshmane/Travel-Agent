@@ -431,7 +431,7 @@ export function TripConfigurator({ onFetchPlaces }: TripConfiguratorProps) {
                 {/* Footer / Generate Action */}
                 <motion.div
                     variants={itemVariants}
-                    className="mt-16 pt-10 border-t border-slate-200 flex items-center justify-between sticky bottom-6 bg-white/80 backdrop-blur-lg p-6 rounded-2xl border border-white/20 shadow-2xl"
+                    className="mt-16 pt-10 border-t border-slate-200 flex items-center justify-between bg-white/80 backdrop-blur-lg p-6 rounded-2xl border border-white/20 shadow-lg"
                 >
                     <div>
                         <p className="text-label mb-1">Status</p>

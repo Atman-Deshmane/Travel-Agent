@@ -221,6 +221,8 @@ function createPlaceCard(place) {
     // const cluster = place.location?.cluster_zone || 'Unknown';
     const photoRef = place.content?.photo_reference;
     const photoUrl = photoRef ? `/api/photo/${photoRef}` : null;
+    const sources = place.sources || [];
+    const sourcesCount = sources.length;
 
     return `
         <div class="group bg-white rounded-xl p-3 border border-slate-200 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 cursor-pointer flex flex-col h-full" 
@@ -242,6 +244,15 @@ function createPlaceCard(place) {
                 <div class="absolute top-2 left-2 bg-white/95 backdrop-blur-md px-2 py-0.5 rounded-md text-[10px] font-bold text-slate-900 shadow-sm border border-slate-200">
                     #${rank}
                 </div>
+                
+                <!-- Sources Badge -->
+                ${sourcesCount > 0 ? `
+                <button class="absolute top-2 right-2 bg-indigo-500/90 backdrop-blur-md px-2 py-0.5 rounded-md text-[10px] font-bold text-white shadow-sm border border-indigo-400 hover:bg-indigo-600 transition-colors flex items-center gap-1" 
+                        onclick="event.stopPropagation(); showSources('${place.id}')">
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                    ${sourcesCount}
+                </button>
+                ` : ''}
             </div>
 
             <!-- Content -->
@@ -276,6 +287,21 @@ function openPlaceModal(placeId) {
     }
 }
 
+// Show sources popup by opening the modal for a place
+function showSources(placeId) {
+    const place = placesMap[placeId];
+    if (place) {
+        showResultModal(place);
+        // Scroll to sources section after a brief delay for modal render
+        setTimeout(() => {
+            const sourcesSection = document.querySelector('#modal-body h4:last-of-type');
+            if (sourcesSection) {
+                sourcesSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }, 100);
+    }
+}
+
 // Show result in modal
 function showResultModal(place) {
     const modal = document.getElementById('result-modal');
@@ -289,6 +315,7 @@ function showResultModal(place) {
     const tags = place.content?.tags || [];
     const photoRef = place.content?.photo_reference;
     const photoUrl = photoRef ? `/api/photo/${photoRef}` : null;
+    const sources = place.sources || [];
 
     body.innerHTML = `
         <!-- Hero Header -->
@@ -387,6 +414,24 @@ function showResultModal(place) {
                     <span>Open in Google Maps</span>
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
                 </a>
+            </div>
+            ` : ''}
+            
+            ${sources.length > 0 ? `
+            <div class="mt-6 pt-6 border-t border-slate-100">
+                <h4 class="text-sm font-bold text-slate-900 uppercase tracking-wider mb-3 flex items-center gap-2">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                    Sources (${sources.length})
+                </h4>
+                <div class="space-y-2 max-h-40 overflow-y-auto">
+                    ${sources.map((source, idx) => `
+                        <a href="${escapeHtml(source)}" target="_blank" 
+                           class="flex items-center gap-2 text-xs text-indigo-600 hover:text-indigo-800 hover:bg-indigo-50 p-2 rounded-lg transition-colors truncate">
+                            <svg class="flex-shrink-0" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                            <span class="truncate">${escapeHtml(new URL(source).hostname)}</span>
+                        </a>
+                    `).join('')}
+                </div>
             </div>
             ` : ''}
         </div>

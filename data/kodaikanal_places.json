@@ -23,13 +23,13 @@
         "avg_time_spent_minutes": 90,
         "opening_hours": {
           "weekday_text": [
-            "Monday: 9:00\u202fAM\u2009\u2013\u20096:00\u202fPM",
-            "Tuesday: 9:00\u202fAM\u2009\u2013\u20096:00\u202fPM",
-            "Wednesday: 9:00\u202fAM\u2009\u2013\u20096:00\u202fPM",
-            "Thursday: 9:00\u202fAM\u2009\u2013\u20096:00\u202fPM",
-            "Friday: 9:00\u202fAM\u2009\u2013\u20096:00\u202fPM",
-            "Saturday: 9:00\u202fAM\u2009\u2013\u20096:00\u202fPM",
-            "Sunday: 9:00\u202fAM\u2009\u2013\u20096:00\u202fPM"
+            "Monday: 9:00 AM – 6:00 PM",
+            "Tuesday: 9:00 AM – 6:00 PM",
+            "Wednesday: 9:00 AM – 6:00 PM",
+            "Thursday: 9:00 AM – 6:00 PM",
+            "Friday: 9:00 AM – 6:00 PM",
+            "Saturday: 9:00 AM – 6:00 PM",
+            "Sunday: 9:00 AM – 6:00 PM"
           ],
           "periods": [
             {
@@ -182,13 +182,13 @@
         "avg_time_spent_minutes": 90,
         "opening_hours": {
           "weekday_text": [
-            "Monday: 10:00\u202fAM\u2009\u2013\u20096:00\u202fPM",
-            "Tuesday: 10:00\u202fAM\u2009\u2013\u20096:00\u202fPM",
-            "Wednesday: 10:00\u202fAM\u2009\u2013\u20096:00\u202fPM",
-            "Thursday: 10:00\u202fAM\u2009\u2013\u20096:00\u202fPM",
-            "Friday: 10:00\u202fAM\u2009\u2013\u20096:00\u202fPM",
-            "Saturday: 10:00\u202fAM\u2009\u2013\u20096:00\u202fPM",
-            "Sunday: 10:00\u202fAM\u2009\u2013\u20096:00\u202fPM"
+            "Monday: 10:00 AM – 6:00 PM",
+            "Tuesday: 10:00 AM – 6:00 PM",
+            "Wednesday: 10:00 AM – 6:00 PM",
+            "Thursday: 10:00 AM – 6:00 PM",
+            "Friday: 10:00 AM – 6:00 PM",
+            "Saturday: 10:00 AM – 6:00 PM",
+            "Sunday: 10:00 AM – 6:00 PM"
           ],
           "periods": [
             {
@@ -337,13 +337,13 @@
         "avg_time_spent_minutes": 60,
         "opening_hours": {
           "weekday_text": [
-            "Monday: 9:00\u202fAM\u2009\u2013\u20094:00\u202fPM",
-            "Tuesday: 9:00\u202fAM\u2009\u2013\u20094:00\u202fPM",
-            "Wednesday: 9:00\u202fAM\u2009\u2013\u20094:00\u202fPM",
-            "Thursday: 9:00\u202fAM\u2009\u2013\u20094:00\u202fPM",
-            "Friday: 9:00\u202fAM\u2009\u2013\u20094:00\u202fPM",
-            "Saturday: 9:00\u202fAM\u2009\u2013\u20094:00\u202fPM",
-            "Sunday: 9:00\u202fAM\u2009\u2013\u20094:00\u202fPM"
+            "Monday: 9:00 AM – 4:00 PM",
+            "Tuesday: 9:00 AM – 4:00 PM",
+            "Wednesday: 9:00 AM – 4:00 PM",
+            "Thursday: 9:00 AM – 4:00 PM",
+            "Friday: 9:00 AM – 4:00 PM",
+            "Saturday: 9:00 AM – 4:00 PM",
+            "Sunday: 9:00 AM – 4:00 PM"
           ],
           "periods": [
             {
@@ -479,13 +479,13 @@
         "avg_time_spent_minutes": 45,
         "opening_hours": {
           "weekday_text": [
-            "Monday: 9:00\u202fAM\u2009\u2013\u20094:00\u202fPM",
-            "Tuesday: 9:00\u202fAM\u2009\u2013\u20094:00\u202fPM",
-            "Wednesday: 9:00\u202fAM\u2009\u2013\u20094:00\u202fPM",
-            "Thursday: 9:00\u202fAM\u2009\u2013\u20094:00\u202fPM",
-            "Friday: 9:00\u202fAM\u2009\u2013\u20094:00\u202fPM",
-            "Saturday: 9:00\u202fAM\u2009\u2013\u20094:00\u202fPM",
-            "Sunday: 9:00\u202fAM\u2009\u2013\u20094:00\u202fPM"
+            "Monday: 9:00 AM – 4:00 PM",
+            "Tuesday: 9:00 AM – 4:00 PM",
+            "Wednesday: 9:00 AM – 4:00 PM",
+            "Thursday: 9:00 AM – 4:00 PM",
+            "Friday: 9:00 AM – 4:00 PM",
+            "Saturday: 9:00 AM – 4:00 PM",
+            "Sunday: 9:00 AM – 4:00 PM"
           ],
           "periods": [
             {
@@ -638,13 +638,13 @@
         "avg_time_spent_minutes": 45,
         "opening_hours": {
           "weekday_text": [
-            "Monday: 8:30\u202fAM\u2009\u2013\u20096:00\u202fPM",
-            "Tuesday: 8:30\u202fAM\u2009\u2013\u20096:00\u202fPM",
-            "Wednesday: 8:30\u202fAM\u2009\u2013\u20096:00\u202fPM",
-            "Thursday: 8:30\u202fAM\u2009\u2013\u20096:00\u202fPM",
-            "Friday: 8:30\u202fAM\u2009\u2013\u20096:00\u202fPM",
-            "Saturday: 8:30\u202fAM\u2009\u2013\u20096:00\u202fPM",
-            "Sunday: 8:30\u202fAM\u2009\u2013\u20096:00\u202fPM"
+            "Monday: 8:30 AM – 6:00 PM",
+            "Tuesday: 8:30 AM – 6:00 PM",
+            "Wednesday: 8:30 AM – 6:00 PM",
+            "Thursday: 8:30 AM – 6:00 PM",
+            "Friday: 8:30 AM – 6:00 PM",
+            "Saturday: 8:30 AM – 6:00 PM",
+            "Sunday: 8:30 AM – 6:00 PM"
           ],
           "periods": [
             {
@@ -797,13 +797,13 @@
         "avg_time_spent_minutes": 60,
         "opening_hours": {
           "weekday_text": [
-            "Monday: 8:30\u202fAM\u2009\u2013\u20098:00\u202fPM",
-            "Tuesday: 8:30\u202fAM\u2009\u2013\u20098:00\u202fPM",
-            "Wednesday: 8:30\u202fAM\u2009\u2013\u20098:00\u202fPM",
-            "Thursday: 8:30\u202fAM\u2009\u2013\u20098:00\u202fPM",
-            "Friday: 8:30\u202fAM\u2009\u2013\u20098:00\u202fPM",
-            "Saturday: 8:30\u202fAM\u2009\u2013\u20098:00\u202fPM",
-            "Sunday: 8:30\u202fAM\u2009\u2013\u20098:00\u202fPM"
+            "Monday: 8:30 AM – 8:00 PM",
+            "Tuesday: 8:30 AM – 8:00 PM",
+            "Wednesday: 8:30 AM – 8:00 PM",
+            "Thursday: 8:30 AM – 8:00 PM",
+            "Friday: 8:30 AM – 8:00 PM",
+            "Saturday: 8:30 AM – 8:00 PM",
+            "Sunday: 8:30 AM – 8:00 PM"
           ],
           "periods": [
             {
@@ -945,13 +945,13 @@
         "avg_time_spent_minutes": 30,
         "opening_hours": {
           "weekday_text": [
-            "Monday: 7:00\u202fAM\u2009\u2013\u20096:00\u202fPM",
-            "Tuesday: 7:00\u202fAM\u2009\u2013\u20096:00\u202fPM",
-            "Wednesday: 7:00\u202fAM\u2009\u2013\u20096:00\u202fPM",
-            "Thursday: 7:00\u202fAM\u2009\u2013\u20096:00\u202fPM",
-            "Friday: 7:00\u202fAM\u2009\u2013\u20096:00\u202fPM",
-            "Saturday: 7:00\u202fAM\u2009\u2013\u20096:00\u202fPM",
-            "Sunday: 7:00\u202fAM\u2009\u2013\u20096:00\u202fPM"
+            "Monday: 7:00 AM – 6:00 PM",
+            "Tuesday: 7:00 AM – 6:00 PM",
+            "Wednesday: 7:00 AM – 6:00 PM",
+            "Thursday: 7:00 AM – 6:00 PM",
+            "Friday: 7:00 AM – 6:00 PM",
+            "Saturday: 7:00 AM – 6:00 PM",
+            "Sunday: 7:00 AM – 6:00 PM"
           ],
           "periods": [
             {
@@ -1109,13 +1109,13 @@
         "avg_time_spent_minutes": 60,
         "opening_hours": {
           "weekday_text": [
-            "Monday: 7:00\u202fAM\u2009\u2013\u20097:00\u202fPM",
-            "Tuesday: 7:00\u202fAM\u2009\u2013\u20097:00\u202fPM",
-            "Wednesday: 7:00\u202fAM\u2009\u2013\u20097:00\u202fPM",
-            "Thursday: 7:00\u202fAM\u2009\u2013\u20097:00\u202fPM",
-            "Friday: 7:00\u202fAM\u2009\u2013\u20097:00\u202fPM",
-            "Saturday: 7:00\u202fAM\u2009\u2013\u20097:00\u202fPM",
-            "Sunday: 7:00\u202fAM\u2009\u2013\u20097:00\u202fPM"
+            "Monday: 7:00 AM – 7:00 PM",
+            "Tuesday: 7:00 AM – 7:00 PM",
+            "Wednesday: 7:00 AM – 7:00 PM",
+            "Thursday: 7:00 AM – 7:00 PM",
+            "Friday: 7:00 AM – 7:00 PM",
+            "Saturday: 7:00 AM – 7:00 PM",
+            "Sunday: 7:00 AM – 7:00 PM"
           ],
           "periods": [
             {
@@ -1359,13 +1359,13 @@
         "avg_time_spent_minutes": 60,
         "opening_hours": {
           "weekday_text": [
-            "Monday: 6:30\u202fAM\u2009\u2013\u20097:30\u202fPM",
-            "Tuesday: 6:30\u202fAM\u2009\u2013\u20097:30\u202fPM",
-            "Wednesday: 6:30\u202fAM\u2009\u2013\u20097:30\u202fPM",
-            "Thursday: 6:30\u202fAM\u2009\u2013\u20097:30\u202fPM",
-            "Friday: 6:30\u202fAM\u2009\u2013\u20097:30\u202fPM",
-            "Saturday: 6:30\u202fAM\u2009\u2013\u20097:30\u202fPM",
-            "Sunday: 6:30\u202fAM\u2009\u2013\u20097:30\u202fPM"
+            "Monday: 6:30 AM – 7:30 PM",
+            "Tuesday: 6:30 AM – 7:30 PM",
+            "Wednesday: 6:30 AM – 7:30 PM",
+            "Thursday: 6:30 AM – 7:30 PM",
+            "Friday: 6:30 AM – 7:30 PM",
+            "Saturday: 6:30 AM – 7:30 PM",
+            "Sunday: 6:30 AM – 7:30 PM"
           ],
           "periods": [
             {
@@ -1518,13 +1518,13 @@
         "avg_time_spent_minutes": 150,
         "opening_hours": {
           "weekday_text": [
-            "Monday: 6:00\u202fAM\u2009\u2013\u20095:30\u202fPM",
-            "Tuesday: 6:00\u202fAM\u2009\u2013\u20095:30\u202fPM",
-            "Wednesday: 6:00\u202fAM\u2009\u2013\u20095:30\u202fPM",
-            "Thursday: 6:00\u202fAM\u2009\u2013\u20095:30\u202fPM",
-            "Friday: 6:00\u202fAM\u2009\u2013\u20095:30\u202fPM",
-            "Saturday: 6:00\u202fAM\u2009\u2013\u20095:30\u202fPM",
-            "Sunday: 6:00\u202fAM\u2009\u2013\u20095:30\u202fPM"
+            "Monday: 6:00 AM – 5:30 PM",
+            "Tuesday: 6:00 AM – 5:30 PM",
+            "Wednesday: 6:00 AM – 5:30 PM",
+            "Thursday: 6:00 AM – 5:30 PM",
+            "Friday: 6:00 AM – 5:30 PM",
+            "Saturday: 6:00 AM – 5:30 PM",
+            "Sunday: 6:00 AM – 5:30 PM"
           ],
           "periods": [
             {
@@ -1736,6 +1736,158 @@
       }
     },
     {
+      "id": "altaf-s-cafe-kodaikanal",
+      "google_place_id": "ChIJdSCsvxNmBzsROo3yACJ_ymQ",
+      "name": "Altaf's Cafe",
+      "location": {
+        "lat": 10.2148598,
+        "lng": 77.4853995,
+        "address": "6F8M+2RG, Dolphin Nose Road, Vattakanal, Kodaikanal, Tamil Nadu 624101, India",
+        "cluster_zone": "Vattakanal",
+        "nearest_cluster": null,
+        "google_maps_link": "https://maps.google.com/?cid=7262757133109857594"
+      },
+      "stats": {
+        "rating": 4.3,
+        "review_count": 4951,
+        "popularity_score": 24.75,
+        "popularity_rank": 13,
+        "price_level": 2
+      },
+      "logic": {
+        "avg_time_spent_minutes": 120,
+        "opening_hours": {
+          "weekday_text": [
+            "Monday: 9:00 AM – 9:00 PM",
+            "Tuesday: 9:00 AM – 9:00 PM",
+            "Wednesday: 9:00 AM – 9:00 PM",
+            "Thursday: Closed",
+            "Friday: 9:00 AM – 9:00 PM",
+            "Saturday: 9:00 AM – 9:00 PM",
+            "Sunday: 9:00 AM – 9:00 PM"
+          ],
+          "periods": [
+            {
+              "close": {
+                "day": 0,
+                "time": "2100"
+              },
+              "open": {
+                "day": 0,
+                "time": "0900"
+              }
+            },
+            {
+              "close": {
+                "day": 1,
+                "time": "2100"
+              },
+              "open": {
+                "day": 1,
+                "time": "0900"
+              }
+            },
+            {
+              "close": {
+                "day": 2,
+                "time": "2100"
+              },
+              "open": {
+                "day": 2,
+                "time": "0900"
+              }
+            },
+            {
+              "close": {
+                "day": 3,
+                "time": "2100"
+              },
+              "open": {
+                "day": 3,
+                "time": "0900"
+              }
+            },
+            {
+              "close": {
+                "day": 5,
+                "time": "2100"
+              },
+              "open": {
+                "day": 5,
+                "time": "0900"
+              }
+            },
+            {
+              "close": {
+                "day": 6,
+                "time": "2100"
+              },
+              "open": {
+                "day": 6,
+                "time": "0900"
+              }
+            }
+          ]
+        },
+        "peak_hours": [
+          12,
+          13,
+          14
+        ],
+        "difficulty": "Easy"
+      },
+      "content": {
+        "short_summary": "Altaf's Cafe in Vattakanal offers Middle Eastern cuisine and stunning mountain views in a cozy, laid-back atmosphere.",
+        "tags": [
+          "Middle Eastern cuisine",
+          "Valley view",
+          "Cozy atmosphere",
+          "Breathtaking views",
+          "Warm hospitality",
+          "Mellow music",
+          "Hillside cafe"
+        ],
+        "best_time_text": "Early mornings are recommended to enjoy the mist and avoid crowds.",
+        "tips": [
+          "Try the falafel, shakshuka, and ginger honey tea.",
+          "Go early to avoid crowds and find parking.",
+          "Vegetarian options are highly recommended."
+        ],
+        "hero_image_url": null,
+        "photo_reference": "AcnlKN34sodfPfk1L_Zk_SH8-UBdChjMQ9aXRvOKg8_qRWTv_LY9dfLD8CDcLkyyrmfWqzO9mI8SSX7DcektgyqOmePhitUJKfAEYr4QXQ0LvY4rK1BV4ufDRJu1G7-uUC1SOFoFMIBnsDkPT0OdRZXExXvDhl_c0OkCirj1S3kWHeHVFTwyGWOJ-CjnDUKNCwK23sJrkw3784Uq0vOzVo4YwaEWKqCxVRBsRFZDVqaZNH-BIYlWp6auSd1d9gQJvi4OKYinNeijsvl-ALHGXHX8THrSP87bBksW-PxVvvRovh2MTQ"
+      },
+      "sources": [
+        "https://www.wanderlog.com/in/poi/52896/altaf-s-cafe-kodaikanal",
+        "https://yappe.in/en/tamil-nadu/kodaikanal/restaurant/altaf-s-cafe",
+        "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGThE4kd17bMNhmnxhFFSdpPlGFOpHDUh43uSkmtk0XplFjXwkjxPDp2nnVaAqhyYwMJOMdKkVGyuOsV9OvfCDT8YbMmFfmo0IGemzSDRorm_6qXcalKHuJ1q2VxobBg96da7WXSUwwC-MTpFBvwGz0",
+        "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEtsupPW33n5u0blwFFU-hKSRNcgj0pzL8kGzY_px4lrVeiTtwzAs6rtbxWgCN9DL5k0UhSl07IqSJ1vV1AczIxlcD8P0sW1F_UNMX8RU-76N5pWVK3XBiYOHaAFArjvep6SeWA8EvJ9XzrSwE82TwPqSJ_Tg==",
+        "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHM3ySvluoqn0Fr4sM1kN6I_oSczklbAC9g_lXX8Dckw7mgVyKrT9zIo23VEKlSS7saVITpWAJFOj2Sx-G1GNdGkPykBGrlq7jdMKghOhEf27ck5WXY0D4JP1kPoZdSZS1nwtkpfhuDDcSTNjX75kG2MIEq3A==",
+        "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFSltxPTO_-59S1xLx9BPOuiNuuGmmxw5t_5eMNXg0zkTYrES9wflcvjE32gqgOPfMFXVcod_pTW6w5yg0gO86ieSsxKdIxs2agYqO_jnN2TNMoM5xo2m7AnUVSBhkRfip1KUCBnK1muFdfW4a7d7FydR8Jc1Jhtbwln7Fz9v77s0wGwfdBmPf7fiq33FKJ7jSXUxI=",
+        "https://www.littleblackbook.in/bangalore/story/ditch-kodaikanal-in-favour-of-the-nearby-unexplored-village-of-vattakanal/",
+        "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFFpSDqvo0n0JqJfDAAzFUlew28PbsiqJmGFXrmqFTbY4DtAo9tXTOiw-m1-Oy3PAfEFwdXzMjkkAPJhco1SWzniXkg2H0_ZjXwOom_pRTCGbDkTI0Bvo_ZNG3nLziyTlXuQp1Etryih6zeF5_LnohcDESUAug8EveDiwxjGJs3EOtYqeV6UEhE3R2z7Z0=",
+        "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHkG145HnVWwiIR_J2skVtmjTMVjNCq99BrVuSzVusVZcQz4Z3MKn10rn1fSgA5YtIB5h2_ObmT01fL7GjXISZdIRVvO1FETyVtsKZpnUZuAJd2-pdpO8H_o9zc_btRqZgqxHSmdA==",
+        "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGGV08Uju9fGP3L9-NWeOcOQPsXYRBbKZJdkla2IkDffu60KkOeaTGCEFa96naTkiF5TATnt3oQFljARSk1ON8Sx1AOFacofHFblaTZvMB7yepjIwBqgwNNQESkr60tCP8561xly0iaLmFzP2Ju_1SLLU0R0TWsgxHYMxJHslMAEIKRyDMqrZmxViZrHQTkvu4=",
+        "https://thewicksoul.com/travel/things-to-do-in-vattakanal-a-sojourn-to-paradise/",
+        "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHXpUjNUEmpiw9kAJlNCwlZePwWT0y9zLjgUazzIpYsLlt3vyMZKbEDXA7x0M_m2yfNUj8LiblfXu45EJGKREwlCbYkoWcHY6jg_0gUyHrAarc4_I1LaFF094Gi96KJ1PRPLi3HQ2Fzf-BTKPhsVGN-YKCZ4VwaTQkmGc-wQHtBbQ==",
+        "https://www.forjerome.com/2023/10/02/altafs-cafe-amazing-view-cafe-in-kodaikanal-vattakanal-hill-top-cafe/",
+        "https://danjrvlogs.com/2021/10/20/mediterranean-magic-breakfast-in-vattakanal-altafs-restaurant-dan-jr-vlogs/",
+        "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH2XPSl5mA7THFnAZ4V6h1Av3piEPm8yLccnZoJSdeOTuRKS8klOGgLUcCpnsNJpaCJk2D3Uz6c31swlI-QRxEemOSGXJtMP6EcAQsEjvdltQs2trp4ZxyRxJ5u1kK_-dp0pTuGNA==",
+        "https://www.holidify.com/pages/kodaikanal-travel-guide-138.html",
+        "https://www.fabhotels.com/blog/places-to-visit-in-kodaikanal/",
+        "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGc9Iop0LJYppKjbCxVvmhUD__cEdFBejmqQPUpbUQXLK4gWrr_QeaVFdDzDUAfhpL1ZozU96-cP1v-j6dLlFv3A1KAc4zCfJnzk7O03FNLGkgVFjuvehrnqtCBF7qdijhKC71xuvUcaBwJKziqWJaLCLA_",
+        "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE1S7xksJxdU-n8mpKDEJIyBfG3PS5Kh7uhj0TJlcGyyh9bxXs2jQcMlxfLn3o7sNh7yXZBfxfkf6LddIZPCOH6ONR2fCZcf0LWzJW9nCz4ywShEU8yGB58OKYOnRRZWsTUI9RI6c4YIVotszSgkP2iWzFTHng="
+      ],
+      "metadata": {
+        "added_by": "system",
+        "last_updated": "2026-01-29T15:01:41.615430+00:00"
+      },
+      "distance_info": {
+        "distance_from_center_km": 1.95,
+        "is_within_range": true,
+        "warning": null
+      }
+    },
+    {
       "id": "kumbakkarai-falls-kodaikanal",
       "google_place_id": "ChIJG48RHGloBzsRUwSUPlafkU4",
       "name": "Kumbakkarai Falls",
@@ -1751,20 +1903,20 @@
         "rating": 4.3,
         "review_count": 4452,
         "popularity_score": 22.26,
-        "popularity_rank": 13,
+        "popularity_rank": 14,
         "price_level": null
       },
       "logic": {
         "avg_time_spent_minutes": 60,
         "opening_hours": {
           "weekday_text": [
-            "Monday: 8:00\u202fAM\u2009\u2013\u20094:00\u202fPM",
-            "Tuesday: 8:00\u202fAM\u2009\u2013\u20094:00\u202fPM",
-            "Wednesday: 8:00\u202fAM\u2009\u2013\u20094:00\u202fPM",
-            "Thursday: 8:00\u202fAM\u2009\u2013\u20094:00\u202fPM",
-            "Friday: 8:00\u202fAM\u2009\u2013\u20094:00\u202fPM",
-            "Saturday: 8:00\u202fAM\u2009\u2013\u20094:00\u202fPM",
-            "Sunday: 8:00\u202fAM\u2009\u2013\u20094:00\u202fPM"
+            "Monday: 8:00 AM – 4:00 PM",
+            "Tuesday: 8:00 AM – 4:00 PM",
+            "Wednesday: 8:00 AM – 4:00 PM",
+            "Thursday: 8:00 AM – 4:00 PM",
+            "Friday: 8:00 AM – 4:00 PM",
+            "Saturday: 8:00 AM – 4:00 PM",
+            "Sunday: 8:00 AM – 4:00 PM"
           ],
           "periods": [
             {
@@ -1911,20 +2063,20 @@
         "rating": 4,
         "review_count": 3835,
         "popularity_score": 19.18,
-        "popularity_rank": 14,
+        "popularity_rank": 15,
         "price_level": null
       },
       "logic": {
         "avg_time_spent_minutes": 90,
         "opening_hours": {
           "weekday_text": [
-            "Monday: 9:00\u202fAM\u2009\u2013\u20095:00\u202fPM",
-            "Tuesday: 9:00\u202fAM\u2009\u2013\u20095:00\u202fPM",
-            "Wednesday: 9:00\u202fAM\u2009\u2013\u20095:00\u202fPM",
-            "Thursday: 9:00\u202fAM\u2009\u2013\u20095:00\u202fPM",
-            "Friday: 9:00\u202fAM\u2009\u2013\u20095:00\u202fPM",
-            "Saturday: 9:00\u202fAM\u2009\u2013\u20095:00\u202fPM",
-            "Sunday: 9:00\u202fAM\u2009\u2013\u20095:00\u202fPM"
+            "Monday: 9:00 AM – 5:00 PM",
+            "Tuesday: 9:00 AM – 5:00 PM",
+            "Wednesday: 9:00 AM – 5:00 PM",
+            "Thursday: 9:00 AM – 5:00 PM",
+            "Friday: 9:00 AM – 5:00 PM",
+            "Saturday: 9:00 AM – 5:00 PM",
+            "Sunday: 9:00 AM – 5:00 PM"
           ],
           "periods": [
             {
@@ -2063,20 +2215,20 @@
         "rating": 4.3,
         "review_count": 3582,
         "popularity_score": 17.91,
-        "popularity_rank": 15,
+        "popularity_rank": 16,
         "price_level": null
       },
       "logic": {
         "avg_time_spent_minutes": 67,
         "opening_hours": {
           "weekday_text": [
-            "Monday: 9:00\u202fAM\u2009\u2013\u200912:45\u202fPM, 2:00\u2009\u2013\u20094:00\u202fPM",
-            "Tuesday: 9:00\u202fAM\u2009\u2013\u200912:45\u202fPM, 2:00\u2009\u2013\u20094:00\u202fPM",
-            "Wednesday: 9:00\u202fAM\u2009\u2013\u200912:45\u202fPM, 2:00\u2009\u2013\u20094:00\u202fPM",
-            "Thursday: 9:00\u202fAM\u2009\u2013\u200912:45\u202fPM, 2:00\u2009\u2013\u20094:00\u202fPM",
-            "Friday: 9:00\u202fAM\u2009\u2013\u200912:45\u202fPM, 2:00\u2009\u2013\u20094:00\u202fPM",
-            "Saturday: 9:00\u202fAM\u2009\u2013\u200912:45\u202fPM, 2:00\u2009\u2013\u20094:00\u202fPM",
-            "Sunday: 9:00\u202fAM\u2009\u2013\u20091:00\u202fPM"
+            "Monday: 9:00 AM – 12:45 PM, 2:00 – 4:00 PM",
+            "Tuesday: 9:00 AM – 12:45 PM, 2:00 – 4:00 PM",
+            "Wednesday: 9:00 AM – 12:45 PM, 2:00 – 4:00 PM",
+            "Thursday: 9:00 AM – 12:45 PM, 2:00 – 4:00 PM",
+            "Friday: 9:00 AM – 12:45 PM, 2:00 – 4:00 PM",
+            "Saturday: 9:00 AM – 12:45 PM, 2:00 – 4:00 PM",
+            "Sunday: 9:00 AM – 1:00 PM"
           ],
           "periods": [
             {
@@ -2272,20 +2424,20 @@
         "rating": 4.6,
         "review_count": 3543,
         "popularity_score": 17.71,
-        "popularity_rank": 16,
+        "popularity_rank": 17,
         "price_level": null
       },
       "logic": {
         "avg_time_spent_minutes": 150,
         "opening_hours": {
           "weekday_text": [
-            "Monday: 9:30\u202fAM\u2009\u2013\u20095:30\u202fPM",
-            "Tuesday: 9:30\u202fAM\u2009\u2013\u20095:30\u202fPM",
-            "Wednesday: 9:30\u202fAM\u2009\u2013\u20095:30\u202fPM",
-            "Thursday: 9:30\u202fAM\u2009\u2013\u20095:30\u202fPM",
-            "Friday: 9:30\u202fAM\u2009\u2013\u20095:30\u202fPM",
-            "Saturday: 9:30\u202fAM\u2009\u2013\u20095:30\u202fPM",
-            "Sunday: 9:30\u202fAM\u2009\u2013\u20095:30\u202fPM"
+            "Monday: 9:30 AM – 5:30 PM",
+            "Tuesday: 9:30 AM – 5:30 PM",
+            "Wednesday: 9:30 AM – 5:30 PM",
+            "Thursday: 9:30 AM – 5:30 PM",
+            "Friday: 9:30 AM – 5:30 PM",
+            "Saturday: 9:30 AM – 5:30 PM",
+            "Sunday: 9:30 AM – 5:30 PM"
           ],
           "periods": [
             {
@@ -2428,20 +2580,20 @@
         "rating": 4.3,
         "review_count": 3358,
         "popularity_score": 16.79,
-        "popularity_rank": 17,
+        "popularity_rank": 18,
         "price_level": null
       },
       "logic": {
         "avg_time_spent_minutes": 60,
         "opening_hours": {
           "weekday_text": [
-            "Monday: 8:30\u202fAM\u2009\u2013\u20096:00\u202fPM",
-            "Tuesday: 8:30\u202fAM\u2009\u2013\u20096:00\u202fPM",
-            "Wednesday: 8:30\u202fAM\u2009\u2013\u20096:00\u202fPM",
-            "Thursday: 8:30\u202fAM\u2009\u2013\u20096:00\u202fPM",
-            "Friday: 8:30\u202fAM\u2009\u2013\u20096:00\u202fPM",
-            "Saturday: 8:30\u202fAM\u2009\u2013\u20096:00\u202fPM",
-            "Sunday: 8:30\u202fAM\u2009\u2013\u20096:00\u202fPM"
+            "Monday: 8:30 AM – 6:00 PM",
+            "Tuesday: 8:30 AM – 6:00 PM",
+            "Wednesday: 8:30 AM – 6:00 PM",
+            "Thursday: 8:30 AM – 6:00 PM",
+            "Friday: 8:30 AM – 6:00 PM",
+            "Saturday: 8:30 AM – 6:00 PM",
+            "Sunday: 8:30 AM – 6:00 PM"
           ],
           "periods": [
             {
@@ -2579,20 +2731,20 @@
         "rating": 4,
         "review_count": 2775,
         "popularity_score": 13.88,
-        "popularity_rank": 18,
+        "popularity_rank": 19,
         "price_level": null
       },
       "logic": {
         "avg_time_spent_minutes": 20,
         "opening_hours": {
           "weekday_text": [
-            "Monday: 9:00\u202fAM\u2009\u2013\u20096:00\u202fPM",
-            "Tuesday: 9:00\u202fAM\u2009\u2013\u20096:00\u202fPM",
-            "Wednesday: 9:00\u202fAM\u2009\u2013\u20096:00\u202fPM",
-            "Thursday: 9:00\u202fAM\u2009\u2013\u20096:00\u202fPM",
-            "Friday: 9:00\u202fAM\u2009\u2013\u20096:00\u202fPM",
-            "Saturday: 9:00\u202fAM\u2009\u2013\u20096:00\u202fPM",
-            "Sunday: 9:00\u202fAM\u2009\u2013\u20096:00\u202fPM"
+            "Monday: 9:00 AM – 6:00 PM",
+            "Tuesday: 9:00 AM – 6:00 PM",
+            "Wednesday: 9:00 AM – 6:00 PM",
+            "Thursday: 9:00 AM – 6:00 PM",
+            "Friday: 9:00 AM – 6:00 PM",
+            "Saturday: 9:00 AM – 6:00 PM",
+            "Sunday: 9:00 AM – 6:00 PM"
           ],
           "periods": [
             {
@@ -2725,20 +2877,20 @@
         "rating": 4.4,
         "review_count": 2407,
         "popularity_score": 12.04,
-        "popularity_rank": 19,
+        "popularity_rank": 20,
         "price_level": null
       },
       "logic": {
         "avg_time_spent_minutes": 60,
         "opening_hours": {
           "weekday_text": [
-            "Monday: 9:00\u202fAM\u2009\u2013\u20096:00\u202fPM",
-            "Tuesday: 9:00\u202fAM\u2009\u2013\u20096:00\u202fPM",
-            "Wednesday: 9:00\u202fAM\u2009\u2013\u20096:00\u202fPM",
-            "Thursday: 9:00\u202fAM\u2009\u2013\u20096:00\u202fPM",
-            "Friday: 9:00\u202fAM\u2009\u2013\u20096:00\u202fPM",
-            "Saturday: 9:00\u202fAM\u2009\u2013\u20096:00\u202fPM",
-            "Sunday: 9:00\u202fAM\u2009\u2013\u20096:00\u202fPM"
+            "Monday: 9:00 AM – 6:00 PM",
+            "Tuesday: 9:00 AM – 6:00 PM",
+            "Wednesday: 9:00 AM – 6:00 PM",
+            "Thursday: 9:00 AM – 6:00 PM",
+            "Friday: 9:00 AM – 6:00 PM",
+            "Saturday: 9:00 AM – 6:00 PM",
+            "Sunday: 9:00 AM – 6:00 PM"
           ],
           "periods": [
             {
@@ -2879,7 +3031,7 @@
         "rating": 4.8,
         "review_count": 1941,
         "popularity_score": 9.71,
-        "popularity_rank": 20,
+        "popularity_rank": 21,
         "price_level": null
       },
       "logic": {
@@ -2951,20 +3103,20 @@
         "rating": 3.8,
         "review_count": 1846,
         "popularity_score": 9.23,
-        "popularity_rank": 21,
+        "popularity_rank": 22,
         "price_level": null
       },
       "logic": {
         "avg_time_spent_minutes": 15,
         "opening_hours": {
           "weekday_text": [
-            "Monday: 10:00\u202fAM\u2009\u2013\u20098:00\u202fPM",
-            "Tuesday: 10:00\u202fAM\u2009\u2013\u20098:00\u202fPM",
-            "Wednesday: 10:00\u202fAM\u2009\u2013\u20098:00\u202fPM",
-            "Thursday: 10:00\u202fAM\u2009\u2013\u20098:00\u202fPM",
-            "Friday: 10:00\u202fAM\u2009\u2013\u20098:00\u202fPM",
-            "Saturday: 10:00\u202fAM\u2009\u2013\u20099:00\u202fPM",
-            "Sunday: 10:00\u202fAM\u2009\u2013\u20099:00\u202fPM"
+            "Monday: 10:00 AM – 8:00 PM",
+            "Tuesday: 10:00 AM – 8:00 PM",
+            "Wednesday: 10:00 AM – 8:00 PM",
+            "Thursday: 10:00 AM – 8:00 PM",
+            "Friday: 10:00 AM – 8:00 PM",
+            "Saturday: 10:00 AM – 9:00 PM",
+            "Sunday: 10:00 AM – 9:00 PM"
           ],
           "periods": [
             {
@@ -3109,7 +3261,7 @@
         "rating": 3.9,
         "review_count": 1806,
         "popularity_score": 9.03,
-        "popularity_rank": 22,
+        "popularity_rank": 23,
         "price_level": null
       },
       "logic": {
@@ -3195,18 +3347,18 @@
         "rating": 4.3,
         "review_count": 1743,
         "popularity_score": 8.71,
-        "popularity_rank": 23,
+        "popularity_rank": 24,
         "price_level": null
       },
       "logic": {
         "avg_time_spent_minutes": 60,
         "opening_hours": {
           "weekday_text": [
-            "Monday: 12:00\u202fPM\u2009\u2013\u200912:00\u202fAM",
-            "Tuesday: 12:00\u202fPM\u2009\u2013\u200912:00\u202fAM",
-            "Wednesday: 12:00\u202fPM\u2009\u2013\u200912:00\u202fAM",
-            "Thursday: 12:00\u202fPM\u2009\u2013\u200912:00\u202fAM",
-            "Friday: 12:00\u202fPM\u2009\u2013\u200912:00\u202fAM",
+            "Monday: 12:00 PM – 12:00 AM",
+            "Tuesday: 12:00 PM – 12:00 AM",
+            "Wednesday: 12:00 PM – 12:00 AM",
+            "Thursday: 12:00 PM – 12:00 AM",
+            "Friday: 12:00 PM – 12:00 AM",
             "Saturday: Open 24 hours",
             "Sunday: Open 24 hours"
           ],
@@ -3317,7 +3469,7 @@
         "rating": 4.5,
         "review_count": 1517,
         "popularity_score": 7.58,
-        "popularity_rank": 24,
+        "popularity_rank": 25,
         "price_level": null
       },
       "logic": {
@@ -3391,20 +3543,20 @@
         "rating": 4.2,
         "review_count": 1496,
         "popularity_score": 7.48,
-        "popularity_rank": 25,
+        "popularity_rank": 26,
         "price_level": null
       },
       "logic": {
         "avg_time_spent_minutes": 75,
         "opening_hours": {
           "weekday_text": [
-            "Monday: 9:00\u202fAM\u2009\u2013\u20096:00\u202fPM",
-            "Tuesday: 9:00\u202fAM\u2009\u2013\u20096:00\u202fPM",
-            "Wednesday: 9:00\u202fAM\u2009\u2013\u20096:00\u202fPM",
-            "Thursday: 9:00\u202fAM\u2009\u2013\u20096:00\u202fPM",
-            "Friday: 9:00\u202fAM\u2009\u2013\u20096:00\u202fPM",
-            "Saturday: 9:00\u202fAM\u2009\u2013\u20096:00\u202fPM",
-            "Sunday: 9:00\u202fAM\u2009\u2013\u20096:00\u202fPM"
+            "Monday: 9:00 AM – 6:00 PM",
+            "Tuesday: 9:00 AM – 6:00 PM",
+            "Wednesday: 9:00 AM – 6:00 PM",
+            "Thursday: 9:00 AM – 6:00 PM",
+            "Friday: 9:00 AM – 6:00 PM",
+            "Saturday: 9:00 AM – 6:00 PM",
+            "Sunday: 9:00 AM – 6:00 PM"
           ],
           "periods": [
             {
@@ -3549,7 +3701,7 @@
         "rating": 4.5,
         "review_count": 1491,
         "popularity_score": 7.46,
-        "popularity_rank": 26,
+        "popularity_rank": 27,
         "price_level": null
       },
       "logic": {
@@ -3621,7 +3773,7 @@
         "rating": 4.3,
         "review_count": 1255,
         "popularity_score": 6.28,
-        "popularity_rank": 27,
+        "popularity_rank": 28,
         "price_level": null
       },
       "logic": {
@@ -3712,20 +3864,20 @@
         "rating": 4.2,
         "review_count": 799,
         "popularity_score": 4.0,
-        "popularity_rank": 28,
+        "popularity_rank": 29,
         "price_level": null
       },
       "logic": {
         "avg_time_spent_minutes": 60,
         "opening_hours": {
           "weekday_text": [
-            "Monday: 9:00\u202fAM\u2009\u2013\u20095:30\u202fPM",
-            "Tuesday: 9:00\u202fAM\u2009\u2013\u20095:30\u202fPM",
-            "Wednesday: 9:00\u202fAM\u2009\u2013\u20095:30\u202fPM",
-            "Thursday: 9:00\u202fAM\u2009\u2013\u20095:30\u202fPM",
-            "Friday: 9:00\u202fAM\u2009\u2013\u20095:30\u202fPM",
-            "Saturday: 9:00\u202fAM\u2009\u2013\u20095:30\u202fPM",
-            "Sunday: 9:00\u202fAM\u2009\u2013\u20095:30\u202fPM"
+            "Monday: 9:00 AM – 5:30 PM",
+            "Tuesday: 9:00 AM – 5:30 PM",
+            "Wednesday: 9:00 AM – 5:30 PM",
+            "Thursday: 9:00 AM – 5:30 PM",
+            "Friday: 9:00 AM – 5:30 PM",
+            "Saturday: 9:00 AM – 5:30 PM",
+            "Sunday: 9:00 AM – 5:30 PM"
           ],
           "periods": [
             {
@@ -3861,20 +4013,20 @@
         "rating": 4.6,
         "review_count": 794,
         "popularity_score": 3.97,
-        "popularity_rank": 29,
+        "popularity_rank": 30,
         "price_level": null
       },
       "logic": {
         "avg_time_spent_minutes": 60,
         "opening_hours": {
           "weekday_text": [
-            "Monday: 9:00\u202fAM\u2009\u2013\u20099:00\u202fPM",
-            "Tuesday: 9:00\u202fAM\u2009\u2013\u20099:00\u202fPM",
-            "Wednesday: 9:00\u202fAM\u2009\u2013\u20099:00\u202fPM",
-            "Thursday: 9:00\u202fAM\u2009\u2013\u20099:00\u202fPM",
-            "Friday: 9:00\u202fAM\u2009\u2013\u20099:30\u202fPM",
-            "Saturday: 9:00\u202fAM\u2009\u2013\u20099:00\u202fPM",
-            "Sunday: 9:00\u202fAM\u2009\u2013\u20099:30\u202fPM"
+            "Monday: 9:00 AM – 9:00 PM",
+            "Tuesday: 9:00 AM – 9:00 PM",
+            "Wednesday: 9:00 AM – 9:00 PM",
+            "Thursday: 9:00 AM – 9:00 PM",
+            "Friday: 9:00 AM – 9:30 PM",
+            "Saturday: 9:00 AM – 9:00 PM",
+            "Sunday: 9:00 AM – 9:30 PM"
           ],
           "periods": [
             {
@@ -4015,7 +4167,7 @@
         "rating": 5,
         "review_count": 740,
         "popularity_score": 3.7,
-        "popularity_rank": 30,
+        "popularity_rank": 31,
         "price_level": null
       },
       "logic": {
@@ -4087,7 +4239,8 @@
       ],
       "metadata": {
         "added_by": "system",
-        "last_updated": "2026-01-18T14:39:28.254348+00:00"
+        "last_updated": "2026-01-18T14:39:28.254348+00:00",
+        "itinerary_include": false
       },
       "distance_info": {
         "distance_from_center_km": 0.54,
@@ -4111,7 +4264,7 @@
         "rating": 4.2,
         "review_count": 723,
         "popularity_score": 3.62,
-        "popularity_rank": 31,
+        "popularity_rank": 32,
         "price_level": null
       },
       "logic": {
@@ -4195,7 +4348,7 @@
         "rating": 4.4,
         "review_count": 692,
         "popularity_score": 3.46,
-        "popularity_rank": 32,
+        "popularity_rank": 33,
         "price_level": null
       },
       "logic": {
@@ -4282,7 +4435,7 @@
         "rating": 4.5,
         "review_count": 554,
         "popularity_score": 2.77,
-        "popularity_rank": 33,
+        "popularity_rank": 34,
         "price_level": null
       },
       "logic": {
@@ -4365,20 +4518,20 @@
         "rating": 4.6,
         "review_count": 536,
         "popularity_score": 2.68,
-        "popularity_rank": 34,
+        "popularity_rank": 35,
         "price_level": null
       },
       "logic": {
         "avg_time_spent_minutes": 60,
         "opening_hours": {
           "weekday_text": [
-            "Monday: 8:30\u202fAM\u2009\u2013\u20095:30\u202fPM",
-            "Tuesday: 8:30\u202fAM\u2009\u2013\u20095:30\u202fPM",
-            "Wednesday: 8:30\u202fAM\u2009\u2013\u20095:30\u202fPM",
-            "Thursday: 8:30\u202fAM\u2009\u2013\u20095:30\u202fPM",
-            "Friday: 8:30\u202fAM\u2009\u2013\u20095:30\u202fPM",
-            "Saturday: 8:30\u202fAM\u2009\u2013\u20095:30\u202fPM",
-            "Sunday: 8:30\u202fAM\u2009\u2013\u20095:30\u202fPM"
+            "Monday: 8:30 AM – 5:30 PM",
+            "Tuesday: 8:30 AM – 5:30 PM",
+            "Wednesday: 8:30 AM – 5:30 PM",
+            "Thursday: 8:30 AM – 5:30 PM",
+            "Friday: 8:30 AM – 5:30 PM",
+            "Saturday: 8:30 AM – 5:30 PM",
+            "Sunday: 8:30 AM – 5:30 PM"
           ],
           "periods": [
             {
@@ -4516,7 +4669,7 @@
         "rating": 4.1,
         "review_count": 99,
         "popularity_score": 0.5,
-        "popularity_rank": 35,
+        "popularity_rank": 36,
         "price_level": null
       },
       "logic": {
@@ -4592,7 +4745,7 @@
         "rating": 4.5,
         "review_count": 71,
         "popularity_score": 0.36,
-        "popularity_rank": 36,
+        "popularity_rank": 37,
         "price_level": null
       },
       "logic": {
@@ -4665,20 +4818,20 @@
         "rating": 3.6,
         "review_count": 56,
         "popularity_score": 0.28,
-        "popularity_rank": 37,
+        "popularity_rank": 38,
         "price_level": null
       },
       "logic": {
         "avg_time_spent_minutes": 30,
         "opening_hours": {
           "weekday_text": [
-            "Monday: 9:30\u202fAM\u2009\u2013\u20096:30\u202fPM",
-            "Tuesday: 9:30\u202fAM\u2009\u2013\u20096:30\u202fPM",
-            "Wednesday: 9:30\u202fAM\u2009\u2013\u20096:30\u202fPM",
-            "Thursday: 9:30\u202fAM\u2009\u2013\u20096:30\u202fPM",
-            "Friday: 9:30\u202fAM\u2009\u2013\u20096:30\u202fPM",
-            "Saturday: 9:30\u202fAM\u2009\u2013\u20096:30\u202fPM",
-            "Sunday: 9:30\u202fAM\u2009\u2013\u20096:30\u202fPM"
+            "Monday: 9:30 AM – 6:30 PM",
+            "Tuesday: 9:30 AM – 6:30 PM",
+            "Wednesday: 9:30 AM – 6:30 PM",
+            "Thursday: 9:30 AM – 6:30 PM",
+            "Friday: 9:30 AM – 6:30 PM",
+            "Saturday: 9:30 AM – 6:30 PM",
+            "Sunday: 9:30 AM – 6:30 PM"
           ],
           "periods": [
             {
@@ -4830,7 +4983,7 @@
         "rating": null,
         "review_count": 0,
         "popularity_score": 0.0,
-        "popularity_rank": 38,
+        "popularity_rank": 39,
         "price_level": null
       },
       "logic": {
@@ -4894,6 +5047,6 @@
       }
     }
   ],
-  "total_count": 38,
-  "last_updated": "2026-01-21T09:01:38.656745+00:00"
+  "total_count": 39,
+  "last_updated": "2026-01-29T15:01:41.618245+00:00"
 }

@@ -44,7 +44,8 @@ Your role is to help users plan their perfect trip to Kodaikanal, a beautiful hi
 ### STEP 3: GROUP & LOGISTICS
 - Ask about their travel group (solo, couple, family with kids/elders, friends)
 - Ask about their pace preference (relaxed/chill, moderate/balanced, or packed/adventure)
-- Call `save_trip_context` to update with group and pace info
+- Ask about their MOBILITY level: Are they comfortable with treks and high-physical-effort activities? (high mobility = okay with treks, medium = moderate walks, low = prefer easy access spots)
+- Call `save_trip_context` to update with group, pace, and mobility_level info
 
 ### STEP 4: INTERESTS
 - Ask what kind of experiences they're looking for
@@ -104,7 +105,7 @@ class TripLLMEngine:
             raise ValueError("GEMINI_API_KEY environment variable not set. Please set GEMINI_API_KEY or GEMINI_API_KEY_CAPSTONE_1 in .env")
 
         self.client = genai.Client(api_key=api_key)
-        self.model_id = "gemini-2.0-flash"
+        self.model_id = "gemini-3-flash-preview"
 
         # Build function declarations
         self.tools = [types.Tool(function_declarations=self._build_function_declarations())]
@@ -160,6 +161,10 @@ class TripLLMEngine:
                     "pace": types.Schema(
                         type=types.Type.STRING,
                         description="Trip pace: 'chill' (slow, 3 places/day), 'balanced' (medium, 5 places/day), or 'packed' (fast, 8 places/day)"
+                    ),
+                    "mobility_level": types.Schema(
+                        type=types.Type.STRING,
+                        description="Physical mobility level: 'high' (comfortable with treks/hikes), 'medium' (moderate walks ok), 'low' (prefer easy access spots)"
                     ),
                     "interests": types.Schema(
                         type=types.Type.ARRAY,
@@ -284,8 +289,14 @@ class TripLLMEngine:
             self.session_state["dates"]["to"] = kwargs["date_to"]
         if kwargs.get("group_type"):
             self.session_state["group_type"] = kwargs["group_type"]
+        if kwargs.get("has_elders"):
+            self.session_state["has_elders"] = kwargs["has_elders"]
+        if kwargs.get("has_kids"):
+            self.session_state["has_kids"] = kwargs["has_kids"]
         if kwargs.get("pace"):
             self.session_state["pace"] = kwargs["pace"]
+        if kwargs.get("mobility_level"):
+            self.session_state["mobility_level"] = kwargs["mobility_level"]
         if kwargs.get("interests"):
             self.session_state["interests"] = kwargs["interests"]
         
@@ -298,11 +309,45 @@ class TripLLMEngine:
                 num_days = (to_date - from_date).days + 1
             except:
                 pass
+        
+        # Persist to disk if we have a user name
+        user_name = self.session_state.get("user_name")
+        if user_name:
+            try:
+                import re
+                # Sanitize folder name
+                safe_name = re.sub(r'[<>:"/\\|?*]', '-', user_name).strip()
+                user_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'user_data', safe_name)
+                os.makedirs(user_dir, exist_ok=True)
+                
+                # Build user profile JSON
+                profile_data = {
+                    "user_id": f"ai-{safe_name.lower()}",
+                    "name": user_name,
+                    "avatar_color": f"hsl({hash(user_name) % 360}, 70%, 60%)",
+                    "generated_at": datetime.now().isoformat(),
+                    "defaults": {
+                        "interests": {"value": self.session_state.get("interests", []), "required": True},
+                        "pace": {"value": self.session_state.get("pace", "balanced"), "required": False},
+                        "mobility": {"value": "low" if self.session_state.get("has_elders") else "medium", "required": False}
+                    }
+                }
+                
+                # Save profile
+                profile_path = os.path.join(user_dir, f"{safe_name}.json")
+                with open(profile_path, 'w') as f:
+                    import json
+                    json.dump(profile_data, f, indent=2)
+                print(f"✅ Saved user profile to {profile_path}")
+                
+            except Exception as e:
+                print(f"⚠️ Failed to persist user profile: {e}")
 
         return {
             "status": "success",
-            "message": "Trip context saved",
+            "message": f"Trip context saved{' for ' + user_name if user_name else ''}",
             "current_state": {
+                "user_name": self.session_state.get("user_name"),
                 "dates": self.session_state["dates"],
                 "num_days": num_days,
                 "group_type": self.session_state["group_type"],
@@ -312,59 +357,92 @@ class TripLLMEngine:
         }
 
     def _fetch_ranked_places(self, **kwargs) -> Dict[str, Any]:
-        """Fetch ranked places from the scorer."""
-        import requests
-        
+        """Fetch ranked places directly from the scorer module with pace-based limits."""
         interests = kwargs.get("interests") or self.session_state.get("interests") or ["Nature", "Sightseeing"]
         difficulty = kwargs.get("difficulty", "medium")
-        limit = kwargs.get("limit", 15)
         
-        # Map difficulty based on group composition
-        if self.session_state.get("has_elders"):
+        # Calculate limit based on pace and num_days
+        pace = self.session_state.get("pace", "balanced")
+        num_days = 2  # default
+        if self.session_state["dates"]["from"] and self.session_state["dates"]["to"]:
+            try:
+                from_date = datetime.fromisoformat(self.session_state["dates"]["from"])
+                to_date = datetime.fromisoformat(self.session_state["dates"]["to"])
+                num_days = max(1, (to_date - from_date).days + 1)
+            except:
+                pass
+        
+        # Pace-based places per day: chill=3, balanced=5, packed=8
+        pace_to_ppd = {"chill": 3, "slow": 3, "balanced": 5, "medium": 5, "packed": 8, "fast": 8}
+        places_per_day = pace_to_ppd.get(pace, 5)
+        limit = places_per_day * num_days
+        
+        # Map difficulty based on mobility_level or group composition
+        mobility_level = self.session_state.get("mobility_level")
+        if mobility_level:
+            difficulty = mobility_level  # high, medium, low maps directly
+        elif self.session_state.get("has_elders"):
             difficulty = "low"
+        elif self.session_state.get("has_kids"):
+            difficulty = "medium"
         
         try:
-            response = requests.post(
-                "http://127.0.0.1:5001/api/fetch-scored-places",
-                json={
-                    "user_profile": {
-                        "interests": interests,
-                        "difficulty": difficulty
-                    },
-                    "weight": {"popularity": 0.4, "similarity": 0.6}
-                },
-                timeout=30
+            # Import scorer directly for reliability
+            import sys
+            sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
+            from scorer import get_ranker
+            
+            ranker = get_ranker()
+            
+            # Use default 40-60 weights for chat mode
+            result = ranker.score_places(
+                user_profile={"interests": interests, "difficulty": difficulty},
+                weight={"popularity": 0.4, "similarity": 0.6}
             )
             
-            if response.status_code == 200:
-                data = response.json()
-                places = data.get("places", [])[:limit]
-                
-                # Format for LLM consumption
-                formatted_places = []
-                for i, p in enumerate(places):
-                    formatted_places.append({
-                        "rank": i + 1,
-                        "id": p.get("id"),
-                        "name": p.get("name"),
-                        "cluster": p.get("cluster"),
-                        "tags": p.get("tags", [])[:3],
-                        "rating": p.get("rating"),
-                        "difficulty": p.get("difficulty", "Easy"),
-                        "avg_time_minutes": p.get("avg_time_minutes", 60)
-                    })
-                
-                return {
-                    "status": "success",
-                    "places": formatted_places,
-                    "count": len(formatted_places),
-                    "message": f"Found {len(formatted_places)} places matching your interests"
-                }
-            else:
-                return {"status": "error", "message": "Failed to fetch places"}
+            # Filter out Outskirts and flagged places, then take top N
+            all_places = result.get("places", [])
+            filtered_places = [
+                p for p in all_places 
+                if p.get("cluster") != "Outskirts" and not p.get("flags")
+            ][:limit]
+            
+            # Store for later use
+            self.session_state["available_places"] = filtered_places
+            
+            # AUTO-SELECT top places (pre-select appropriate count for the trip)
+            auto_select_ids = [p.get("id") for p in filtered_places]
+            self.session_state["selected_place_ids"] = auto_select_ids
+            
+            # Format for LLM consumption - scorer already returns clean data
+            formatted_places = []
+            for i, p in enumerate(filtered_places):
+                formatted_places.append({
+                    "rank": i + 1,
+                    "id": p.get("id"),
+                    "name": p.get("name"),
+                    "cluster": p.get("cluster", "Unknown"),
+                    "tags": p.get("tags", [])[:3],
+                    "rating": p.get("rating"),
+                    "difficulty": p.get("difficulty", "Easy"),
+                    "avg_time_minutes": p.get("avg_time_minutes", 60),
+                    "final_score": p.get("final_score", 0)
+                })
+            
+            print(f"✅ Fetched {len(formatted_places)} ranked places (pace={pace}, {places_per_day}/day × {num_days} days)")
+            
+            return {
+                "status": "success",
+                "places": formatted_places,
+                "count": len(formatted_places),
+                "auto_selected": len(auto_select_ids),
+                "message": f"Found {len(formatted_places)} places for your {num_days}-day {pace} trip. All {len(auto_select_ids)} places are pre-selected."
+            }
                 
         except Exception as e:
-            print(f"❌ Error fetching places: {e}")
+            print(f"❌ Error fetching places from scorer: {e}")
+            import traceback
+            traceback.print_exc()
             return {"status": "error", "message": str(e)}
 
     def _select_places(self, **kwargs) -> Dict[str, Any]:
@@ -392,9 +470,7 @@ class TripLLMEngine:
         }
 
     def _build_itinerary(self, **kwargs) -> Dict[str, Any]:
-        """Build itinerary using the scheduler."""
-        import requests
-        
+        """Build itinerary directly using the scheduler module."""
         place_ids = kwargs.get("place_ids") or self.session_state.get("selected_place_ids", [])
         
         if not place_ids:
@@ -415,48 +491,49 @@ class TripLLMEngine:
         pace = pace_map.get(self.session_state.get("pace", "balanced"), "medium")
         
         try:
-            response = requests.post(
-                "http://127.0.0.1:5001/api/build-itinerary",
-                json={
-                    "selected_place_ids": place_ids,
-                    "user_config": {
-                        "num_days": num_days,
-                        "pace": pace,
-                        "hotel_cluster": "Town Center"
-                    }
-                },
-                timeout=30
-            )
+            # Import scheduler directly for reliability
+            import sys
+            sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
+            from scheduler import get_scheduler
             
-            if response.status_code == 200:
-                data = response.json()
-                self.session_state["itinerary"] = data
-                
-                # Format for LLM consumption
-                days_summary = []
-                for day in data.get("days", []):
-                    places_names = [p["name"] for p in day.get("places", [])]
-                    days_summary.append({
-                        "day": day["day"],
-                        "cluster": day["cluster"],
-                        "places": places_names,
-                        "place_count": len(places_names),
-                        "start_time": day.get("start_time"),
-                        "end_time": day.get("end_time"),
-                        "total_drive_min": day.get("total_drive_min", 0)
-                    })
-                
-                return {
-                    "status": "success",
-                    "days": days_summary,
-                    "total_days": len(days_summary),
-                    "message": f"Created {len(days_summary)}-day itinerary with {len(place_ids)} places"
-                }
-            else:
-                return {"status": "error", "message": "Failed to build itinerary"}
+            scheduler = get_scheduler()
+            
+            user_config = {
+                "num_days": num_days,
+                "pace": pace,
+                "hotel_cluster": "Town Center"
+            }
+            
+            result = scheduler.build_itinerary(place_ids, user_config)
+            self.session_state["itinerary"] = result
+            
+            # Format for LLM consumption
+            days_summary = []
+            for day in result.get("days", []):
+                places_names = [p["name"] for p in day.get("places", [])]
+                days_summary.append({
+                    "day": day["day"],
+                    "cluster": day["cluster"],
+                    "places": places_names,
+                    "place_count": len(places_names),
+                    "start_time": day.get("start_time"),
+                    "end_time": day.get("end_time"),
+                    "total_drive_min": day.get("total_drive_min", 0)
+                })
+            
+            print(f"✅ Built {len(days_summary)}-day itinerary via scheduler")
+            
+            return {
+                "status": "success",
+                "days": days_summary,
+                "total_days": len(days_summary),
+                "message": f"Created {len(days_summary)}-day itinerary with {len(place_ids)} places"
+            }
                 
         except Exception as e:
             print(f"❌ Error building itinerary: {e}")
+            import traceback
+            traceback.print_exc()
             return {"status": "error", "message": str(e)}
 
     def _save_itinerary(self, **kwargs) -> Dict[str, Any]:
@@ -507,12 +584,20 @@ class TripLLMEngine:
         """Generate UI hint based on function call result."""
         if function_name == "save_trip_context":
             state = result.get("current_state", {})
-            # If we have dates but not interests, show interest selector
-            if state.get("dates", {}).get("from") and not state.get("interests"):
+            
+            # Progressive disclosure of widgets:
+            # 1. After user name -> show date picker
+            if state.get("user_name") and not state.get("dates", {}).get("from"):
+                return {"type": "date_picker"}
+            
+            # 2. After dates -> show pace selector  
+            if state.get("dates", {}).get("from") and not state.get("pace"):
+                return {"type": "pace_selector"}
+            
+            # 3. After pace -> show interest selector
+            if state.get("pace") and not state.get("interests"):
                 return {"type": "interest_selector"}
-            # If we have interests but haven't fetched places yet
-            if state.get("interests") and not self.session_state.get("selected_place_ids"):
-                return {"type": "trip_config_form", "data": state}
+            
             return None
             
         elif function_name == "fetch_ranked_places":

@@ -1,13 +1,13 @@
 {
-  "trip_id": "k3fj4rzee",
-  "user_id": "ya3tpdlqz",
-  "name": "Mar 21 - Mar 22",
-  "generated_at": "2026-01-28T12:40:10.329Z",
+  "trip_id": "cx3b4074z",
+  "user_id": "9yu01wbht",
+  "name": "Feb 25 - Feb 28",
+  "generated_at": "2026-01-30T11:02:03.304Z",
   "logistics": {
     "dates": {
       "value": {
-        "from": "2026-03-21T00:00:00.000Z",
-        "to": "2026-03-22T00:00:00.000Z"
+        "from": "2026-02-25T00:00:00.000Z",
+        "to": "2026-02-28T00:00:00.000Z"
       },
       "required": false
     },
@@ -16,11 +16,11 @@
       "required": true
     },
     "departure_time": {
-      "value": "morning",
+      "value": "evening",
       "required": true
     },
     "group_type": {
-      "value": "friends",
+      "value": "solo",
       "required": true
     },
     "family_composition": {
@@ -37,7 +37,7 @@
       "required": false
     },
     "mode_to_kodai": {
-      "value": "bus",
+      "value": "own_vehicle",
       "required": false
     },
     "transport_in_city": {
@@ -60,7 +60,7 @@
       "required": false
     },
     "mobility": {
-      "value": "low",
+      "value": "high",
       "required": false
     },
     "pace": {
@@ -69,13 +69,10 @@
     },
     "interests": {
       "value": [
-        "Cloud",
-        "Nature",
-        "Trekking",
-        "History",
-        "Adventure",
-        "Spiritual",
-        "Relaxation"
+        "Relaxation",
+        "Food",
+        "Photography",
+        "Adventure"
       ],
       "required": true
     }

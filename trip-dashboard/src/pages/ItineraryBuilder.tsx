@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { ArrowLeft, ArrowRight, ChevronLeft, ChevronRight, MapPin, Clock, Star, Loader2, Calendar, Route, Save, Check } from 'lucide-react'
+import { ArrowLeft, ArrowRight, ChevronLeft, ChevronRight, MapPin, Clock, Star, Loader2, Calendar, Route, Save, Check, AlertTriangle, ChevronDown } from 'lucide-react'
 import { PlaceDetailModal } from '../components/PlaceDetailModal'
 import { AllPlacesSidebar } from '../components/AllPlacesSidebar'
 
@@ -22,6 +22,8 @@ interface ItineraryPlace {
     scheduled_time?: string
     departure_time?: string
     has_lunch_before?: boolean
+    warning?: 'late_schedule'
+    warning_message?: string
 }
 
 interface ItineraryDay {
@@ -32,6 +34,17 @@ interface ItineraryDay {
     place_count: number
     start_time?: string
     end_time?: string
+    target_end_time?: string
+}
+
+interface RemovedPlace {
+    id: string
+    name: string
+    cluster: string
+    reason: string
+    reason_text: string
+    image_url?: string
+    avg_time_minutes?: number
 }
 
 interface ItineraryBuilderProps {
@@ -56,6 +69,7 @@ export function ItineraryBuilder({ selectedPlaceIds, userConfig, onBack, allPlac
     const [selectedPlace, setSelectedPlace] = useState<ItineraryPlace | null>(null)
     const [itineraryPlaceIds, setItineraryPlaceIds] = useState<Set<string>>(new Set(selectedPlaceIds))
     const [saveStatus, setSaveStatus] = useState<'idle' | 'saving' | 'saved'>('idle')
+    const [removedPlaces, setRemovedPlaces] = useState<RemovedPlace[]>([])
 
     useEffect(() => {
         const buildItinerary = async () => {
@@ -77,6 +91,7 @@ export function ItineraryBuilder({ selectedPlaceIds, userConfig, onBack, allPlac
                 const data = await response.json()
                 setDays(data.days)
                 setSuggestions(data.suggestions || [])
+                setRemovedPlaces(data.removed_places || [])
 
                 // Set active day to 1 if not set
                 if (activeDay > data.days.length) {
@@ -129,6 +144,7 @@ export function ItineraryBuilder({ selectedPlaceIds, userConfig, onBack, allPlac
             const data = await response.json()
             setDays(data.days || [])
             setSuggestions(data.suggestions || [])
+            setRemovedPlaces(data.removed_places || [])
             console.log(`✅ Added ${placeToAdd.name} - itinerary rebuilt with ${newPlaceIds.size} places`)
         } catch (err) {
             console.error('Error rebuilding itinerary:', err)
@@ -382,6 +398,12 @@ export function ItineraryBuilder({ selectedPlaceIds, userConfig, onBack, allPlac
                                                             )}
                                                         </div>
                                                         <div className="flex flex-wrap gap-1 mt-2">
+                                                            {place.warning === 'late_schedule' && (
+                                                                <span className="text-[10px] px-2 py-0.5 bg-amber-100 text-amber-700 rounded-full font-medium flex items-center gap-1" title={place.warning_message}>
+                                                                    <AlertTriangle size={10} />
+                                                                    Late Schedule
+                                                                </span>
+                                                            )}
                                                             {place.is_forest_circuit && (
                                                                 <span className="text-[10px] px-2 py-0.5 bg-emerald-100 text-emerald-700 rounded-full font-medium">
                                                                     One-way Route
@@ -420,6 +442,50 @@ export function ItineraryBuilder({ selectedPlaceIds, userConfig, onBack, allPlac
                     )}
                 </AnimatePresence>
             </div>
+
+            {/* Removed Places Section */}
+            {removedPlaces.length > 0 && (
+                <div className="max-w-2xl mx-auto mt-8 px-8">
+                    <details className="bg-amber-900/30 rounded-xl border border-amber-700/50 overflow-hidden">
+                        <summary className="flex items-center gap-3 p-4 cursor-pointer hover:bg-amber-900/40 transition-colors">
+                            <AlertTriangle className="text-amber-500" size={20} />
+                            <span className="font-semibold text-amber-100">
+                                {removedPlaces.length} place{removedPlaces.length > 1 ? 's' : ''} could not fit in schedule
+                            </span>
+                            <ChevronDown className="ml-auto text-amber-400" size={18} />
+                        </summary>
+                        <div className="p-4 pt-0 space-y-3">
+                            <p className="text-sm text-amber-200/70 mb-4">
+                                These places were removed because they exceeded the target end time for your pace setting.
+                            </p>
+                            {removedPlaces.map(place => (
+                                <div key={place.id} className="bg-slate-900/50 rounded-lg p-3 flex gap-3 items-center">
+                                    {place.image_url && (
+                                        <img
+                                            src={place.image_url}
+                                            alt={place.name}
+                                            className="w-12 h-12 rounded-lg object-cover bg-slate-800"
+                                        />
+                                    )}
+                                    <div className="flex-1">
+                                        <div className="font-medium text-white text-sm">{place.name}</div>
+                                        <div className="text-xs text-amber-300 mt-1 flex items-center gap-1">
+                                            <AlertTriangle size={10} />
+                                            {place.reason_text}
+                                        </div>
+                                    </div>
+                                    {place.avg_time_minutes && (
+                                        <span className="text-xs text-slate-400 flex items-center gap-1">
+                                            <Clock size={10} />
+                                            {place.avg_time_minutes}min
+                                        </span>
+                                    )}
+                                </div>
+                            ))}
+                        </div>
+                    </details>
+                </div>
+            )}
 
             {/* On-the-way Suggestions */}
             {suggestions.length > 0 && (

@@ -1,19 +1,25 @@
 import { useState } from 'react'
 import './index.css'
+import { AppLayout } from './components/layout/AppLayout'
+import { ModeToggle } from './components/layout/ModeToggle'
 import { Sidebar } from './components/layout/Sidebar'
 import { TripConfigurator } from './components/dashboard/TripConfigurator'
 import { PlacesExplorer } from './pages/PlacesExplorer'
 import { ItineraryBuilder } from './pages/ItineraryBuilder'
 import { ChatMode } from './pages/ChatMode'
+import { PlacesDatabase } from './pages/PlacesDatabase'
 import { useUserStore } from './store/useUserStore'
-import { Bot, Settings } from 'lucide-react'
 
-type AppMode = 'ai' | 'manual'
+type MainTab = 'plan' | 'explore'
+type PlanMode = 'manual' | 'ai'
 type ManualView = 'configurator' | 'explorer' | 'itinerary'
 
 function App() {
-  // Top-level mode toggle
-  const [mode, setMode] = useState<AppMode>('ai')
+  // Main tab state
+  const [mainTab, setMainTab] = useState<MainTab>('plan')
+
+  // Plan Trip mode toggle (Manual first by default)
+  const [planMode, setPlanMode] = useState<PlanMode>('manual')
 
   // Manual mode navigation
   const [manualView, setManualView] = useState<ManualView>('configurator')
@@ -68,84 +74,76 @@ function App() {
     setManualView('explorer')
   }
 
-  // AI Mode
-  if (mode === 'ai') {
+  // Render content based on main tab
+  const renderContent = () => {
+    // EXPLORE TAB - Show places database
+    if (mainTab === 'explore') {
+      return <PlacesDatabase />
+    }
+
+    // PLAN TAB
+    // AI Chat mode
+    if (planMode === 'ai') {
+      return <ChatMode />
+    }
+
+    // Manual mode - different views
+    if (manualView === 'explorer' && explorerData && activeTrip) {
+      return (
+        <PlacesExplorer
+          userProfile={explorerData}
+          tripConfig={{
+            numDays: (() => {
+              const from = activeTrip.dates.from ? new Date(activeTrip.dates.from) : new Date()
+              const to = activeTrip.dates.to ? new Date(activeTrip.dates.to) : new Date()
+              const diffTime = Math.abs(to.getTime() - from.getTime())
+              return Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1
+            })(),
+            pace: activeTrip.pace || 'medium'
+          }}
+          onBack={handleBackToConfigurator}
+          onBuildItinerary={handleBuildItinerary}
+        />
+      )
+    }
+
+    if (manualView === 'itinerary' && itineraryData) {
+      // Get user and trip name for saving
+      const userName = activeTrip?.name?.split("'s")[0] || 'Guest'
+      const tripName = activeTrip?.name?.split("'s ")[1] || 'Trip'
+
+      return (
+        <ItineraryBuilder
+          selectedPlaceIds={itineraryData.selectedIds}
+          userConfig={itineraryData.userConfig}
+          onBack={handleBackToExplorer}
+          allPlaces={itineraryData.allPlaces}
+          userName={userName}
+          tripName={tripName}
+        />
+      )
+    }
+
+    // Default: Manual mode configurator with Sidebar
     return (
-      <ChatMode onSwitchToManual={() => setMode('manual')} />
-    )
-  }
-
-  // Manual Mode Views
-  if (manualView === 'explorer' && explorerData && activeTrip) {
-    return (
-      <PlacesExplorer
-        userProfile={explorerData}
-        tripConfig={{
-          numDays: (() => {
-            const from = activeTrip.dates.from ? new Date(activeTrip.dates.from) : new Date()
-            const to = activeTrip.dates.to ? new Date(activeTrip.dates.to) : new Date()
-            const diffTime = Math.abs(to.getTime() - from.getTime())
-            return Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1
-          })(),
-          pace: activeTrip.pace || 'medium'
-        }}
-        onBack={handleBackToConfigurator}
-        onBuildItinerary={handleBuildItinerary}
-      />
-    )
-  }
-
-  if (manualView === 'itinerary' && itineraryData) {
-    // Get user and trip name for saving
-    const userName = activeTrip?.name?.split("'s")[0] || 'Guest'
-    const tripName = activeTrip?.name?.split("'s ")[1] || 'Trip'
-
-    return (
-      <ItineraryBuilder
-        selectedPlaceIds={itineraryData.selectedIds}
-        userConfig={itineraryData.userConfig}
-        onBack={handleBackToExplorer}
-        allPlaces={itineraryData.allPlaces}
-        userName={userName}
-        tripName={tripName}
-      />
-    )
-  }
-
-  // Default: Manual Mode Configurator with Sidebar + Mode Toggle
-  return (
-    <div className="min-h-screen bg-slate-50">
-      {/* Mode Toggle Header */}
-      <div className="bg-white border-b border-slate-200 px-4 py-2">
-        <div className="max-w-7xl mx-auto flex items-center justify-between">
-          <div className="flex items-center gap-1 p-1 bg-slate-100 rounded-lg">
-            <button
-              onClick={() => setMode('ai')}
-              className="flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium transition-all text-slate-600 hover:text-slate-900"
-            >
-              <Bot size={16} />
-              AI Chat
-            </button>
-            <button
-              onClick={() => setMode('manual')}
-              className="flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium transition-all bg-white text-indigo-600 shadow-sm"
-            >
-              <Settings size={16} />
-              Manual Mode
-            </button>
-          </div>
-
-          <div className="text-sm text-slate-500">
-            Kodaikanal Trip Planner
-          </div>
-        </div>
-      </div>
-
-      {/* Content */}
       <Sidebar>
         <TripConfigurator onFetchPlaces={handleFetchPlaces} />
       </Sidebar>
-    </div>
+    )
+  }
+
+  return (
+    <AppLayout
+      mainTab={mainTab}
+      onMainTabChange={setMainTab}
+      secondaryNav={
+        mainTab === 'plan' ? (
+          <ModeToggle mode={planMode} onModeChange={setPlanMode} />
+        ) : null
+      }
+    >
+      {renderContent()}
+    </AppLayout>
   )
 }
 

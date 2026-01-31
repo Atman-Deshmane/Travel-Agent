@@ -1,0 +1,43 @@
+{
+  "user_id": "d3anagneb",
+  "name": "Ratna",
+  "avatar_color": "hsl(63.06809081745222, 70%, 60%)",
+  "generated_at": "2026-01-30T13:06:34.794Z",
+  "defaults": {
+    "origin_city": {
+      "value": null,
+      "required": false,
+      "is_default": true
+    },
+    "food_preference": {
+      "value": "flexible",
+      "required": false,
+      "is_default": true
+    },
+    "mobility": {
+      "value": "medium",
+      "required": false,
+      "is_default": true
+    },
+    "pace": {
+      "value": "balanced",
+      "required": false,
+      "is_default": true
+    },
+    "interests": {
+      "value": [
+        "Nature",
+        "Trekking",
+        "Food",
+        "Spiritual"
+      ],
+      "required": true,
+      "is_default": true
+    },
+    "transport_mode_preference": {
+      "value": "flexible",
+      "required": false,
+      "is_default": true
+    }
+  }
+}

@@ -194,6 +194,10 @@ class ItineraryRanker:
         scored_places = []
         
         for idx, place in enumerate(self.places):
+            # Skip places marked as excluded from itinerary
+            if place.get('metadata', {}).get('itinerary_include') is False:
+                continue
+            
             place_vector = self.vectors[idx:idx+1]
             
             # === SIMILARITY SCORE (0-100) ===

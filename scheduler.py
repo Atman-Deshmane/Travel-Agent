@@ -45,6 +45,16 @@ PACE_START_TIMES = {
     'packed': 7      # 7:00 AM (alias)
 }
 
+# Pace-based end times (hours from midnight)
+PACE_END_TIMES = {
+    'slow': 16,      # 4:00 PM
+    'chill': 16,     # 4:00 PM (alias)
+    'medium': 18,    # 6:00 PM
+    'balanced': 18,  # 6:00 PM (alias)
+    'fast': 20,      # 8:00 PM
+    'packed': 20     # 8:00 PM (alias)
+}
+
 # Lunch break configuration
 LUNCH_BREAK_TIME = 13.5  # 1:30 PM
 LUNCH_BREAK_DURATION = 90  # 90 minutes
@@ -413,6 +423,87 @@ class ItineraryScheduler:
         
         return candidates[:5]
     
+    def _estimate_day_duration(self, places: List[Dict]) -> int:
+        """Estimate total duration for a list of places in minutes."""
+        total = 0
+        for p in places:
+            # Time at place
+            if isinstance(p, dict):
+                total += p.get('avg_time_minutes', 60) if 'avg_time_minutes' in p else p.get('logic', {}).get('avg_time_spent_minutes', 60)
+                total += p.get('travel_to_next_min', 10)
+            else:
+                total += 70  # Default estimate
+        return total
+    
+    def _split_days_if_needed(
+        self, 
+        days: List[Dict], 
+        num_days: int,
+        pace: str
+    ) -> List[Dict]:
+        """
+        Split longest days when we have more requested days than clusters.
+        Prioritizes splitting days with Hard difficulty places or longest duration.
+        """
+        while len(days) < num_days:
+            # Find day with longest estimated duration
+            if not days:
+                break
+            
+            # Calculate duration for each day
+            day_durations = []
+            for day in days:
+                duration = sum(
+                    p.get('avg_time_minutes', 60) + p.get('travel_to_next_min', 0) 
+                    for p in day['places']
+                )
+                # Bonus for hard places to prioritize splitting those
+                hard_count = sum(1 for p in day['places'] if p.get('difficulty') == 'Hard')
+                day_durations.append((day, duration + hard_count * 30))
+            
+            # Sort by duration descending
+            day_durations.sort(key=lambda x: x[1], reverse=True)
+            longest_day = day_durations[0][0]
+            
+            if len(longest_day['places']) <= 2:
+                print(f"⚠️ Cannot split further - day has only {len(longest_day['places'])} places")
+                break  # Can't split further
+            
+            # Split in half
+            places = longest_day['places']
+            mid = len(places) // 2
+            first_half = places[:mid]
+            second_half = places[mid:]
+            
+            original_cluster = longest_day['cluster']
+            original_day_num = longest_day['day']
+            
+            print(f"📅 Splitting Day {original_day_num} ({original_cluster}): {len(first_half)} + {len(second_half)} places")
+            
+            # Update original day with first half
+            longest_day['places'] = first_half
+            longest_day['place_count'] = len(first_half)
+            longest_day['total_drive_min'] = sum(p.get('travel_to_next_min', 0) for p in first_half)
+            
+            # Create new day with second half
+            new_day_num = len(days) + 1
+            new_day = {
+                'day': new_day_num,
+                'cluster': f"{original_cluster} (Part 2)",
+                'places': second_half,
+                'total_drive_min': sum(p.get('travel_to_next_min', 0) for p in second_half),
+                'place_count': len(second_half),
+                'is_split': True
+            }
+            days.append(new_day)
+        
+        # Renumber days sequentially
+        for i, day in enumerate(days):
+            day['day'] = i + 1
+        
+        return days
+    
+
     def build_itinerary(
         self,
         selected_place_ids: List[str],
@@ -629,17 +720,55 @@ class ItineraryScheduler:
             
             day_num += 1
         
-        # Calculate scheduled times for each place
-        start_hour = PACE_START_TIMES.get(pace.lower(), 9)
+        # Split days if we have more requested days than clusters
+        if len(days) < num_days:
+            days = self._split_days_if_needed(days, num_days, pace)
         
+        # Get timing configuration
+        start_hour = PACE_START_TIMES.get(pace.lower(), 9)
+        end_hour = PACE_END_TIMES.get(pace.lower(), 18)
+        end_time_minutes = end_hour * 60
+        
+        # Get user-forced place IDs (these won't be removed, just flagged)
+        user_forced_ids = set(user_config.get('user_forced_ids', []))
+        
+        # Track removed places
+        removed_places = []
+        
+        # Calculate scheduled times for each place and enforce end time
         for day in days:
             current_time = start_hour * 60  # Convert to minutes from midnight
             lunch_inserted = False
             
+            # Track places to keep and places to overflow
+            places_to_keep = []
+            overflow_places = []
+            
             for place in day['places']:
-                # Check if we need lunch break (around 1:30pm = 810 minutes)
-                if not lunch_inserted and current_time >= LUNCH_BREAK_TIME * 60 - 30:
-                    # Insert lunch break
+                # Estimate time needed for this place
+                time_at_place = place.get('avg_time_minutes', 60)
+                travel_after = place.get('travel_to_next_min', 0)
+                lunch_addition = 0
+                
+                # Check if we need lunch break
+                needs_lunch = not lunch_inserted and current_time >= LUNCH_BREAK_TIME * 60 - 30
+                if needs_lunch:
+                    lunch_addition = LUNCH_BREAK_DURATION
+                
+                # Calculate when we'd finish this place
+                finish_time = current_time + lunch_addition + time_at_place + travel_after
+                
+                # Check if this place exceeds end time
+                is_user_forced = place.get('id') in user_forced_ids
+                exceeds_end_time = finish_time > end_time_minutes
+                
+                if exceeds_end_time and not is_user_forced:
+                    # Remove this place - it doesn't fit
+                    overflow_places.append(place)
+                    continue
+                
+                # Add lunch break if needed
+                if needs_lunch:
                     place['has_lunch_before'] = True
                     current_time += LUNCH_BREAK_DURATION
                     lunch_inserted = True
@@ -652,22 +781,55 @@ class ItineraryScheduler:
                 place['scheduled_time'] = f"{hours:02d}:{minutes:02d}"
                 
                 # Calculate departure time
-                time_spent = place.get('avg_time_minutes', 60)
-                departure_time = current_time + time_spent
+                departure_time = current_time + time_at_place
                 dep_hours = int(departure_time // 60)
                 dep_minutes = int(departure_time % 60)
                 place['departure_time'] = f"{dep_hours:02d}:{dep_minutes:02d}"
                 
-                # Move to next place (time spent + travel)
-                current_time = departure_time + place.get('travel_to_next_min', 0)
+                # Add warning for user-forced places that exceed end time
+                if is_user_forced and exceeds_end_time:
+                    place['warning'] = 'late_schedule'
+                    place['warning_message'] = f"This place causes schedule to extend past {end_hour}:00"
+                
+                # Move current time forward
+                current_time = departure_time + travel_after
+                
+                places_to_keep.append(place)
+            
+            # Update day's places with only the kept ones
+            day['places'] = places_to_keep
+            day['place_count'] = len(places_to_keep)
+            day['total_drive_min'] = sum(p.get('travel_to_next_min', 0) for p in places_to_keep)
+            
+            # Track removed/overflow places
+            for p in overflow_places:
+                removed_places.append({
+                    'id': p.get('id'),
+                    'name': p.get('name'),
+                    'cluster': p.get('cluster'),
+                    'reason': 'exceeded_end_time',
+                    'reason_text': f"Could not fit within {end_hour}:00 end time (pace: {pace})",
+                    'image_url': p.get('image_url', ''),
+                    'avg_time_minutes': p.get('avg_time_minutes', 60)
+                })
             
             # Add end time of day
             end_hours = int(current_time // 60)
             end_minutes = int(current_time % 60)
             day['end_time'] = f"{end_hours:02d}:{end_minutes:02d}"
             day['start_time'] = f"{start_hour:02d}:00"
+            day['target_end_time'] = f"{end_hour:02d}:00"
+        
+        # Remove empty days
+        days = [d for d in days if d['places']]
+        
+        # Renumber days
+        for i, day in enumerate(days):
+            day['day'] = i + 1
         
         print(f"✅ Built {len(days)}-day itinerary")
+        if removed_places:
+            print(f"⚠️ {len(removed_places)} places removed due to time constraints")
         
         # Generate on-the-way suggestions
         suggestions = self._generate_suggestions(days, selected_place_ids)
@@ -675,7 +837,9 @@ class ItineraryScheduler:
         return {
             "days": days, 
             "start_hour": start_hour,
-            "suggestions": suggestions
+            "end_hour": end_hour,
+            "suggestions": suggestions,
+            "removed_places": removed_places
         }
 
 

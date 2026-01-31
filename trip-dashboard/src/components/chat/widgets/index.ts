@@ -1,3 +1,5 @@
 export { InterestSelector } from './InterestSelector'
 export { PlaceCarousel } from './PlaceCarousel'
 export { ItineraryWidget } from './ItineraryWidget'
+export { DatePickerWidget } from './DatePickerWidget'
+export { PaceSelector } from './PaceSelector'

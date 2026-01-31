@@ -267,6 +267,7 @@ Find and Return a strictly valid JSON object with:
 - "tips" (Array of EXACTLY 3 practical tips for visitors)
 - "hero_image_url" (Find a public URL of a representative image if possible, else null)
 - "source_links" (Array of URLs you used for this info)
+- "itinerary_include" (Boolean: true if this is a tourist ATTRACTION/DESTINATION that belongs in an itinerary, false if it's a SERVICE like taxi/safari/transport, or a generic hotel/restaurant without scenic value. Cafes with views like Altaf's Cafe should be true.)
 
 IMPORTANT: Return ONLY the JSON object, no markdown formatting, no code blocks, just pure JSON."""
 
@@ -555,6 +556,10 @@ def build_place_data(
         "periods": opening_hours_data.get("periods", []) if opening_hours_data else []
     }
     
+    # Use Gemini's itinerary_include decision (defaults to True for tourist attractions)
+    # Gemini determines if it's a service/transport (false) or tourist destination (true)
+    itinerary_include = gemini_data.get("itinerary_include", True)
+    
     place_data = {
         "id": slug,
         "google_place_id": maps_data.get("place_id"),
@@ -597,7 +602,8 @@ def build_place_data(
         
         "metadata": {
             "added_by": "system",
-            "last_updated": datetime.now(timezone.utc).isoformat()
+            "last_updated": datetime.now(timezone.utc).isoformat(),
+            "itinerary_include": itinerary_include
         }
     }
     
