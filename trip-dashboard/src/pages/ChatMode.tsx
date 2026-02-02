@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
-    Send, Mic, MicOff, RotateCcw, RotateCw, Volume2, VolumeX,
+    Send, Mic, MicOff, RotateCw, Volume2, VolumeX,
     Play, Pause, Loader2, Bot, User
 } from 'lucide-react'
 import { InterestSelector, PlaceCarousel, ItineraryWidget, DatePickerWidget, PaceSelector } from '../components/chat/widgets'
@@ -262,23 +262,6 @@ export function ChatMode() {
         if (audioRef.current) {
             audioRef.current.playbackRate = nextSpeed
         }
-    }
-
-    const resetConversation = async () => {
-        try {
-            await fetch('http://127.0.0.1:5001/api/ai/reset', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ session_id: sessionId })
-            })
-        } catch (e) {
-            console.error('Reset failed:', e)
-        }
-
-        // Reset to initial greeting
-        setMessages([initialGreeting])
-        setSessionId(null)
-        setSessionState(null)
     }
 
     const handleWidgetAction = (action: string, data: { interests?: string[]; places?: string[]; dates?: { from: string; to: string }; pace?: string; group_type?: string; has_elders?: boolean; has_kids?: boolean }) => {
