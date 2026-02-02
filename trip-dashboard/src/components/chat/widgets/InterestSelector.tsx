@@ -41,11 +41,11 @@ export function InterestSelector({ onSelect }: InterestSelectorProps) {
         <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="bg-slate-800 rounded-xl p-4 border border-slate-700"
+            className="bg-white rounded-xl p-4 border border-slate-200 shadow-sm"
         >
             <div className="flex items-center gap-2 mb-3">
-                <Sparkles size={16} className="text-emerald-400" />
-                <span className="text-sm font-medium text-slate-300">What interests you?</span>
+                <Sparkles size={16} className="text-indigo-500" />
+                <span className="text-sm font-medium text-slate-600">What interests you?</span>
             </div>
 
             <div className="flex flex-wrap gap-2 mb-4">
@@ -53,9 +53,9 @@ export function InterestSelector({ onSelect }: InterestSelectorProps) {
                     <button
                         key={interest.id}
                         onClick={() => toggleInterest(interest.id)}
-                        className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition-all ${selected.includes(interest.id)
-                                ? 'bg-emerald-500 text-white'
-                                : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
+                        className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition-all border ${selected.includes(interest.id)
+                            ? 'bg-indigo-600 border-indigo-600 text-white shadow-md shadow-indigo-200'
+                            : 'bg-slate-50 border-slate-200 text-slate-600 hover:bg-white hover:border-indigo-300 hover:shadow-sm'
                             }`}
                     >
                         <span>{interest.emoji}</span>
@@ -70,7 +70,7 @@ export function InterestSelector({ onSelect }: InterestSelectorProps) {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     onClick={handleSubmit}
-                    className="w-full py-2 bg-gradient-to-r from-emerald-500 to-teal-600 text-white rounded-lg font-medium hover:from-emerald-600 hover:to-teal-700 transition-all"
+                    className="w-full py-2 bg-gradient-to-r from-indigo-500 to-indigo-600 text-white rounded-lg font-medium hover:from-indigo-600 hover:to-indigo-700 transition-all shadow-md shadow-indigo-200"
                 >
                     Continue with {selected.length} interest{selected.length > 1 ? 's' : ''}
                 </motion.button>

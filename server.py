@@ -16,7 +16,7 @@ from flask_cors import CORS
 from dotenv import load_dotenv
 
 # Import our pipeline
-from fetch_place_data import fetch_place_data, load_master_json, get_top_places
+from fetch_place_data import fetch_place_data, load_master_json, get_top_places, get_maps_client, KODAIKANAL_CENTER
 
 # Import the vector scorer (lazy load to avoid startup delay if not used)
 ranker = None
@@ -108,6 +108,84 @@ def get_top_n_places(n):
     """Get top N places by popularity."""
     places = get_top_places(n)
     return jsonify({"places": places, "count": len(places)})
+
+
+@app.route('/api/places/autocomplete', methods=['GET'])
+def places_autocomplete():
+    """
+    Autocomplete endpoint combining local DB + Google Maps.
+    Returns suggestions with in_database flag.
+    
+    Query params:
+        q: Search query (min 2 chars)
+    
+    Returns:
+        {
+            "suggestions": [
+                {"id": "...", "name": "...", "cluster": "...", "in_database": true, "place_id": "..."},
+                {"name": "...", "place_id": "...", "in_database": false}
+            ]
+        }
+    """
+    query = request.args.get('q', '').strip()
+    
+    if len(query) < 2:
+        return jsonify({"suggestions": []})
+    
+    try:
+        # 1. Search local database
+        master = load_master_json()
+        local_matches = [
+            {
+                "id": p.get("id"),
+                "name": p.get("name"),
+                "cluster": p.get("location", {}).get("cluster_zone", ""),
+                "in_database": True,
+                "place_id": p.get("google_place_id")
+            }
+            for p in master.get("places", [])
+            if query.lower() in p.get("name", "").lower()
+        ][:5]  # Cap at 5
+        
+        # Get place_ids already in database to filter Google results
+        local_place_ids = {p.get("place_id") for p in local_matches if p.get("place_id")}
+        all_db_place_ids = {p.get("google_place_id") for p in master.get("places", []) if p.get("google_place_id")}
+        
+        # 2. Query Google Maps Autocomplete
+        gmaps = get_maps_client()
+        autocomplete = gmaps.places_autocomplete(
+            input_text=f"{query} Kodaikanal",
+            location=KODAIKANAL_CENTER,
+            radius=50000,
+            types="establishment"
+        )
+        
+        # 3. Filter out places already in DB
+        google_suggestions = []
+        for pred in autocomplete[:5]:
+            place_id = pred.get("place_id")
+            if place_id and place_id not in all_db_place_ids:
+                # Clean up the description (remove ", India" etc)
+                description = pred.get("description", "")
+                # Remove common suffixes
+                for suffix in [", India", ", Tamil Nadu, India", ", Kodaikanal, Tamil Nadu, India"]:
+                    description = description.replace(suffix, "")
+                
+                google_suggestions.append({
+                    "name": description,
+                    "place_id": place_id,
+                    "in_database": False
+                })
+        
+        return jsonify({
+            "suggestions": local_matches + google_suggestions
+        })
+        
+    except Exception as e:
+        print(f"Error in autocomplete: {e}")
+        import traceback
+        traceback.print_exc()
+        return jsonify({"suggestions": [], "error": str(e)}), 500
 
 
 # ===== EQUALIZER API (Scoring) =====

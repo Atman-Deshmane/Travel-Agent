@@ -1,6 +1,14 @@
-import { useState } from 'react'
+import { useState, useRef, useEffect, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { ChevronRight, ChevronLeft, Plus, AlertTriangle, Star, Clock, Search, X, MapPin } from 'lucide-react'
+import { ChevronRight, ChevronLeft, Plus, AlertTriangle, Star, Clock, Search, X, MapPin, Loader2, Check } from 'lucide-react'
+
+interface AutocompleteSuggestion {
+    id?: string
+    name: string
+    cluster?: string
+    place_id: string
+    in_database: boolean
+}
 
 interface SidebarPlace {
     id: string
@@ -20,6 +28,7 @@ interface AllPlacesSidebarProps {
     dayClusterMap: { [day: number]: string } // Map of day number to cluster name
     onAddPlace: (placeId: string, targetDay: number) => void
     onOpenDetail: (place: SidebarPlace) => void
+    onAddNewPlace?: (placeName: string, placeId: string) => Promise<void> // For adding new places from Google Maps
 }
 
 export function AllPlacesSidebar({
@@ -27,10 +36,84 @@ export function AllPlacesSidebar({
     selectedIds,
     dayClusterMap,
     onAddPlace,
-    onOpenDetail
+    onOpenDetail,
+    onAddNewPlace
 }: AllPlacesSidebarProps) {
     const [isExpanded, setIsExpanded] = useState(false)
     const [searchQuery, setSearchQuery] = useState('')
+
+    // Autocomplete state
+    const [autocompleteSuggestions, setAutocompleteSuggestions] = useState<AutocompleteSuggestion[]>([])
+    const [autocompleteLoading, setAutocompleteLoading] = useState(false)
+    const [showAutocomplete, setShowAutocomplete] = useState(false)
+    const [addingPlace, setAddingPlace] = useState<string | null>(null)
+    const searchContainerRef = useRef<HTMLDivElement>(null)
+    const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+    // Debounced autocomplete search
+    const handleSearchChange = useCallback((value: string) => {
+        setSearchQuery(value)
+
+        // Clear previous debounce
+        if (debounceRef.current) {
+            clearTimeout(debounceRef.current)
+        }
+
+        if (value.length < 2) {
+            setAutocompleteSuggestions([])
+            setShowAutocomplete(false)
+            return
+        }
+
+        // Debounce the API call
+        debounceRef.current = setTimeout(async () => {
+            setAutocompleteLoading(true)
+            try {
+                const response = await fetch(`http://127.0.0.1:5001/api/places/autocomplete?q=${encodeURIComponent(value)}`)
+                const data = await response.json()
+                setAutocompleteSuggestions(data.suggestions || [])
+                setShowAutocomplete(true)
+            } catch (error) {
+                console.error('Autocomplete error:', error)
+                setAutocompleteSuggestions([])
+            } finally {
+                setAutocompleteLoading(false)
+            }
+        }, 300)
+    }, [])
+
+    // Click outside handler
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (searchContainerRef.current && !searchContainerRef.current.contains(event.target as Node)) {
+                setShowAutocomplete(false)
+            }
+        }
+
+        document.addEventListener('mousedown', handleClickOutside)
+        return () => document.removeEventListener('mousedown', handleClickOutside)
+    }, [])
+
+    // Handle suggestion selection
+    const handleSelectSuggestion = async (suggestion: AutocompleteSuggestion) => {
+        if (suggestion.in_database) {
+            // Already in DB - just set search term to filter
+            setSearchQuery(suggestion.name)
+            setShowAutocomplete(false)
+        } else if (onAddNewPlace) {
+            // New place - add via pipeline
+            setAddingPlace(suggestion.place_id)
+            setShowAutocomplete(false)
+            try {
+                await onAddNewPlace(suggestion.name, suggestion.place_id)
+                setSearchQuery('')
+            } catch (error) {
+                console.error('Error adding place:', error)
+            } finally {
+                setAddingPlace(null)
+            }
+        }
+    }
 
     // Filter already-selected places and apply search
     const availablePlaces = places.filter(p => {
@@ -88,22 +171,90 @@ export function AllPlacesSidebar({
                         {/* Header */}
                         <div className="p-4 border-b border-slate-700">
                             <h3 className="text-lg font-bold text-white mb-3">All Places</h3>
-                            <div className="relative">
-                                <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
+
+                            {/* Adding place indicator */}
+                            {addingPlace && (
+                                <div className="flex items-center gap-2 mb-3 p-2 bg-indigo-900/50 rounded-lg border border-indigo-700">
+                                    <Loader2 size={14} className="animate-spin text-indigo-400" />
+                                    <span className="text-xs text-indigo-300">Adding new place...</span>
+                                </div>
+                            )}
+
+                            {/* Autocomplete Search */}
+                            <div ref={searchContainerRef} className="relative">
+                                <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 z-10" size={16} />
                                 <input
                                     type="text"
                                     value={searchQuery}
-                                    onChange={(e) => setSearchQuery(e.target.value)}
-                                    placeholder="Search places..."
+                                    onChange={(e) => handleSearchChange(e.target.value)}
+                                    placeholder="Search or add places..."
                                     className="w-full pl-9 pr-8 py-2 bg-slate-800 border border-slate-700 rounded-lg text-sm text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                                 />
+                                {autocompleteLoading && (
+                                    <Loader2 size={14} className="absolute right-8 top-1/2 -translate-y-1/2 animate-spin text-slate-400" />
+                                )}
                                 {searchQuery && (
                                     <button
-                                        onClick={() => setSearchQuery('')}
-                                        className="absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white"
+                                        onClick={() => {
+                                            setSearchQuery('')
+                                            setAutocompleteSuggestions([])
+                                            setShowAutocomplete(false)
+                                        }}
+                                        className="absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white z-10"
                                     >
                                         <X size={14} />
                                     </button>
+                                )}
+
+                                {/* Autocomplete Dropdown */}
+                                {showAutocomplete && autocompleteSuggestions.length > 0 && (
+                                    <div className="absolute top-full left-0 right-0 mt-1 bg-slate-800 border border-slate-600 rounded-lg shadow-xl z-50 overflow-hidden max-h-64 overflow-y-auto">
+                                        {/* Local DB Matches */}
+                                        {autocompleteSuggestions.filter(s => s.in_database).length > 0 && (
+                                            <div>
+                                                <div className="px-3 py-1.5 bg-slate-700/50 text-[10px] font-semibold text-slate-400 uppercase tracking-wide border-b border-slate-600">
+                                                    In Database
+                                                </div>
+                                                {autocompleteSuggestions.filter(s => s.in_database).map((suggestion) => (
+                                                    <button
+                                                        key={suggestion.place_id}
+                                                        onClick={() => handleSelectSuggestion(suggestion)}
+                                                        className="w-full flex items-center gap-2 px-3 py-2 hover:bg-slate-700 transition-colors text-left"
+                                                    >
+                                                        <Check className="w-3.5 h-3.5 text-emerald-400 flex-shrink-0" />
+                                                        <div className="flex-1 min-w-0">
+                                                            <div className="text-sm text-white truncate">{suggestion.name}</div>
+                                                            {suggestion.cluster && (
+                                                                <div className="text-[10px] text-slate-400">{suggestion.cluster}</div>
+                                                            )}
+                                                        </div>
+                                                    </button>
+                                                ))}
+                                            </div>
+                                        )}
+
+                                        {/* Google Maps Suggestions */}
+                                        {autocompleteSuggestions.filter(s => !s.in_database).length > 0 && (
+                                            <div>
+                                                <div className="px-3 py-1.5 bg-slate-700/50 text-[10px] font-semibold text-slate-400 uppercase tracking-wide border-b border-t border-slate-600">
+                                                    Add from Google Maps
+                                                </div>
+                                                {autocompleteSuggestions.filter(s => !s.in_database).map((suggestion) => (
+                                                    <button
+                                                        key={suggestion.place_id}
+                                                        onClick={() => handleSelectSuggestion(suggestion)}
+                                                        disabled={!onAddNewPlace}
+                                                        className="w-full flex items-center gap-2 px-3 py-2 hover:bg-slate-700 transition-colors text-left disabled:opacity-50 disabled:cursor-not-allowed"
+                                                    >
+                                                        <Plus className="w-3.5 h-3.5 text-indigo-400 flex-shrink-0" />
+                                                        <div className="flex-1 min-w-0">
+                                                            <div className="text-sm text-white truncate">{suggestion.name}</div>
+                                                        </div>
+                                                    </button>
+                                                ))}
+                                            </div>
+                                        )}
+                                    </div>
                                 )}
                             </div>
                             <p className="text-xs text-slate-400 mt-2">
@@ -124,8 +275,8 @@ export function AllPlacesSidebar({
                                         animate={{ opacity: 1, y: 0 }}
                                         transition={{ delay: idx * 0.02 }}
                                         className={`group rounded-lg overflow-hidden border transition-all ${isFlagged
-                                                ? 'bg-slate-800/50 border-slate-700 opacity-60 hover:opacity-100'
-                                                : 'bg-slate-800 border-slate-700 hover:border-indigo-500'
+                                            ? 'bg-slate-800/50 border-slate-700 opacity-60 hover:opacity-100'
+                                            : 'bg-slate-800 border-slate-700 hover:border-indigo-500'
                                             }`}
                                     >
                                         <div

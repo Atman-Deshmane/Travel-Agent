@@ -4654,6 +4654,144 @@
       }
     },
     {
+      "id": "palani-hills-view-point-kodaikanal",
+      "google_place_id": "ChIJ0UljFm9mBzsRQ2b2xWIYHks",
+      "name": "Palani Hills View Point",
+      "location": {
+        "lat": 10.2269908,
+        "lng": 77.48997059999999,
+        "address": "6FGQ+QXX, St Mary's Rd, Kodaikanal, Tamil Nadu 624101, India",
+        "cluster_zone": "Town Center",
+        "nearest_cluster": null,
+        "google_maps_link": "https://maps.google.com/?cid=5412790614653036099"
+      },
+      "stats": {
+        "rating": 4.3,
+        "review_count": 121,
+        "popularity_score": 0.6,
+        "popularity_rank": 36,
+        "price_level": null
+      },
+      "logic": {
+        "avg_time_spent_minutes": 45,
+        "opening_hours": {
+          "weekday_text": [
+            "Monday: 9:00 AM – 5:00 PM",
+            "Tuesday: 9:00 AM – 5:00 PM",
+            "Wednesday: 9:00 AM – 5:00 PM",
+            "Thursday: 9:00 AM – 5:00 PM",
+            "Friday: 9:00 AM – 5:00 PM",
+            "Saturday: 9:00 AM – 5:00 PM",
+            "Sunday: Closed"
+          ],
+          "periods": [
+            {
+              "close": {
+                "day": 1,
+                "time": "1700"
+              },
+              "open": {
+                "day": 1,
+                "time": "0900"
+              }
+            },
+            {
+              "close": {
+                "day": 2,
+                "time": "1700"
+              },
+              "open": {
+                "day": 2,
+                "time": "0900"
+              }
+            },
+            {
+              "close": {
+                "day": 3,
+                "time": "1700"
+              },
+              "open": {
+                "day": 3,
+                "time": "0900"
+              }
+            },
+            {
+              "close": {
+                "day": 4,
+                "time": "1700"
+              },
+              "open": {
+                "day": 4,
+                "time": "0900"
+              }
+            },
+            {
+              "close": {
+                "day": 5,
+                "time": "1700"
+              },
+              "open": {
+                "day": 5,
+                "time": "0900"
+              }
+            },
+            {
+              "close": {
+                "day": 6,
+                "time": "1700"
+              },
+              "open": {
+                "day": 6,
+                "time": "0900"
+              }
+            }
+          ]
+        },
+        "peak_hours": [
+          11,
+          12,
+          16
+        ],
+        "difficulty": "Easy"
+      },
+      "content": {
+        "short_summary": "A peaceful viewpoint in Kodaikanal offering stunning views of the Palani Hills and surrounding landscape.",
+        "tags": [
+          "Scenic Views",
+          "Photography",
+          "Nature",
+          "Mountains",
+          "Tranquil",
+          "Hidden Gem",
+          "Less Crowded"
+        ],
+        "best_time_text": "Early morning or late afternoon for the best lighting. November to February for pleasant weather.",
+        "tips": [
+          "Visit during early morning or late afternoon for the best lighting for photography.",
+          "Wear comfortable shoes, as the area around the viewpoint can be uneven.",
+          "Carry some water and snacks, as there are limited facilities nearby."
+        ],
+        "hero_image_url": null,
+        "photo_reference": "AcnlKN1Zci6Oiop-TmF7yVKUCu5Oe8rGoFZEKgZlhXeTTRWQnYf2BEF6o95VFjjrKU-cTf2cPYJW9FcRtRKkAmQEFqKLiR7Uw9TBi1CgqH_muF9CNkL57ISqfIozd8vv0YZr138_nJYjNYEo4HBZyIydSGwNw75iulF-EOaleelj65TjKCCeftpr596clDQTW2HvB1gSXTF7nTZs2DQPqS2GsvYeyu1EFr_7laSSiCnUdHyuok937IL1kZTYHGSz4oWeHeR8eftLlrcb1ZIBrRx0_i5GlbmEz2-uITG44Ey2_mtb7e-15NRW8Xjd3jBDJWFLkBFHvTB9DKNdDG_wQMy6QhULsUzP4HkIOuONMiLveQxBvMs9kYhOZpBhr7-ny2CX2fWtBU7hPpiU1gF1MEt7uF7NR9Q4inQnWWGledXq0q_iste4"
+      },
+      "sources": [
+        "https://www.google.com/maps/place/Palani+Hills+View+Point",
+        "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHi0p81s7DNhCAZ3xhbORLpy4EDZC5f_xkXDF_KyRO6WYtVHS0iUj-EZsd5VCvTNr0lJKd7Ig49UhtsFCg_7nUHmd9Igl0a5a94IMWJojqNfXYSYJ3I9vCEv1uhtTGhCS5ortzAJHwPW_sfYAAxLqBE1tGsCIM12h7M51taWw==",
+        "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHbJYXTLZfrtU6L7TFsYAk5IugSa9QVhOtRyY6zns9y70LcRamD0eYc6a8XQ-FkxloYn5UIqyeWPVnP-i8kwMGwEkqjQqS6heGlnPFckyvZKmoLqoO41zx5WtNFXXXcn4nW-AbGWS9E2QEAu6k=",
+        "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFoE-c6R1biusKzTkCBBH8Prdz8NbOLnM25iDL5FpQtZUHGoAN1wGcJZ-uAxRam284kkJ9i3YstXgsw9DvqPXChfYJtdmq5oUbDBlg2Y_SN8KG4VTl2VFF5YarE"
+      ],
+      "metadata": {
+        "added_by": "system",
+        "last_updated": "2026-01-31T16:34:24.385810+00:00",
+        "itinerary_include": true
+      },
+      "distance_info": {
+        "distance_from_center_km": 0.57,
+        "is_within_range": true,
+        "warning": null
+      }
+    },
+    {
       "id": "cave-dolmen-kodaikanal-kodaikanal",
       "google_place_id": "ChIJ92AhTWBnBzsRvna2kKjpVj8",
       "name": "Cave (Dolmen) Kodaikanal",
@@ -4669,7 +4807,7 @@
         "rating": 4.1,
         "review_count": 99,
         "popularity_score": 0.5,
-        "popularity_rank": 36,
+        "popularity_rank": 37,
         "price_level": null
       },
       "logic": {
@@ -4745,7 +4883,7 @@
         "rating": 4.5,
         "review_count": 71,
         "popularity_score": 0.36,
-        "popularity_rank": 37,
+        "popularity_rank": 38,
         "price_level": null
       },
       "logic": {
@@ -4818,7 +4956,7 @@
         "rating": 3.6,
         "review_count": 56,
         "popularity_score": 0.28,
-        "popularity_rank": 38,
+        "popularity_rank": 39,
         "price_level": null
       },
       "logic": {
@@ -4983,7 +5121,7 @@
         "rating": null,
         "review_count": 0,
         "popularity_score": 0.0,
-        "popularity_rank": 39,
+        "popularity_rank": 40,
         "price_level": null
       },
       "logic": {
@@ -5047,6 +5185,6 @@
       }
     }
   ],
-  "total_count": 39,
-  "last_updated": "2026-01-29T15:01:41.618245+00:00"
+  "total_count": 40,
+  "last_updated": "2026-01-31T16:34:24.389188+00:00"
 }

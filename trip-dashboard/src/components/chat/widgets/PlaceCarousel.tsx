@@ -61,23 +61,23 @@ export function PlaceCarousel({ places, selectedIds = [], onConfirm }: PlaceCaro
         <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="bg-slate-800 rounded-xl p-4 border border-slate-700"
+            className="bg-white rounded-xl p-4 border border-slate-200 shadow-sm"
         >
             <div className="flex items-center justify-between mb-3">
                 <div className="flex items-center gap-2">
-                    <Sparkles size={16} className="text-emerald-400" />
-                    <span className="text-sm font-medium text-slate-300">
+                    <Sparkles size={16} className="text-indigo-500" />
+                    <span className="text-sm font-medium text-slate-600">
                         Recommended Places ({places.length})
                     </span>
                 </div>
                 <div className="flex items-center gap-2">
                     <button
                         onClick={selectAll}
-                        className="text-xs text-emerald-400 hover:text-emerald-300"
+                        className="text-xs text-indigo-600 hover:text-indigo-700 font-medium"
                     >
                         Select All
                     </button>
-                    <span className="text-xs text-slate-500">|</span>
+                    <span className="text-xs text-slate-300">|</span>
                     <span className="text-xs text-slate-400">
                         {selected.size} selected
                     </span>
@@ -88,7 +88,7 @@ export function PlaceCarousel({ places, selectedIds = [], onConfirm }: PlaceCaro
             <div className="relative">
                 <button
                     onClick={() => scroll('left')}
-                    className="absolute left-0 top-1/2 -translate-y-1/2 z-10 w-8 h-8 bg-slate-900/80 backdrop-blur rounded-full flex items-center justify-center text-slate-300 hover:text-white"
+                    className="absolute left-0 top-1/2 -translate-y-1/2 z-10 w-8 h-8 bg-white/90 backdrop-blur rounded-full flex items-center justify-center text-slate-500 hover:text-indigo-600 shadow-md border border-slate-100"
                 >
                     <ChevronLeft size={18} />
                 </button>
@@ -104,38 +104,38 @@ export function PlaceCarousel({ places, selectedIds = [], onConfirm }: PlaceCaro
                             onClick={() => togglePlace(place.id)}
                             whileHover={{ scale: 1.02 }}
                             whileTap={{ scale: 0.98 }}
-                            className={`flex-shrink-0 w-48 p-3 rounded-xl border transition-all text-left ${selected.has(place.id)
-                                ? 'bg-emerald-500/20 border-emerald-500'
-                                : 'bg-slate-700/50 border-slate-600 hover:border-slate-500'
+                            className={`flex-shrink-0 w-48 p-3 rounded-xl border transition-all text-left overflow-hidden ${selected.has(place.id)
+                                ? 'bg-indigo-50 border-indigo-500 shadow-sm'
+                                : 'bg-slate-50 border-slate-200 hover:border-indigo-300 hover:bg-white hover:shadow-sm'
                                 }`}
                         >
                             <div className="flex items-start justify-between mb-2">
-                                <span className="text-xs font-bold text-emerald-400">#{index + 1}</span>
+                                <span className={`text-xs font-bold ${selected.has(place.id) ? 'text-indigo-600' : 'text-slate-400'}`}>#{index + 1}</span>
                                 {selected.has(place.id) && (
-                                    <div className="w-5 h-5 bg-emerald-500 rounded-full flex items-center justify-center">
+                                    <div className="w-5 h-5 bg-indigo-600 rounded-full flex items-center justify-center shadow-sm">
                                         <Check size={12} className="text-white" />
                                     </div>
                                 )}
                             </div>
 
-                            <h4 className="text-sm font-semibold text-white mb-1 line-clamp-2">
+                            <h4 className="text-sm font-semibold text-slate-800 mb-1 line-clamp-2">
                                 {place.name}
                             </h4>
 
-                            <div className="flex items-center gap-1 text-xs text-slate-400 mb-2">
+                            <div className="flex items-center gap-1 text-xs text-slate-500 mb-2">
                                 <MapPin size={10} />
-                                <span>{place.cluster || 'Unknown'}</span>
+                                <span className="truncate">{place.cluster || 'Unknown'}</span>
                             </div>
 
                             <div className="flex items-center gap-3 text-xs">
                                 {place.rating && (
-                                    <div className="flex items-center gap-1 text-amber-400">
+                                    <div className="flex items-center gap-1 text-amber-500">
                                         <Star size={10} fill="currentColor" />
                                         <span>{place.rating}</span>
                                     </div>
                                 )}
                                 {place.avg_time_minutes && (
-                                    <div className="flex items-center gap-1 text-slate-400">
+                                    <div className="flex items-center gap-1 text-slate-500">
                                         <Clock size={10} />
                                         <span>{place.avg_time_minutes}m</span>
                                     </div>
@@ -145,7 +145,7 @@ export function PlaceCarousel({ places, selectedIds = [], onConfirm }: PlaceCaro
                             {place.tags && place.tags.length > 0 && (
                                 <div className="flex flex-wrap gap-1 mt-2">
                                     {place.tags.slice(0, 2).map((tag, i) => (
-                                        <span key={i} className="text-[10px] px-1.5 py-0.5 bg-slate-600 text-slate-300 rounded">
+                                        <span key={i} className="text-[10px] px-1.5 py-0.5 bg-white border border-slate-200 text-slate-500 rounded">
                                             {tag}
                                         </span>
                                     ))}
@@ -157,7 +157,7 @@ export function PlaceCarousel({ places, selectedIds = [], onConfirm }: PlaceCaro
 
                 <button
                     onClick={() => scroll('right')}
-                    className="absolute right-0 top-1/2 -translate-y-1/2 z-10 w-8 h-8 bg-slate-900/80 backdrop-blur rounded-full flex items-center justify-center text-slate-300 hover:text-white"
+                    className="absolute right-0 top-1/2 -translate-y-1/2 z-10 w-8 h-8 bg-white/90 backdrop-blur rounded-full flex items-center justify-center text-slate-500 hover:text-indigo-600 shadow-md border border-slate-100"
                 >
                     <ChevronRight size={18} />
                 </button>
@@ -169,7 +169,7 @@ export function PlaceCarousel({ places, selectedIds = [], onConfirm }: PlaceCaro
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     onClick={handleConfirm}
-                    className="w-full mt-4 py-2 bg-gradient-to-r from-emerald-500 to-teal-600 text-white rounded-lg font-medium hover:from-emerald-600 hover:to-teal-700 transition-all"
+                    className="w-full mt-4 py-2 bg-gradient-to-r from-indigo-500 to-indigo-600 text-white rounded-lg font-medium hover:from-indigo-600 hover:to-indigo-700 transition-all shadow-md shadow-indigo-200"
                 >
                     Build Itinerary with {selected.size} places
                 </motion.button>

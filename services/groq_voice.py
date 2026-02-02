@@ -105,9 +105,9 @@ def generate_audio(text: str) -> Optional[bytes]:
     
     try:
         response = client.audio.speech.create(
-            model="playai-tts",
+            model="canopylabs/orpheus-v1-english",
             input=clean_text,
-            voice="Aaliyah-PlayAI",
+            voice="hannah",  # Friendly female voice for travel assistant
             response_format="wav"
         )
         

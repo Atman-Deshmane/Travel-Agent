@@ -1,24 +1,43 @@
 {
-  "user_id": "ai-bruce wayne",
+  "user_id": "9yu01wbht",
   "name": "Bruce Wayne",
-  "avatar_color": "hsl(74, 70%, 60%)",
-  "generated_at": "2026-01-30T16:34:00.177542",
+  "avatar_color": "hsl(0.043810480881689706, 70%, 60%)",
+  "generated_at": "2026-01-31T16:20:11.085Z",
   "defaults": {
-    "interests": {
-      "value": [
-        "Adventure & Trekking",
-        "Cafes & Food",
-        "Waterfalls"
-      ],
-      "required": true
+    "origin_city": {
+      "value": null,
+      "required": false,
+      "is_default": true
+    },
+    "food_preference": {
+      "value": "veg",
+      "required": false,
+      "is_default": true
+    },
+    "mobility": {
+      "value": "high",
+      "required": false,
+      "is_default": true
     },
     "pace": {
       "value": "balanced",
-      "required": false
+      "required": false,
+      "is_default": true
     },
-    "mobility": {
-      "value": "medium",
-      "required": false
+    "interests": {
+      "value": [
+        "Relaxation",
+        "Food",
+        "Photography",
+        "Adventure"
+      ],
+      "required": true,
+      "is_default": true
+    },
+    "transport_mode_preference": {
+      "value": "flexible",
+      "required": false,
+      "is_default": true
     }
   }
 }

@@ -160,6 +160,54 @@ export function ItineraryBuilder({ selectedPlaceIds, userConfig, onBack, allPlac
         setSelectedPlace(place as ItineraryPlace)
     }
 
+    // Handler for adding a NEW place from Google Maps (not in database yet)
+    const handleAddNewPlace = async (placeName: string, _placeId: string) => {
+        try {
+            // Call the fetch endpoint to add the new place via pipeline
+            const response = await fetch('http://127.0.0.1:5001/api/fetch', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ place_name: placeName })
+            })
+
+            const data = await response.json()
+
+            if (data.success && data.place) {
+                // Add the new place to itinerary and rebuild
+                const newPlaceId = data.place.id
+                const newPlaceIds = new Set([...itineraryPlaceIds, newPlaceId])
+                setItineraryPlaceIds(newPlaceIds)
+
+                // Rebuild itinerary with the new place
+                setLoading(true)
+                const rebuildResponse = await fetch('http://127.0.0.1:5001/api/build-itinerary', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        selected_place_ids: Array.from(newPlaceIds),
+                        user_config: userConfig
+                    })
+                })
+
+                if (rebuildResponse.ok) {
+                    const rebuildData = await rebuildResponse.json()
+                    setDays(rebuildData.days || [])
+                    setSuggestions(rebuildData.suggestions || [])
+                    setRemovedPlaces(rebuildData.removed_places || [])
+                    console.log(`✅ Added new place "${placeName}" - itinerary rebuilt`)
+                }
+            } else {
+                console.error('Failed to add new place:', data.error)
+                throw new Error(data.error || 'Failed to add place')
+            }
+        } catch (error) {
+            console.error('Error adding new place:', error)
+            throw error
+        } finally {
+            setLoading(false)
+        }
+    }
+
     // Handler for saving itinerary
     const handleSave = async () => {
         setSaveStatus('saving')

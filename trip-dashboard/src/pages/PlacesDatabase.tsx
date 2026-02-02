@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { Search, Star, MapPin, Link as LinkIcon, ExternalLink, X, ChevronDown, Grid3X3, Map } from 'lucide-react';
+import { useState, useEffect, useRef, useCallback } from 'react';
+import { Search, Star, MapPin, Link as LinkIcon, ExternalLink, X, ChevronDown, Grid3X3, Map, Loader2, Check, Plus, MapPinned } from 'lucide-react';
 import { MapContainer, TileLayer, Marker } from 'react-leaflet';
 import L from 'leaflet';
 
@@ -39,6 +39,14 @@ const CATEGORY_TAGS: Record<string, string[]> = {
     family: ['family', 'picnic', 'relaxing', 'shopping', 'chocolate', 'entertainment']
 };
 
+interface AutocompleteSuggestion {
+    id?: string;
+    name: string;
+    cluster?: string;
+    place_id: string;
+    in_database: boolean;
+}
+
 export function PlacesDatabase() {
     const [places, setPlaces] = useState<Place[]>([]);
     const [filteredPlaces, setFilteredPlaces] = useState<Place[]>([]);
@@ -49,6 +57,14 @@ export function PlacesDatabase() {
     const [sourcesExpanded, setSourcesExpanded] = useState(false);
     const [viewMode, setViewMode] = useState<'grid' | 'map'>('grid');
     const [hoveredPlace, setHoveredPlace] = useState<Place | null>(null);
+
+    // Autocomplete state
+    const [suggestions, setSuggestions] = useState<AutocompleteSuggestion[]>([]);
+    const [autocompleteLoading, setAutocompleteLoading] = useState(false);
+    const [showSuggestions, setShowSuggestions] = useState(false);
+    const [addingPlace, setAddingPlace] = useState<string | null>(null); // place_id being added
+    const searchContainerRef = useRef<HTMLDivElement>(null);
+    const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
     // Fetch places on mount
     useEffect(() => {
@@ -100,6 +116,87 @@ export function PlacesDatabase() {
         return `http://127.0.0.1:5001/api/photo/${photoRef}`;
     };
 
+    // Debounced autocomplete search
+    const handleSearchChange = useCallback((value: string) => {
+        setSearchTerm(value);
+
+        // Clear previous debounce
+        if (debounceRef.current) {
+            clearTimeout(debounceRef.current);
+        }
+
+        if (value.length < 2) {
+            setSuggestions([]);
+            setShowSuggestions(false);
+            return;
+        }
+
+        // Debounce the API call
+        debounceRef.current = setTimeout(async () => {
+            setAutocompleteLoading(true);
+            try {
+                const response = await fetch(`http://127.0.0.1:5001/api/places/autocomplete?q=${encodeURIComponent(value)}`);
+                const data = await response.json();
+                setSuggestions(data.suggestions || []);
+                setShowSuggestions(true);
+            } catch (error) {
+                console.error('Autocomplete error:', error);
+                setSuggestions([]);
+            } finally {
+                setAutocompleteLoading(false);
+            }
+        }, 300);
+    }, []);
+
+    // Handle clicking outside to close suggestions
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (searchContainerRef.current && !searchContainerRef.current.contains(event.target as Node)) {
+                setShowSuggestions(false);
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => document.removeEventListener('mousedown', handleClickOutside);
+    }, []);
+
+    // Handle selecting a suggestion
+    const handleSelectSuggestion = async (suggestion: AutocompleteSuggestion) => {
+        if (suggestion.in_database) {
+            // Already in DB - just filter to this place
+            setSearchTerm(suggestion.name);
+            setShowSuggestions(false);
+        } else {
+            // New place - need to fetch it via the pipeline
+            setAddingPlace(suggestion.place_id);
+            setShowSuggestions(false);
+
+            try {
+                const response = await fetch('http://127.0.0.1:5001/api/fetch', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ place_name: suggestion.name })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    // Refresh the places list
+                    await fetchPlaces();
+                    setSearchTerm(data.place?.name || suggestion.name);
+                } else {
+                    console.error('Failed to add place:', data.error);
+                    alert(`Failed to add place: ${data.error}`);
+                }
+            } catch (error) {
+                console.error('Error adding place:', error);
+                alert('Failed to add place. Please try again.');
+            } finally {
+                setAddingPlace(null);
+            }
+        }
+    };
+
     const categories = [
         { id: 'all', label: 'All Places' },
         { id: 'nature', label: 'Nature' },
@@ -132,16 +229,81 @@ export function PlacesDatabase() {
 
             {/* Search & Filters */}
             <div className="flex flex-col sm:flex-row gap-4 mb-6">
-                {/* Search */}
-                <div className="relative flex-1">
-                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
+                {/* Search with Autocomplete */}
+                <div className="relative flex-1" ref={searchContainerRef}>
+                    {autocompleteLoading ? (
+                        <Loader2 className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-indigo-500 animate-spin" />
+                    ) : (
+                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
+                    )}
                     <input
                         type="text"
-                        placeholder="Search places..."
+                        placeholder="Search places or add new..."
                         value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
+                        onChange={(e) => handleSearchChange(e.target.value)}
+                        onFocus={() => suggestions.length > 0 && setShowSuggestions(true)}
                         className="w-full pl-10 pr-4 py-2.5 bg-white border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
                     />
+
+                    {/* Adding place indicator */}
+                    {addingPlace && (
+                        <div className="absolute inset-0 bg-white/80 rounded-xl flex items-center justify-center gap-2">
+                            <Loader2 className="w-5 h-5 text-indigo-600 animate-spin" />
+                            <span className="text-sm text-indigo-600 font-medium">Adding place to database...</span>
+                        </div>
+                    )}
+
+                    {/* Autocomplete Dropdown */}
+                    {showSuggestions && suggestions.length > 0 && (
+                        <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-slate-200 rounded-xl shadow-lg z-50 overflow-hidden">
+                            {/* Local DB Matches */}
+                            {suggestions.filter(s => s.in_database).length > 0 && (
+                                <div>
+                                    <div className="px-3 py-1.5 bg-slate-50 text-xs font-semibold text-slate-500 uppercase tracking-wide border-b border-slate-100">
+                                        In Database
+                                    </div>
+                                    {suggestions.filter(s => s.in_database).map((suggestion) => (
+                                        <button
+                                            key={suggestion.place_id}
+                                            onClick={() => handleSelectSuggestion(suggestion)}
+                                            className="w-full flex items-center gap-3 px-3 py-2.5 hover:bg-slate-50 transition-colors text-left"
+                                        >
+                                            <Check className="w-4 h-4 text-emerald-500 flex-shrink-0" />
+                                            <div className="flex-1 min-w-0">
+                                                <div className="text-sm font-medium text-slate-900 truncate">{suggestion.name}</div>
+                                                {suggestion.cluster && (
+                                                    <div className="text-xs text-slate-500">{suggestion.cluster}</div>
+                                                )}
+                                            </div>
+                                        </button>
+                                    ))}
+                                </div>
+                            )}
+
+                            {/* Google Maps Suggestions */}
+                            {suggestions.filter(s => !s.in_database).length > 0 && (
+                                <div>
+                                    <div className="px-3 py-1.5 bg-indigo-50 text-xs font-semibold text-indigo-600 uppercase tracking-wide border-b border-indigo-100 flex items-center gap-1">
+                                        <MapPinned className="w-3 h-3" />
+                                        Add from Google Maps
+                                    </div>
+                                    {suggestions.filter(s => !s.in_database).map((suggestion) => (
+                                        <button
+                                            key={suggestion.place_id}
+                                            onClick={() => handleSelectSuggestion(suggestion)}
+                                            className="w-full flex items-center gap-3 px-3 py-2.5 hover:bg-indigo-50 transition-colors text-left"
+                                        >
+                                            <Plus className="w-4 h-4 text-indigo-500 flex-shrink-0" />
+                                            <div className="flex-1 min-w-0">
+                                                <div className="text-sm font-medium text-slate-900 truncate">{suggestion.name}</div>
+                                                <div className="text-xs text-slate-500">Click to add to database</div>
+                                            </div>
+                                        </button>
+                                    ))}
+                                </div>
+                            )}
+                        </div>
+                    )}
                 </div>
 
                 {/* Category Filters */}

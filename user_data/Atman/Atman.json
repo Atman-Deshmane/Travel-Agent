@@ -1,26 +1,45 @@
 {
-  "user_id": "ai-atman",
+  "user_id": "ya3tpdlqz",
   "name": "Atman",
-  "avatar_color": "hsl(208, 70%, 60%)",
-  "generated_at": "2026-01-29T20:09:08.353033",
+  "avatar_color": "hsl(47.248271515483914, 70%, 60%)",
+  "generated_at": "2026-01-31T16:35:54.060Z",
   "defaults": {
-    "interests": {
-      "value": [
-        "Nature & Viewpoints",
-        "Peace & Serenity",
-        "Adventure & Trekking",
-        "Cafes & Food",
-        "Waterfalls"
-      ],
-      "required": true
+    "origin_city": {
+      "value": null,
+      "required": false,
+      "is_default": true
     },
-    "pace": {
-      "value": "chill",
-      "required": false
+    "food_preference": {
+      "value": "veg",
+      "required": false,
+      "is_default": true
     },
     "mobility": {
-      "value": "medium",
-      "required": false
+      "value": "high",
+      "required": false,
+      "is_default": true
+    },
+    "pace": {
+      "value": "balanced",
+      "required": false,
+      "is_default": true
+    },
+    "interests": {
+      "value": [
+        "Nature",
+        "Trekking",
+        "Relaxation",
+        "Food",
+        "Clouds",
+        "Museum"
+      ],
+      "required": true,
+      "is_default": true
+    },
+    "transport_mode_preference": {
+      "value": "flexible",
+      "required": false,
+      "is_default": true
     }
   }
 }

@@ -38,11 +38,11 @@ export function PaceSelector({ onConfirm }: PaceSelectorProps) {
         <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="bg-slate-800 rounded-xl p-4 border border-slate-700 space-y-4"
+            className="bg-white rounded-xl p-4 border border-slate-200 shadow-sm space-y-5"
         >
             {/* Pace Selection */}
             <div>
-                <span className="text-sm font-medium text-white mb-3 block">What's your pace?</span>
+                <span className="text-sm font-semibold text-slate-800 mb-3 block">What's your pace?</span>
                 <div className="flex gap-2">
                     {PACE_OPTIONS.map(opt => {
                         const Icon = opt.icon
@@ -51,13 +51,13 @@ export function PaceSelector({ onConfirm }: PaceSelectorProps) {
                                 key={opt.id}
                                 onClick={() => setSelectedPace(opt.id)}
                                 className={`flex-1 p-3 rounded-xl border transition-all ${selectedPace === opt.id
-                                    ? `bg-gradient-to-br ${opt.color} border-transparent text-white`
-                                    : 'bg-slate-700/50 border-slate-600 text-slate-300 hover:border-slate-500'
+                                    ? `bg-gradient-to-br ${opt.color} border-transparent text-white shadow-md`
+                                    : 'bg-slate-50 border-slate-200 text-slate-500 hover:border-slate-300 hover:bg-white'
                                     }`}
                             >
                                 <Icon size={20} className="mx-auto mb-1" />
                                 <div className="text-sm font-medium">{opt.label}</div>
-                                <div className="text-xs opacity-80">{opt.desc}</div>
+                                <div className="text-xs opacity-90">{opt.desc}</div>
                             </button>
                         )
                     })}
@@ -66,7 +66,7 @@ export function PaceSelector({ onConfirm }: PaceSelectorProps) {
 
             {/* Group Selection */}
             <div>
-                <span className="text-sm font-medium text-white mb-3 block">Who's traveling?</span>
+                <span className="text-sm font-semibold text-slate-800 mb-3 block">Who's traveling?</span>
                 <div className="flex gap-2">
                     {GROUP_OPTIONS.map(opt => {
                         const Icon = opt.icon
@@ -75,8 +75,8 @@ export function PaceSelector({ onConfirm }: PaceSelectorProps) {
                                 key={opt.id}
                                 onClick={() => setSelectedGroup(opt.id)}
                                 className={`flex-1 py-2 px-3 rounded-lg border transition-all ${selectedGroup === opt.id
-                                    ? 'bg-emerald-500/20 border-emerald-500 text-emerald-400'
-                                    : 'bg-slate-700/50 border-slate-600 text-slate-300 hover:border-slate-500'
+                                    ? 'bg-indigo-50 border-indigo-500 text-indigo-700 font-medium'
+                                    : 'bg-slate-50 border-slate-200 text-slate-500 hover:border-slate-300 hover:bg-white'
                                     }`}
                             >
                                 <Icon size={16} className="mx-auto mb-1" />
@@ -94,21 +94,21 @@ export function PaceSelector({ onConfirm }: PaceSelectorProps) {
                     animate={{ opacity: 1, height: 'auto' }}
                     className="flex gap-4"
                 >
-                    <label className="flex items-center gap-2 text-sm text-slate-300 cursor-pointer">
+                    <label className="flex items-center gap-2 text-sm text-slate-600 cursor-pointer hover:text-slate-900">
                         <input
                             type="checkbox"
                             checked={hasElders}
                             onChange={(e) => setHasElders(e.target.checked)}
-                            className="w-4 h-4 rounded border-slate-500 bg-slate-700 text-emerald-500 focus:ring-emerald-500"
+                            className="w-4 h-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500"
                         />
                         With seniors (60+)
                     </label>
-                    <label className="flex items-center gap-2 text-sm text-slate-300 cursor-pointer">
+                    <label className="flex items-center gap-2 text-sm text-slate-600 cursor-pointer hover:text-slate-900">
                         <input
                             type="checkbox"
                             checked={hasKids}
                             onChange={(e) => setHasKids(e.target.checked)}
-                            className="w-4 h-4 rounded border-slate-500 bg-slate-700 text-emerald-500 focus:ring-emerald-500"
+                            className="w-4 h-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500"
                         />
                         With kids
                     </label>
@@ -117,7 +117,7 @@ export function PaceSelector({ onConfirm }: PaceSelectorProps) {
 
             <button
                 onClick={handleConfirm}
-                className="w-full py-2 bg-gradient-to-r from-emerald-500 to-teal-600 text-white rounded-lg font-medium hover:from-emerald-600 hover:to-teal-700 transition-all"
+                className="w-full py-2 bg-gradient-to-r from-indigo-500 to-indigo-600 text-white rounded-lg font-medium hover:from-indigo-600 hover:to-indigo-700 transition-all shadow-md shadow-indigo-200"
             >
                 Continue
             </button>

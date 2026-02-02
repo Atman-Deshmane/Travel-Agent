@@ -1,0 +1,27 @@
+# Apache configuration for Single Page Application
+# Hosted at /kodaikanal/ subdirectory
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /kodaikanal/
+
+  # If the request is for an existing file or directory, serve it directly
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+
+  # Otherwise, rewrite to index.html for client-side routing
+  RewriteRule ^ /kodaikanal/index.html [L]
+</IfModule>
+
+# Optional: Set caching headers for static assets
+<IfModule mod_headers.c>
+  # Cache static assets for 1 year
+  <FilesMatch "\.(js|css|png|jpg|jpeg|gif|ico|woff|woff2|ttf|svg)$">
+    Header set Cache-Control "max-age=31536000, public, immutable"
+  </FilesMatch>
+
+  # Don't cache HTML files
+  <FilesMatch "\.html$">
+    Header set Cache-Control "no-cache, no-store, must-revalidate"
+  </FilesMatch>
+</IfModule>

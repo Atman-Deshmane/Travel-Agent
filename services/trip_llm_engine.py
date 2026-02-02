@@ -634,10 +634,11 @@ class TripLLMEngine:
             )
         )
 
-        # Generate config with system instruction and tools
+        # Generate config with system instruction, tools, and optimized thinking
         config = types.GenerateContentConfig(
             system_instruction=get_system_prompt(),
-            tools=self.tools
+            tools=self.tools,
+            thinking_config=types.ThinkingConfig(thinking_level="low")
         )
 
         # Maximum iterations for function calling loop
