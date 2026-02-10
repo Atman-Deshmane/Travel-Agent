@@ -40,7 +40,19 @@ def get_scheduler():
 load_dotenv()
 
 app = Flask(__name__, template_folder='templates', static_folder='static')
-CORS(app)
+CORS(app, resources={
+    r"/api/*": {
+        "origins": [
+            "http://localhost:5173",
+            "http://127.0.0.1:5173", 
+            "https://100cr.cloud",
+            "https://www.100cr.cloud"
+        ],
+        "methods": ["GET", "POST", "OPTIONS"],
+        "allow_headers": ["Content-Type", "Authorization"],
+        "supports_credentials": True
+    }
+})
 
 # Pass the Maps API key to the frontend
 MAPS_API_KEY = os.getenv("GOOGLE_MAPS_API_KEY", "")

@@ -1,13 +1,13 @@
 {
-  "trip_id": "cx3b4074z",
-  "user_id": "9yu01wbht",
-  "name": "Feb 25 - Feb 28",
-  "generated_at": "2026-02-02T12:35:37.425Z",
+  "trip_id": "lazhe3cca",
+  "user_id": "ya3tpdlqz",
+  "name": "Feb 28 - Mar 2",
+  "generated_at": "2026-01-31T16:35:54.060Z",
   "logistics": {
     "dates": {
       "value": {
-        "from": "2026-02-25T00:00:00.000Z",
-        "to": "2026-02-28T00:00:00.000Z"
+        "from": "2026-02-28T00:00:00.000Z",
+        "to": "2026-03-02T00:00:00.000Z"
       },
       "required": false
     },
@@ -20,7 +20,7 @@
       "required": true
     },
     "group_type": {
-      "value": "solo",
+      "value": "couple",
       "required": true
     },
     "family_composition": {
@@ -37,7 +37,7 @@
       "required": false
     },
     "mode_to_kodai": {
-      "value": "own_vehicle",
+      "value": "bus",
       "required": false
     },
     "transport_in_city": {
@@ -69,10 +69,12 @@
     },
     "interests": {
       "value": [
+        "Nature",
+        "Trekking",
         "Relaxation",
         "Food",
-        "Photography",
-        "Adventure"
+        "Clouds",
+        "Museum"
       ],
       "required": true
     }

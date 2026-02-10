@@ -1,8 +1,8 @@
 {
-  "user_id": "9yu01wbht",
-  "name": "Bruce Wayne",
-  "avatar_color": "hsl(0.043810480881689706, 70%, 60%)",
-  "generated_at": "2026-02-02T12:35:37.425Z",
+  "user_id": "ai-zaten",
+  "name": "Zaten",
+  "avatar_color": "hsl(342, 70%, 60%)",
+  "generated_at": "2026-02-02T12:30:21.227Z",
   "defaults": {
     "origin_city": {
       "value": null,
@@ -15,21 +15,24 @@
       "is_default": true
     },
     "mobility": {
-      "value": "high",
+      "value": "medium",
       "required": false,
       "is_default": true
     },
     "pace": {
-      "value": "balanced",
+      "value": "chill",
       "required": false,
       "is_default": true
     },
     "interests": {
       "value": [
+        "Trekking",
+        "Nature",
+        "Adventure",
+        "Cloud",
+        "View",
         "Relaxation",
-        "Food",
-        "Photography",
-        "Adventure"
+        "Peace"
       ],
       "required": true,
       "is_default": true

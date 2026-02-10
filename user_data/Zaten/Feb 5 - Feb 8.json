@@ -1,13 +1,13 @@
 {
-  "trip_id": "cx3b4074z",
-  "user_id": "9yu01wbht",
-  "name": "Feb 25 - Feb 28",
-  "generated_at": "2026-02-02T12:35:37.425Z",
+  "trip_id": "18i6hynro",
+  "user_id": "ai-zaten",
+  "name": "Feb 5 - Feb 8",
+  "generated_at": "2026-02-02T12:30:21.227Z",
   "logistics": {
     "dates": {
       "value": {
-        "from": "2026-02-25T00:00:00.000Z",
-        "to": "2026-02-28T00:00:00.000Z"
+        "from": "2026-02-05T00:00:00.000Z",
+        "to": "2026-02-08T00:00:00.000Z"
       },
       "required": false
     },
@@ -20,7 +20,7 @@
       "required": true
     },
     "group_type": {
-      "value": "solo",
+      "value": "couple",
       "required": true
     },
     "family_composition": {
@@ -60,19 +60,22 @@
       "required": false
     },
     "mobility": {
-      "value": "high",
+      "value": "medium",
       "required": false
     },
     "pace": {
-      "value": "balanced",
+      "value": "chill",
       "required": false
     },
     "interests": {
       "value": [
+        "Trekking",
+        "Nature",
+        "Adventure",
+        "Cloud",
+        "View",
         "Relaxation",
-        "Food",
-        "Photography",
-        "Adventure"
+        "Peace"
       ],
       "required": true
     }
