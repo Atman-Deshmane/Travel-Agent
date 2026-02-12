@@ -5,6 +5,7 @@ import { LogisticsSection } from './LogisticsSection'
 import { JourneyStaySection } from './JourneyStaySection'
 import { VibeSection } from './VibeSection'
 import { MapPin, Sparkles, ArrowRight, Terminal, CheckCircle, AlertCircle, Loader2 } from 'lucide-react'
+import { API_BASE_URL, API_ENDPOINTS } from '../../config/api'
 
 // Validation Error Types
 interface ValidationErrors {
@@ -130,7 +131,7 @@ export function TripConfigurator({ onFetchPlaces }: TripConfiguratorProps) {
         }
 
         // Warmup backend model (Fire and forget)
-        fetch('http://127.0.0.1:5001/api/warmup').catch(console.error)
+        fetch(API_ENDPOINTS.warmup).catch(console.error)
     }, [currentUser?.id])
 
     // Clear errors when trip data changes
@@ -290,7 +291,7 @@ export function TripConfigurator({ onFetchPlaces }: TripConfiguratorProps) {
             };
 
             // Save user profile - folder and file named after user
-            const profileResponse = await fetchWithTimeout(`http://127.0.0.1:5001/api/user/${encodeURIComponent(currentUser.name)}/profile`, {
+            const profileResponse = await fetchWithTimeout(`${API_BASE_URL}/api/user/${encodeURIComponent(currentUser.name)}/profile`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(userProfileJson)
@@ -301,7 +302,7 @@ export function TripConfigurator({ onFetchPlaces }: TripConfiguratorProps) {
             }
 
             // Save trip - file named after trip name (date range)
-            const tripResponse = await fetchWithTimeout(`http://127.0.0.1:5001/api/user/${encodeURIComponent(currentUser.name)}/trip`, {
+            const tripResponse = await fetchWithTimeout(`${API_BASE_URL}/api/user/${encodeURIComponent(currentUser.name)}/trip`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(tripContextJson)

@@ -5,6 +5,7 @@ import {
     Play, Pause, Loader2, Bot, User
 } from 'lucide-react'
 import { InterestSelector, PlaceCarousel, ItineraryWidget, DatePickerWidget, PaceSelector } from '../components/chat/widgets'
+import { API_ENDPOINTS } from '../config/api'
 
 interface Message {
     id: string
@@ -69,7 +70,7 @@ export function ChatMode() {
         setIsLoading(true)
 
         try {
-            const response = await fetch('http://127.0.0.1:5001/api/ai/chat', {
+            const response = await fetch(API_ENDPOINTS.chat, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -127,7 +128,7 @@ export function ChatMode() {
             formData.append('audio', audioBlob, 'recording.webm')
             if (sessionId) formData.append('session_id', sessionId)
 
-            const response = await fetch('http://127.0.0.1:5001/api/ai/voice', {
+            const response = await fetch(API_ENDPOINTS.voice, {
                 method: 'POST',
                 body: formData
             })

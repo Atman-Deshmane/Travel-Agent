@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { ArrowLeft, ArrowRight, ChevronLeft, ChevronRight, MapPin, Clock, Star, Loader2, Calendar, Route, Save, Check, AlertTriangle, ChevronDown } from 'lucide-react'
 import { PlaceDetailModal } from '../components/PlaceDetailModal'
 import { AllPlacesSidebar } from '../components/AllPlacesSidebar'
+import { API_ENDPOINTS } from '../config/api'
 
 interface ItineraryPlace {
     id: string
@@ -77,7 +78,7 @@ export function ItineraryBuilder({ selectedPlaceIds, userConfig, onBack, allPlac
             setError(null)
 
             try {
-                const response = await fetch('http://127.0.0.1:5001/api/build-itinerary', {
+                const response = await fetch(API_ENDPOINTS.buildItinerary, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
@@ -130,7 +131,7 @@ export function ItineraryBuilder({ selectedPlaceIds, userConfig, onBack, allPlac
         // Rebuild itinerary with the new place
         setLoading(true)
         try {
-            const response = await fetch('http://127.0.0.1:5001/api/build-itinerary', {
+            const response = await fetch(API_ENDPOINTS.buildItinerary, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -164,7 +165,7 @@ export function ItineraryBuilder({ selectedPlaceIds, userConfig, onBack, allPlac
     const handleSave = async () => {
         setSaveStatus('saving')
         try {
-            const response = await fetch('http://127.0.0.1:5001/api/save-itinerary', {
+            const response = await fetch(API_ENDPOINTS.saveItinerary, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({

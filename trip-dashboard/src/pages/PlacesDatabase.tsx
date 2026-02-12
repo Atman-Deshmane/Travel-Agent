@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { Search, Star, MapPin, Link as LinkIcon, ExternalLink, X, ChevronDown, Grid3X3, Map, Loader2, Check, Plus, MapPinned } from 'lucide-react';
+import { API_ENDPOINTS } from '../config/api';
 import { MapContainer, TileLayer, Marker } from 'react-leaflet';
 import L from 'leaflet';
 
@@ -100,7 +101,7 @@ export function PlacesDatabase() {
 
     const fetchPlaces = async () => {
         try {
-            const response = await fetch('http://127.0.0.1:5001/api/places');
+            const response = await fetch(API_ENDPOINTS.places);
             const data = await response.json();
             setPlaces(data.places || []);
             setFilteredPlaces(data.places || []);
@@ -113,7 +114,7 @@ export function PlacesDatabase() {
 
     const getPhotoUrl = (photoRef?: string) => {
         if (!photoRef) return null;
-        return `http://127.0.0.1:5001/api/photo/${photoRef}`;
+        return API_ENDPOINTS.photo(photoRef);
     };
 
     // Debounced autocomplete search
@@ -135,7 +136,7 @@ export function PlacesDatabase() {
         debounceRef.current = setTimeout(async () => {
             setAutocompleteLoading(true);
             try {
-                const response = await fetch(`http://127.0.0.1:5001/api/places/autocomplete?q=${encodeURIComponent(value)}`);
+                const response = await fetch(`${API_ENDPOINTS.autocomplete}?q=${encodeURIComponent(value)}`);
                 const data = await response.json();
                 setSuggestions(data.suggestions || []);
                 setShowSuggestions(true);
@@ -172,7 +173,7 @@ export function PlacesDatabase() {
             setShowSuggestions(false);
 
             try {
-                const response = await fetch('http://127.0.0.1:5001/api/fetch', {
+                const response = await fetch(API_ENDPOINTS.fetch, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ place_name: suggestion.name })

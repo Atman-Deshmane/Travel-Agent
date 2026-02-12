@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ChevronRight, ChevronLeft, Plus, AlertTriangle, Star, Clock, Search, X, MapPin, Loader2, Check } from 'lucide-react'
+import { API_ENDPOINTS } from '../config/api'
 
 interface AutocompleteSuggestion {
     id?: string
@@ -69,7 +70,7 @@ export function AllPlacesSidebar({
         debounceRef.current = setTimeout(async () => {
             setAutocompleteLoading(true)
             try {
-                const response = await fetch(`http://127.0.0.1:5001/api/places/autocomplete?q=${encodeURIComponent(value)}`)
+                const response = await fetch(`${API_ENDPOINTS.autocomplete}?q=${encodeURIComponent(value)}`)
                 const data = await response.json()
                 setAutocompleteSuggestions(data.suggestions || [])
                 setShowAutocomplete(true)

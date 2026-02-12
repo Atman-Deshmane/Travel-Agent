@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { ArrowLeft, ArrowRight, Loader2, Tag, Plus, X, Sparkles } from 'lucide-react'
 import { PlaceCard } from '../components/PlaceCard'
 import { WeightSlider } from '../components/WeightSlider'
+import { API_ENDPOINTS } from '../config/api'
 
 interface ScoredPlace {
     id: string
@@ -111,7 +112,7 @@ export function PlacesExplorer({ userProfile, tripConfig, onBack, onBuildItinera
             setLoadingStage(1)
 
             // Stage 2: Fetching
-            const response = await fetch('http://127.0.0.1:5001/api/fetch-scored-places', {
+            const response = await fetch(API_ENDPOINTS.fetchScoredPlaces, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({

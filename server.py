@@ -855,7 +855,8 @@ if __name__ == '__main__':
     print(f"API Key loaded: {'✅' if MAPS_API_KEY else '❌ Missing!'}")
     print(f"Gemini API: {'✅' if os.getenv('GEMINI_API_KEY') else '❌ Missing!'}")
     print(f"Groq API: {'✅' if os.getenv('GROQ_API_KEY') else '⚠️ Missing (voice disabled)'}")
-    print("Starting server at http://localhost:5001")
+    port = int(os.getenv("PORT", 5001))
+    print(f"Starting server at http://localhost:{port}")
     print("="*60 + "\n")
     
-    app.run(debug=True, port=5001)
+    app.run(debug=True, port=port)

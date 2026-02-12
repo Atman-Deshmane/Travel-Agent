@@ -2,6 +2,7 @@ import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 import { generateMockUsers, createBlankTrip } from '../data/mock_users'
 import { formatDateRange, generateId } from '../lib/utils'
+import { API_ENDPOINTS } from '../config/api'
 
 // ===== INTERFACES =====
 
@@ -215,7 +216,7 @@ export const useUserStore = create<UserStore>()(
 
             hydrateFromBackend: async () => {
                 try {
-                    const response = await fetch('http://127.0.0.1:5001/api/dashboard/data')
+                    const response = await fetch(API_ENDPOINTS.dashboardData)
                     if (!response.ok) {
                         console.warn('Failed to fetch backend data')
                         return
