@@ -21,6 +21,7 @@ interface PlaceCardProps {
     onKeepFlagged?: (id: string) => void
     showScore: 'pop' | 'sim' | 'final'
     actionType?: 'button' | 'checkbox'
+    onClick?: () => void
 }
 
 export function PlaceCard({
@@ -39,7 +40,8 @@ export function PlaceCard({
     onToggleSelect,
     onKeepFlagged,
     showScore,
-    actionType = 'button'
+    actionType = 'button',
+    onClick
 }: PlaceCardProps) {
     const hasWarning = flags.length > 0
     const scoreValue = showScore === 'pop' ? scores.pop : showScore === 'sim' ? scores.sim : final_score
@@ -58,7 +60,8 @@ export function PlaceCard({
                 filter: hasWarning && !isSelected ? 'grayscale(0.5)' : 'none'
             }}
             whileHover={{ y: -4 }}
-            className={`group flex flex-col bg-white rounded-xl overflow-hidden border shadow-sm hover:shadow-xl transition-all duration-300 h-full ${isSelected
+            onClick={onClick}
+            className={`group flex flex-col bg-white rounded-xl overflow-hidden border shadow-sm hover:shadow-xl transition-all duration-300 h-full ${onClick ? 'cursor-pointer' : ''} ${isSelected
                 ? 'border-indigo-500 ring-1 ring-indigo-500'
                 : hasWarning
                     ? 'border-amber-200 bg-amber-50/10'

@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { ArrowLeft, ArrowRight, Loader2, Tag, Plus, X, Sparkles } from 'lucide-react'
 import { PlaceCard } from '../components/PlaceCard'
 import { WeightSlider } from '../components/WeightSlider'
+import { PlaceDetailModal } from '../components/PlaceDetailModal'
 import { API_ENDPOINTS } from '../config/api'
 
 interface ScoredPlace {
@@ -95,6 +96,7 @@ export function PlacesExplorer({ userProfile, tripConfig, onBack, onBuildItinera
     const [interests, setInterests] = useState<string[]>(userProfile.interests)
     const [newTag, setNewTag] = useState('')
     const [showTagInput, setShowTagInput] = useState(false)
+    const [selectedPlace, setSelectedPlace] = useState<ScoredPlace | null>(null)
     const hasAutoSelected = useRef(false)
 
     // Calculate target places count
@@ -339,6 +341,7 @@ export function PlacesExplorer({ userProfile, tripConfig, onBack, onBuildItinera
                                     isSelected={selectedIds.has(place.id)}
                                     onToggleSelect={toggleSelect}
                                     onKeepFlagged={handleKeepFlagged}
+                                    onClick={() => setSelectedPlace(place)}
                                 />
                             ))}
                         </div>
@@ -360,6 +363,7 @@ export function PlacesExplorer({ userProfile, tripConfig, onBack, onBuildItinera
                                     isSelected={selectedIds.has(place.id)}
                                     onToggleSelect={toggleSelect}
                                     onKeepFlagged={handleKeepFlagged}
+                                    onClick={() => setSelectedPlace(place)}
                                 />
                             ))}
                         </div>
@@ -382,6 +386,7 @@ export function PlacesExplorer({ userProfile, tripConfig, onBack, onBuildItinera
                                         isSelected={selectedIds.has(place.id)}
                                         onToggleSelect={toggleSelect}
                                         onKeepFlagged={handleKeepFlagged}
+                                        onClick={() => setSelectedPlace(place)}
                                     />
                                 ))}
                             </AnimatePresence>
@@ -414,6 +419,13 @@ export function PlacesExplorer({ userProfile, tripConfig, onBack, onBuildItinera
                     </motion.button>
                 </div>
             </div>
+
+            {/* Place Detail Modal */}
+            <PlaceDetailModal
+                place={selectedPlace}
+                isOpen={selectedPlace !== null}
+                onClose={() => setSelectedPlace(null)}
+            />
         </div>
     )
 }

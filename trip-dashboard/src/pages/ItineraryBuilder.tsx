@@ -71,6 +71,7 @@ export function ItineraryBuilder({ selectedPlaceIds, userConfig, onBack, allPlac
     const [itineraryPlaceIds, setItineraryPlaceIds] = useState<Set<string>>(new Set(selectedPlaceIds))
     const [saveStatus, setSaveStatus] = useState<'idle' | 'saving' | 'saved'>('idle')
     const [removedPlaces, setRemovedPlaces] = useState<RemovedPlace[]>([])
+    const [allPlacesState, setAllPlacesState] = useState(allPlaces)
 
     useEffect(() => {
         const buildItinerary = async () => {
@@ -159,6 +160,66 @@ export function ItineraryBuilder({ selectedPlaceIds, userConfig, onBack, allPlac
     // Handler for opening detail from sidebar
     const handleOpenSidebarDetail = (place: any) => {
         setSelectedPlace(place as ItineraryPlace)
+    }
+
+    // Handler for adding a new place from Google Maps
+    const handleAddNewPlace = async (placeName: string, _placeId: string) => {
+        try {
+            const response = await fetch(API_ENDPOINTS.fetch, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ place_name: placeName })
+            })
+            if (!response.ok) throw new Error('Failed to fetch place data')
+            const data = await response.json()
+            if (data.success && data.place) {
+                // Add new place to allPlacesState so it shows in the sidebar
+                const newPlace = {
+                    id: data.place.id || data.place.place_id,
+                    name: data.place.name,
+                    cluster: data.place.location?.cluster_zone || 'Town Center',
+                    image_url: data.place.content?.hero_image_url || '',
+                    tags: data.place.content?.tags || [],
+                    rating: data.place.stats?.rating,
+                    avg_time_minutes: data.place.logic?.avg_time_spent_minutes || 60,
+                    flags: [],
+                    final_score: 50
+                }
+                setAllPlacesState(prev => [...prev, newPlace])
+                console.log(`✅ Added new place: ${data.place.name}`)
+            }
+        } catch (err) {
+            console.error('Error adding new place:', err)
+        }
+    }
+
+    // Handler for building itinerary with staged places
+    const handleBuildWithStaged = async (stagedIds: string[]) => {
+        const newPlaceIds = new Set([...itineraryPlaceIds, ...stagedIds])
+        setItineraryPlaceIds(newPlaceIds)
+
+        setLoading(true)
+        try {
+            const response = await fetch(API_ENDPOINTS.buildItinerary, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    selected_place_ids: Array.from(newPlaceIds),
+                    user_config: userConfig
+                })
+            })
+            if (!response.ok) throw new Error('Failed to rebuild itinerary')
+            const data = await response.json()
+            setDays(data.days || [])
+            setSuggestions(data.suggestions || [])
+            setRemovedPlaces(data.removed_places || [])
+            console.log(`✅ Rebuilt itinerary with ${newPlaceIds.size} places (added ${stagedIds.length})`)
+        } catch (err) {
+            console.error('Error rebuilding itinerary:', err)
+            setItineraryPlaceIds(itineraryPlaceIds)
+        } finally {
+            setLoading(false)
+        }
     }
 
     // Handler for saving itinerary
@@ -531,11 +592,13 @@ export function ItineraryBuilder({ selectedPlaceIds, userConfig, onBack, allPlac
 
             {/* All Places Sidebar */}
             <AllPlacesSidebar
-                places={allPlaces}
+                places={allPlacesState}
                 selectedIds={itineraryPlaceIds}
                 dayClusterMap={dayClusterMap}
                 onAddPlace={handleAddPlace}
+                onBuildWithStaged={handleBuildWithStaged}
                 onOpenDetail={handleOpenSidebarDetail}
+                onAddNewPlace={handleAddNewPlace}
             />
         </div>
     )

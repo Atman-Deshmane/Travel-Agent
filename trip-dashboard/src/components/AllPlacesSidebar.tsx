@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { ChevronRight, ChevronLeft, Plus, AlertTriangle, Star, Clock, Search, X, MapPin, Loader2, Check } from 'lucide-react'
+import { ChevronRight, ChevronLeft, Plus, AlertTriangle, Star, Clock, Search, X, MapPin, Loader2, Check, Sparkles } from 'lucide-react'
 import { API_ENDPOINTS } from '../config/api'
 
 interface AutocompleteSuggestion {
@@ -26,10 +26,11 @@ interface SidebarPlace {
 interface AllPlacesSidebarProps {
     places: SidebarPlace[]
     selectedIds: Set<string>
-    dayClusterMap: { [day: number]: string } // Map of day number to cluster name
+    dayClusterMap: { [day: number]: string }
     onAddPlace: (placeId: string, targetDay: number) => void
+    onBuildWithStaged?: (stagedIds: string[]) => void
     onOpenDetail: (place: SidebarPlace) => void
-    onAddNewPlace?: (placeName: string, placeId: string) => Promise<void> // For adding new places from Google Maps
+    onAddNewPlace?: (placeName: string, placeId: string) => Promise<void>
 }
 
 export function AllPlacesSidebar({
@@ -37,11 +38,13 @@ export function AllPlacesSidebar({
     selectedIds,
     dayClusterMap,
     onAddPlace,
+    onBuildWithStaged,
     onOpenDetail,
     onAddNewPlace
 }: AllPlacesSidebarProps) {
     const [isExpanded, setIsExpanded] = useState(false)
     const [searchQuery, setSearchQuery] = useState('')
+    const [stagedIds, setStagedIds] = useState<Set<string>>(new Set())
 
     // Autocomplete state
     const [autocompleteSuggestions, setAutocompleteSuggestions] = useState<AutocompleteSuggestion[]>([])
@@ -132,16 +135,29 @@ export function AllPlacesSidebar({
         return (b.final_score || 0) - (a.final_score || 0)
     })
 
-    // Find best day for a place based on cluster
-    const findBestDay = (place: SidebarPlace): number => {
-        const cluster = place.cluster
-        for (const [day, clusterName] of Object.entries(dayClusterMap)) {
-            if (clusterName.includes(cluster) || cluster.includes(clusterName)) {
-                return parseInt(day)
+    // Stage a place for addition (no immediate rebuild)
+    const stagePlace = (placeId: string) => {
+        setStagedIds(prev => {
+            const next = new Set(prev)
+            if (next.has(placeId)) {
+                next.delete(placeId)
+            } else {
+                next.add(placeId)
             }
+            return next
+        })
+    }
+
+    // Build with all staged places
+    const handleBuildWithStaged = () => {
+        if (stagedIds.size === 0) return
+        if (onBuildWithStaged) {
+            onBuildWithStaged(Array.from(stagedIds))
+        } else {
+            // Fallback: add one by one
+            stagedIds.forEach(id => onAddPlace(id, 1))
         }
-        // Default to day 1
-        return 1
+        setStagedIds(new Set())
     }
 
     return (
@@ -167,7 +183,7 @@ export function AllPlacesSidebar({
                         animate={{ x: 0 }}
                         exit={{ x: '100%' }}
                         transition={{ type: 'spring', damping: 25 }}
-                        className="fixed right-0 top-0 h-full w-80 bg-slate-900 shadow-2xl z-30 flex flex-col"
+                        className="fixed right-0 top-0 h-full w-80 bg-slate-900 shadow-2xl z-30 flex flex-col pt-16"
                     >
                         {/* Header */}
                         <div className="p-4 border-b border-slate-700">
@@ -267,7 +283,6 @@ export function AllPlacesSidebar({
                         <div className="flex-1 overflow-y-auto p-3 space-y-2">
                             {sortedPlaces.map((place, idx) => {
                                 const isFlagged = (place.flags?.length || 0) > 0
-                                const bestDay = findBestDay(place)
 
                                 return (
                                     <motion.div
@@ -336,12 +351,18 @@ export function AllPlacesSidebar({
                                             <button
                                                 onClick={(e) => {
                                                     e.stopPropagation()
-                                                    onAddPlace(place.id, bestDay)
+                                                    stagePlace(place.id)
                                                 }}
-                                                className="w-full flex items-center justify-center gap-1 px-2 py-1.5 bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-medium rounded transition-colors"
+                                                className={`w-full flex items-center justify-center gap-1 px-2 py-1.5 text-xs font-medium rounded transition-colors ${stagedIds.has(place.id)
+                                                    ? 'bg-emerald-600 hover:bg-emerald-500 text-white'
+                                                    : 'bg-indigo-600 hover:bg-indigo-500 text-white'
+                                                    }`}
                                             >
-                                                <Plus size={12} />
-                                                Add to Day {bestDay}
+                                                {stagedIds.has(place.id) ? (
+                                                    <><Check size={12} /> Added to build</>
+                                                ) : (
+                                                    <><Plus size={12} /> Add to Itinerary</>
+                                                )}
                                             </button>
                                         </div>
                                     </motion.div>
@@ -355,6 +376,19 @@ export function AllPlacesSidebar({
                                 </div>
                             )}
                         </div>
+
+                        {/* Build Final Itinerary Button */}
+                        {stagedIds.size > 0 && (
+                            <div className="p-3 border-t border-slate-700">
+                                <button
+                                    onClick={handleBuildWithStaged}
+                                    className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-emerald-600 hover:bg-emerald-500 text-white font-semibold rounded-lg transition-colors shadow-lg"
+                                >
+                                    <Sparkles size={16} />
+                                    Build Itinerary ({stagedIds.size} new)
+                                </button>
+                            </div>
+                        )}
                     </motion.div>
                 )}
             </AnimatePresence>
