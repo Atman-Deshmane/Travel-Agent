@@ -556,8 +556,9 @@ class TripLLMEngine:
                 pass
         
         try:
+            port = os.getenv('PORT', '5001')
             response = requests.post(
-                "http://127.0.0.1:5001/api/save-itinerary",
+                f"http://127.0.0.1:{port}/api/save-itinerary",
                 json={
                     "user_name": user_name,
                     "trip_name": trip_name,

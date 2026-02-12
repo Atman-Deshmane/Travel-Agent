@@ -24,6 +24,7 @@ from google import genai
 from dotenv import load_dotenv
 
 load_dotenv()
+API_BASE_URL = os.getenv('API_BASE_URL', 'http://127.0.0.1:5001')
 
 
 class ItineraryRanker:
@@ -270,7 +271,7 @@ class ItineraryRanker:
                 'cluster': place.get('location', {}).get('cluster_zone', ''),
                 'nearest_cluster': place.get('location', {}).get('nearest_cluster'),
                 'image_url': (
-                    f"http://127.0.0.1:5001/api/photo/{place.get('content', {}).get('photo_reference')}"
+                    f"{API_BASE_URL}/api/photo/{place.get('content', {}).get('photo_reference')}"
                     if place.get('content', {}).get('photo_reference')
                     else self._clean_image_url(place.get('content', {}).get('hero_image_url'))
                     if place.get('content', {}).get('hero_image_url') and 

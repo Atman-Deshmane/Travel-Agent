@@ -27,6 +27,7 @@ load_dotenv()
 PLACES_PATH = 'data/kodaikanal_places.json'
 FOREST_ROUTE_CACHE = 'data/forest_circuit_route.json'
 GOOGLE_MAPS_API_KEY = os.getenv('GOOGLE_MAPS_API_KEY')
+API_BASE_URL = os.getenv('API_BASE_URL', 'http://127.0.0.1:5001')
 
 # Pace limits: places per day
 PACE_LIMITS = {
@@ -411,7 +412,7 @@ class ItineraryScheduler:
                     'id': pid,
                     'name': place.get('name'),
                     'cluster': p_cluster,
-                    'image_url': f"http://127.0.0.1:5001/api/photo/{photo_ref}" if photo_ref else '',
+                    'image_url': f"{API_BASE_URL}/api/photo/{photo_ref}" if photo_ref else '',
                     'rating': place.get('stats', {}).get('rating', 0),
                     'review_count': place.get('stats', {}).get('review_count', 0),
                     'avg_time_minutes': place.get('logic', {}).get('avg_time_spent_minutes', 60),
@@ -638,7 +639,7 @@ class ItineraryScheduler:
                         'id': item['id'],
                         'name': place.get('name', item['id']),
                         'cluster': 'Forest Circuit',
-                        'image_url': f"http://127.0.0.1:5001/api/photo/{photo_ref}" if photo_ref else '',
+                        'image_url': f"{API_BASE_URL}/api/photo/{photo_ref}" if photo_ref else '',
                         'tags': content.get('tags', [])[:3],
                         'rating': place.get('stats', {}).get('rating'),
                         'review_count': place.get('stats', {}).get('review_count', 0),
@@ -659,7 +660,7 @@ class ItineraryScheduler:
                         'id': place['id'],
                         'name': place.get('name'),
                         'cluster': place.get('location', {}).get('cluster_zone', cluster_name),
-                        'image_url': f"http://127.0.0.1:5001/api/photo/{photo_ref}" if photo_ref else '',
+                        'image_url': f"{API_BASE_URL}/api/photo/{photo_ref}" if photo_ref else '',
                         'tags': content.get('tags', [])[:3],
                         'rating': place.get('stats', {}).get('rating'),
                         'review_count': place.get('stats', {}).get('review_count', 0),
@@ -695,7 +696,7 @@ class ItineraryScheduler:
                         'id': item['id'],
                         'name': item.get('name', place.get('name', item['id'])),
                         'cluster': cluster_name,
-                        'image_url': f"http://127.0.0.1:5001/api/photo/{photo_ref}" if photo_ref else '',
+                        'image_url': f"{API_BASE_URL}/api/photo/{photo_ref}" if photo_ref else '',
                         'tags': content.get('tags', [])[:3],
                         'rating': place.get('stats', {}).get('rating'),
                         'review_count': place.get('stats', {}).get('review_count', 0),
