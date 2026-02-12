@@ -37,7 +37,7 @@ export function TripList() {
                     <AnimatePresence>
                         {trips.map((trip, index) => (
                             <motion.div
-                                key={trip.id}
+                                key={`${trip.id}-${index}`}
                                 initial={{ opacity: 0, x: -10 }}
                                 animate={{ opacity: 1, x: 0 }}
                                 exit={{ opacity: 0, x: -10 }}

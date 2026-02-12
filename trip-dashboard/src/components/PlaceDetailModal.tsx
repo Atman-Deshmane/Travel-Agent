@@ -37,15 +37,22 @@ export function PlaceDetailModal({ place, isOpen, onClose }: PlaceDetailModalPro
                         className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50"
                     />
 
-                    {/* Modal */}
+                    {/* Modal - Bottom Sheet on Mobile, Centered on Desktop */}
                     <motion.div
-                        initial={{ opacity: 0, scale: 0.95, y: 20 }}
-                        animate={{ opacity: 1, scale: 1, y: 0 }}
-                        exit={{ opacity: 0, scale: 0.95, y: 20 }}
-                        className="fixed inset-x-4 top-[10%] max-w-2xl mx-auto bg-white rounded-2xl shadow-2xl z-50 overflow-hidden max-h-[80vh] flex flex-col"
-                    >
+                        initial={{ opacity: 0, y: 50 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: 50 }}
+                        className="fixed z-50 bg-white overflow-hidden flex flex-col
+                            inset-x-0 bottom-0 rounded-t-2xl max-h-[90vh]
+                            md:inset-x-4 md:bottom-auto md:top-[10%] md:max-w-2xl md:mx-auto md:rounded-2xl md:max-h-[80vh] md:shadow-2xl
+                        ">
+                        {/* Drag Handle (Mobile) */}
+                        <div className="md:hidden flex justify-center pt-2 pb-1 shrink-0">
+                            <div className="w-10 h-1 rounded-full bg-slate-300" />
+                        </div>
+
                         {/* Hero Image */}
-                        <div className="relative h-56 bg-slate-900 shrink-0">
+                        <div className="relative h-40 md:h-56 bg-slate-900 shrink-0">
                             {place.image_url && (
                                 <img
                                     src={place.image_url}
@@ -83,7 +90,7 @@ export function PlaceDetailModal({ place, isOpen, onClose }: PlaceDetailModalPro
                         </div>
 
                         {/* Content */}
-                        <div className="flex-1 overflow-y-auto p-6 space-y-6">
+                        <div className="flex-1 overflow-y-auto p-4 md:p-6 space-y-4 md:space-y-6 safe-bottom">
                             {/* Quick Stats */}
                             <div className="flex items-center gap-6 text-sm">
                                 {place.rating && (

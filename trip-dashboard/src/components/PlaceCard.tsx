@@ -68,8 +68,8 @@ export function PlaceCard({
                     : 'border-slate-200 hover:border-slate-300'
                 }`}
         >
-            {/* Image Section - Fixed Height matching Discover UI */}
-            <div className="relative h-40 bg-slate-100 overflow-hidden shrink-0">
+            {/* Image Section - Responsive Height */}
+            <div className="relative h-32 md:h-40 bg-slate-100 overflow-hidden shrink-0">
                 {image_url ? (
                     <div
                         className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
@@ -108,7 +108,7 @@ export function PlaceCard({
                             e.stopPropagation()
                             onToggleSelect(id)
                         }}
-                        className={`absolute bottom-2 right-2 w-8 h-8 rounded-full flex items-center justify-center shadow-lg transition-all ${isSelected
+                        className={`absolute bottom-2 right-2 w-10 h-10 md:w-8 md:h-8 rounded-full flex items-center justify-center shadow-lg transition-all ${isSelected
                             ? 'bg-indigo-600 text-white'
                             : 'bg-white text-slate-400 hover:text-indigo-600'
                             }`}
@@ -140,9 +140,9 @@ export function PlaceCard({
                 </div>
 
                 {/* Tags */}
-                <div className="flex flex-wrap gap-1.5 mt-auto pt-2">
+                <div className="flex gap-1.5 mt-auto pt-2 overflow-x-auto mobile-scroll">
                     {tags.slice(0, 3).map(tag => (
-                        <span key={tag} className="px-2 py-0.5 rounded bg-indigo-50 text-indigo-700 text-[10px] font-semibold tracking-wide border border-indigo-100">
+                        <span key={tag} className="px-2 py-0.5 rounded bg-indigo-50 text-indigo-700 text-[10px] font-semibold tracking-wide border border-indigo-100 whitespace-nowrap">
                             {tag}
                         </span>
                     ))}
@@ -177,7 +177,7 @@ export function PlaceCard({
                     <motion.button
                         whileTap={{ scale: 0.98 }}
                         onClick={() => onToggleSelect(id)}
-                        className={`w-full mt-2 py-2 rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5 transition-colors ${isSelected
+                        className={`w-full mt-2 py-2.5 md:py-2 rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5 transition-colors min-h-[44px] md:min-h-0 ${isSelected
                             ? 'bg-indigo-600 text-white shadow-md shadow-indigo-200'
                             : 'bg-slate-100 text-slate-600 hover:bg-slate-200 hover:text-slate-900'
                             }`}

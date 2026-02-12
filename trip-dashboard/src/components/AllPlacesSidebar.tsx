@@ -31,6 +31,7 @@ interface AllPlacesSidebarProps {
     onBuildWithStaged?: (stagedIds: string[]) => void
     onOpenDetail: (place: SidebarPlace) => void
     onAddNewPlace?: (placeName: string, placeId: string) => Promise<void>
+    embedded?: boolean
 }
 
 export function AllPlacesSidebar({
@@ -40,9 +41,10 @@ export function AllPlacesSidebar({
     onAddPlace,
     onBuildWithStaged,
     onOpenDetail,
-    onAddNewPlace
+    onAddNewPlace,
+    embedded = false
 }: AllPlacesSidebarProps) {
-    const [isExpanded, setIsExpanded] = useState(false)
+    const [isExpanded, setIsExpanded] = useState(embedded)
     const [searchQuery, setSearchQuery] = useState('')
     const [stagedIds, setStagedIds] = useState<Set<string>>(new Set())
 
@@ -158,6 +160,111 @@ export function AllPlacesSidebar({
             stagedIds.forEach(id => onAddPlace(id, 1))
         }
         setStagedIds(new Set())
+    }
+
+    // Embedded mode: render content directly without fixed positioning
+    if (embedded) {
+        return (
+            <div className="flex flex-col h-full bg-slate-900">
+                {/* Header */}
+                <div className="p-4 border-b border-slate-700">
+                    {addingPlace && (
+                        <div className="flex items-center gap-2 mb-3 p-2 bg-indigo-900/50 rounded-lg border border-indigo-700">
+                            <Loader2 size={14} className="animate-spin text-indigo-400" />
+                            <span className="text-xs text-indigo-300">Adding new place...</span>
+                        </div>
+                    )}
+                    <div ref={searchContainerRef} className="relative">
+                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 z-10" size={16} />
+                        <input
+                            type="text"
+                            value={searchQuery}
+                            onChange={(e) => handleSearchChange(e.target.value)}
+                            placeholder="Search or add places..."
+                            className="w-full pl-9 pr-8 py-2 bg-slate-800 border border-slate-700 rounded-lg text-sm text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                        />
+                        {searchQuery && (
+                            <button
+                                onClick={() => {
+                                    setSearchQuery('')
+                                    setAutocompleteSuggestions([])
+                                    setShowAutocomplete(false)
+                                }}
+                                className="absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white z-10"
+                            >
+                                <X size={14} />
+                            </button>
+                        )}
+                    </div>
+                </div>
+
+                {/* Place List */}
+                <div className="flex-1 overflow-y-auto p-2 space-y-2">
+                    {sortedPlaces.map(place => {
+                        const isFlagged = (place.flags?.length || 0) > 0
+                        const isStaged = stagedIds.has(place.id)
+                        return (
+                            <div
+                                key={place.id}
+                                onClick={() => onOpenDetail(place)}
+                                className={`flex items-center gap-3 p-3 rounded-xl cursor-pointer transition-all ${isStaged ? 'bg-indigo-900/40 border border-indigo-600' :
+                                        isFlagged ? 'bg-amber-900/20 border border-amber-800/30' :
+                                            'bg-slate-800 border border-slate-700 hover:bg-slate-750'
+                                    }`}
+                            >
+                                <img
+                                    src={place.image_url || '/placeholder.jpg'}
+                                    alt={place.name}
+                                    className="w-12 h-12 rounded-lg object-cover bg-slate-700 shrink-0"
+                                />
+                                <div className="flex-1 min-w-0">
+                                    <div className="font-medium text-white text-sm truncate">{place.name}</div>
+                                    <div className="text-xs text-slate-400 flex items-center gap-2 mt-0.5">
+                                        <span className="truncate">{place.cluster}</span>
+                                        {place.rating && (
+                                            <span className="flex items-center gap-0.5">
+                                                <Star size={10} className="text-yellow-500 fill-yellow-500" />
+                                                {place.rating}
+                                            </span>
+                                        )}
+                                    </div>
+                                </div>
+                                <button
+                                    onClick={(e) => {
+                                        e.stopPropagation()
+                                        stagePlace(place.id)
+                                    }}
+                                    className={`shrink-0 w-10 h-10 rounded-full flex items-center justify-center transition-all ${isStaged ? 'bg-indigo-600 text-white' : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
+                                        }`}
+                                >
+                                    {isStaged ? <Check size={16} /> : <Plus size={16} />}
+                                </button>
+                            </div>
+                        )
+                    })}
+
+                    {sortedPlaces.length === 0 && (
+                        <div className="text-center py-8 text-slate-500">
+                            <MapPin size={24} className="mx-auto mb-2 opacity-50" />
+                            <p className="text-sm">No places found</p>
+                        </div>
+                    )}
+                </div>
+
+                {/* Build Button */}
+                {stagedIds.size > 0 && (
+                    <div className="p-3 border-t border-slate-700">
+                        <button
+                            onClick={handleBuildWithStaged}
+                            className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-emerald-600 hover:bg-emerald-500 text-white font-semibold rounded-lg transition-colors shadow-lg"
+                        >
+                            <Sparkles size={16} />
+                            Build Itinerary ({stagedIds.size} new)
+                        </button>
+                    </div>
+                )}
+            </div>
+        )
     }
 
     return (

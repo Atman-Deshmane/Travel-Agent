@@ -120,3 +120,25 @@ body {
         background-position: -100% 0;
     }
 }
+
+/* Mobile scroll - hide scrollbar for clean horizontal scroll */
+.mobile-scroll {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.mobile-scroll::-webkit-scrollbar {
+    display: none;
+}
+
+/* Safe area padding for devices with home indicator */
+.safe-bottom {
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+/* Touch-friendly hit targets */
+@media (max-width: 767px) {
+    .mobile-scroll {
+        -webkit-overflow-scrolling: touch;
+    }
+}

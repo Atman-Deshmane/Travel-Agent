@@ -1,9 +1,11 @@
 import { useState, useEffect, useMemo } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { ArrowLeft, ArrowRight, ChevronLeft, ChevronRight, MapPin, Clock, Star, Loader2, Calendar, Route, Save, Check, AlertTriangle, ChevronDown } from 'lucide-react'
+import { ArrowLeft, ArrowRight, ChevronLeft, ChevronRight, MapPin, Clock, Star, Loader2, Calendar, Route, Save, Check, AlertTriangle, ChevronDown, List } from 'lucide-react'
 import { PlaceDetailModal } from '../components/PlaceDetailModal'
 import { AllPlacesSidebar } from '../components/AllPlacesSidebar'
+import { MobileDrawer } from '../components/layout/MobileDrawer'
 import { API_ENDPOINTS } from '../config/api'
+import { useIsMobile } from '../lib/useMediaQuery'
 
 interface ItineraryPlace {
     id: string
@@ -72,6 +74,8 @@ export function ItineraryBuilder({ selectedPlaceIds, userConfig, onBack, allPlac
     const [saveStatus, setSaveStatus] = useState<'idle' | 'saving' | 'saved'>('idle')
     const [removedPlaces, setRemovedPlaces] = useState<RemovedPlace[]>([])
     const [allPlacesState, setAllPlacesState] = useState(allPlaces)
+    const [sidebarDrawerOpen, setSidebarDrawerOpen] = useState(false)
+    const isMobile = useIsMobile()
 
     useEffect(() => {
         const buildItinerary = async () => {
@@ -280,17 +284,17 @@ export function ItineraryBuilder({ selectedPlaceIds, userConfig, onBack, allPlac
     return (
         <div className="min-h-screen bg-gradient-to-b from-slate-900 to-slate-950">
             {/* Header */}
-            <div className="sticky top-0 z-10 bg-slate-900/90 backdrop-blur-lg border-b border-slate-800 px-8 py-4">
+            <div className="sticky top-0 z-10 bg-slate-900/90 backdrop-blur-lg border-b border-slate-800 px-4 md:px-8 py-3 md:py-4">
                 <div className="max-w-5xl mx-auto flex items-center justify-between">
                     <button
                         onClick={onBack}
                         className="flex items-center gap-2 text-slate-400 hover:text-white"
                     >
                         <ArrowLeft size={18} />
-                        <span className="text-sm font-medium">Edit Selection</span>
+                        <span className="hidden md:inline text-sm font-medium">Edit Selection</span>
                     </button>
-                    <div className="flex items-center gap-4">
-                        <span className="text-sm text-slate-400">
+                    <div className="flex items-center gap-2 md:gap-4">
+                        <span className="text-xs md:text-sm text-slate-400">
                             {days.length} Days • {selectedPlaceIds.length} Places
                         </span>
                         <button
@@ -308,38 +312,41 @@ export function ItineraryBuilder({ selectedPlaceIds, userConfig, onBack, allPlac
                             ) : (
                                 <Save size={16} />
                             )}
-                            {saveStatus === 'saved' ? 'Saved!' : 'Save Trip'}
+                            <span className="hidden md:inline">
+                                {saveStatus === 'saving' ? 'Saving...' : saveStatus === 'saved' ? 'Saved!' : 'Save'}
+                            </span>
                         </button>
                     </div>
                 </div>
             </div>
 
             {/* Day Selector */}
-            <div className="max-w-5xl mx-auto px-8 py-8">
-                <div className="flex items-center justify-center gap-4 mb-8">
+            <div className="max-w-5xl mx-auto px-4 md:px-8 py-4 md:py-8">
+                <div className="flex items-center justify-center gap-2 md:gap-4 mb-6 md:mb-8">
+                    {/* Arrows - desktop only */}
                     <button
                         onClick={() => setActiveDay(Math.max(1, activeDay - 1))}
                         disabled={activeDay === 1}
-                        className="p-2 rounded-full bg-slate-800 text-white disabled:opacity-30"
+                        className="hidden md:block p-2 rounded-full bg-slate-800 text-white disabled:opacity-30"
                     >
                         <ChevronLeft size={24} />
                     </button>
 
-                    <div className="flex gap-2">
+                    <div className="flex gap-2 overflow-x-auto mobile-scroll snap-x snap-mandatory pb-1 max-w-full">
                         {days.map((day) => (
                             <button
                                 key={day.day}
                                 onClick={() => setActiveDay(day.day)}
-                                className={`px-6 py-3 rounded-xl font-semibold transition-all ${activeDay === day.day
+                                className={`px-4 md:px-6 py-2 md:py-3 rounded-xl font-semibold transition-all snap-center shrink-0 ${activeDay === day.day
                                     ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-500/30'
                                     : 'bg-slate-800 text-slate-400 hover:bg-slate-700'
                                     }`}
                             >
-                                <div className="flex items-center gap-2">
-                                    <Calendar size={16} />
+                                <div className="flex items-center gap-1.5 md:gap-2">
+                                    <Calendar size={14} className="md:w-4 md:h-4" />
                                     Day {day.day}
                                 </div>
-                                <div className="text-xs mt-1 opacity-70">{day.cluster}</div>
+                                <div className="text-[10px] md:text-xs mt-1 opacity-70">{day.cluster}</div>
                             </button>
                         ))}
                     </div>
@@ -347,7 +354,7 @@ export function ItineraryBuilder({ selectedPlaceIds, userConfig, onBack, allPlac
                     <button
                         onClick={() => setActiveDay(Math.min(days.length, activeDay + 1))}
                         disabled={activeDay === days.length}
-                        className="p-2 rounded-full bg-slate-800 text-white disabled:opacity-30"
+                        className="hidden md:block p-2 rounded-full bg-slate-800 text-white disabled:opacity-30"
                     >
                         <ChevronRight size={24} />
                     </button>
@@ -355,17 +362,17 @@ export function ItineraryBuilder({ selectedPlaceIds, userConfig, onBack, allPlac
 
                 {/* Day Summary */}
                 {currentDay && (
-                    <div className="text-center mb-8">
-                        <h2 className="text-3xl font-bold text-white mb-2">
+                    <div className="text-center mb-6 md:mb-8">
+                        <h2 className="text-xl md:text-3xl font-bold text-white mb-2">
                             {currentDay.cluster}
                         </h2>
-                        <div className="flex items-center justify-center gap-6 text-slate-400">
-                            <span className="flex items-center gap-2">
-                                <MapPin size={16} />
+                        <div className="flex items-center justify-center gap-4 md:gap-6 text-slate-400 text-sm">
+                            <span className="flex items-center gap-1.5 md:gap-2">
+                                <MapPin size={14} />
                                 {currentDay.place_count} stops
                             </span>
-                            <span className="flex items-center gap-2">
-                                <Clock size={16} />
+                            <span className="flex items-center gap-1.5 md:gap-2">
+                                <Clock size={14} />
                                 ~{currentDay.total_drive_min} min driving
                             </span>
                         </div>
@@ -591,15 +598,45 @@ export function ItineraryBuilder({ selectedPlaceIds, userConfig, onBack, allPlac
             />
 
             {/* All Places Sidebar */}
-            <AllPlacesSidebar
-                places={allPlacesState}
-                selectedIds={itineraryPlaceIds}
-                dayClusterMap={dayClusterMap}
-                onAddPlace={handleAddPlace}
-                onBuildWithStaged={handleBuildWithStaged}
-                onOpenDetail={handleOpenSidebarDetail}
-                onAddNewPlace={handleAddNewPlace}
-            />
+            {isMobile ? (
+                <>
+                    {/* FAB to open sidebar */}
+                    <button
+                        onClick={() => setSidebarDrawerOpen(true)}
+                        className="fixed bottom-6 right-4 z-40 w-14 h-14 bg-indigo-600 text-white rounded-full shadow-2xl shadow-indigo-500/40 flex items-center justify-center hover:bg-indigo-500 transition-colors safe-bottom"
+                    >
+                        <List size={22} />
+                    </button>
+                    <MobileDrawer
+                        isOpen={sidebarDrawerOpen}
+                        onClose={() => setSidebarDrawerOpen(false)}
+                        position="bottom"
+                        title="All Places"
+                        height="85vh"
+                    >
+                        <AllPlacesSidebar
+                            places={allPlacesState}
+                            selectedIds={itineraryPlaceIds}
+                            dayClusterMap={dayClusterMap}
+                            onAddPlace={handleAddPlace}
+                            onBuildWithStaged={handleBuildWithStaged}
+                            onOpenDetail={handleOpenSidebarDetail}
+                            onAddNewPlace={handleAddNewPlace}
+                            embedded
+                        />
+                    </MobileDrawer>
+                </>
+            ) : (
+                <AllPlacesSidebar
+                    places={allPlacesState}
+                    selectedIds={itineraryPlaceIds}
+                    dayClusterMap={dayClusterMap}
+                    onAddPlace={handleAddPlace}
+                    onBuildWithStaged={handleBuildWithStaged}
+                    onOpenDetail={handleOpenSidebarDetail}
+                    onAddNewPlace={handleAddNewPlace}
+                />
+            )}
         </div>
     )
 }

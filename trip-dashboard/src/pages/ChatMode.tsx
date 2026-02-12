@@ -326,7 +326,7 @@ export function ChatMode() {
     }
 
     return (
-        <div className="flex flex-col h-[calc(100vh-3.5rem)] bg-slate-50 overflow-hidden relative">
+        <div className="flex flex-col h-[calc(100dvh-3rem)] md:h-[calc(100vh-3.5rem)] bg-slate-50 overflow-hidden relative">
             {/* Background decoration */}
             <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-gradient-to-br from-indigo-100/40 to-purple-100/40 rounded-full blur-3xl opacity-60 -translate-y-1/2 translate-x-1/2 pointer-events-none" />
             <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-gradient-to-tr from-emerald-100/40 to-teal-100/40 rounded-full blur-3xl opacity-60 translate-y-1/2 -translate-x-1/2 pointer-events-none" />
@@ -417,12 +417,12 @@ export function ChatMode() {
                                             )}
 
                                             <div
-                                                className={`px-5 py-4 rounded-2xl shadow-sm ${message.role === 'user'
+                                                className={`px-4 md:px-5 py-3 md:py-4 rounded-2xl shadow-sm ${message.role === 'user'
                                                     ? 'bg-indigo-600 text-white rounded-br-sm shadow-indigo-200'
                                                     : 'bg-white text-slate-700 border border-slate-200 rounded-bl-sm shadow-slate-200'
                                                     }`}
                                             >
-                                                <div className={`whitespace-pre-wrap leading-relaxed ${message.role === 'assistant' ? 'text-[15px]' : 'text-base'}`}>
+                                                <div className={`whitespace-pre-wrap leading-relaxed ${message.role === 'assistant' ? 'text-sm md:text-[15px]' : 'text-sm md:text-base'}`}>
                                                     {renderText(message.text)}
                                                 </div>
                                             </div>
@@ -471,7 +471,7 @@ export function ChatMode() {
             </div>
 
             {/* Input Area - Floating Capsule */}
-            <div className="flex-shrink-0 px-4 py-4 mb-2">
+            <div className="flex-shrink-0 px-3 md:px-4 py-3 md:py-4 mb-1 md:mb-2 safe-bottom">
                 <div className="max-w-4xl mx-auto">
                     <div className="bg-white/80 backdrop-blur-xl border border-white/20 shadow-[0_8px_30px_rgb(0,0,0,0.04)] rounded-[2rem] p-1.5 flex items-end gap-2 relative z-20 ring-1 ring-black/5">
                         <textarea

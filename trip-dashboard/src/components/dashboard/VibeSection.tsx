@@ -129,10 +129,10 @@ export function VibeSection({ trip, errors = {} }: VibeSectionProps) {
     return (
         <motion.section
             id="vibe-section"
-            className="card-premium p-8"
+            className="card-premium p-4 md:p-8"
             whileHover={{ y: -2 }}
         >
-            <div className="flex items-center gap-4 mb-8">
+            <div className="flex items-center gap-4 mb-4 md:mb-8">
                 <div className="w-12 h-12 rounded-2xl bg-violet-50 flex items-center justify-center border border-violet-100">
                     <Sparkles className="text-violet-600" size={24} />
                 </div>
@@ -142,9 +142,9 @@ export function VibeSection({ trip, errors = {} }: VibeSectionProps) {
                 </div>
             </div>
 
-            <div className="grid grid-cols-12 gap-8">
-                {/* Left Column: Pace & Mobility (Width 6) */}
-                <div className="col-span-6 space-y-8">
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-8">
+                {/* Left Column: Pace & Mobility */}
+                <div className="md:col-span-6 space-y-4 md:space-y-8">
                     {/* Pace */}
                     <SmartFieldWrapper
                         label="Trip Pace"
@@ -206,7 +206,7 @@ export function VibeSection({ trip, errors = {} }: VibeSectionProps) {
                 </div>
 
                 {/* Right Column: Interests & Food (Width 6) */}
-                <div className={`col-span-6 bg-slate-50 rounded-2xl p-6 border ${errors.interests ? 'border-red-300 ring-2 ring-red-100' : 'border-slate-100'} h-fit`}>
+                <div className={`md:col-span-6 bg-slate-50 rounded-2xl p-4 md:p-6 border ${errors.interests ? 'border-red-300 ring-2 ring-red-100' : 'border-slate-100'} h-fit`}>
                     {/* Interests with Save as Default */}
                     <SmartFieldWrapper
                         label="Interests"

@@ -1,10 +1,11 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { ArrowLeft, ArrowRight, Loader2, Tag, Plus, X, Sparkles } from 'lucide-react'
+import { ArrowRight, ArrowLeft, Loader2, Sparkles, Tag, X, Plus, MoreVertical } from 'lucide-react'
 import { PlaceCard } from '../components/PlaceCard'
 import { WeightSlider } from '../components/WeightSlider'
 import { PlaceDetailModal } from '../components/PlaceDetailModal'
 import { API_ENDPOINTS } from '../config/api'
+import { useIsMobile } from '../lib/useMediaQuery'
 
 interface ScoredPlace {
     id: string
@@ -100,9 +101,11 @@ export function PlacesExplorer({ userProfile, tripConfig, onBack, onBuildItinera
     const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set())
     const [keptFlaggedIds, setKeptFlaggedIds] = useState<Set<string>>(new Set())
     const [interests, setInterests] = useState<string[]>(userProfile.interests)
-    const [newTag, setNewTag] = useState('')
     const [showTagInput, setShowTagInput] = useState(false)
+    const [newTag, setNewTag] = useState('')
     const [selectedPlace, setSelectedPlace] = useState<ScoredPlace | null>(null)
+    const [showAllRankings, setShowAllRankings] = useState(false)
+    const isMobile = useIsMobile()
     const hasAutoSelected = useRef(false)
 
     // Calculate target places count
@@ -257,100 +260,103 @@ export function PlacesExplorer({ userProfile, tripConfig, onBack, onBuildItinera
     return (
         <div className="min-h-screen bg-slate-50">
             {/* Header */}
-            <div className="sticky top-0 z-10 bg-white/90 backdrop-blur-lg border-b border-slate-200 px-8 py-4">
+            <div className="sticky top-0 z-10 bg-white/90 backdrop-blur-lg border-b border-slate-200 px-4 md:px-8 py-3 md:py-4">
                 <div className="max-w-7xl mx-auto">
-                    <div className="flex items-center justify-between mb-4">
+                    <div className="flex items-center justify-between mb-2 md:mb-4">
                         <button
                             onClick={onBack}
                             className="flex items-center gap-2 text-slate-600 hover:text-slate-900"
                         >
                             <ArrowLeft size={18} />
-                            <span className="text-sm font-medium">Back to Preferences</span>
+                            <span className="hidden md:inline text-sm font-medium">Back to Preferences</span>
                         </button>
                         <div className="flex items-center gap-2">
-                            <span className="text-sm font-medium text-slate-600 bg-slate-100 px-3 py-1.5 rounded-lg border border-slate-200">
-                                {selectedIds.size} / {targetCount} selected
+                            <span className="text-xs md:text-sm text-slate-400">
+                                {places.length} places scored
                             </span>
-                            <motion.button
-                                whileHover={{ scale: 1.02 }}
-                                whileTap={{ scale: 0.98 }}
-                                onClick={handleBuildItinerary}
-                                disabled={selectedIds.size === 0}
-                                className="flex items-center gap-2 px-6 py-3 bg-indigo-600 text-white rounded-xl font-semibold shadow-lg hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed"
-                            >
-                                <Sparkles size={16} />
-                                Build Itinerary
-                                <ArrowRight size={16} />
-                            </motion.button>
                         </div>
                     </div>
 
-                    {/* Interest Tags */}
-                    <div className="flex items-center gap-3 flex-wrap">
+                    <div className="flex flex-wrap items-center gap-2">
                         <span className="text-xs uppercase tracking-wider text-slate-400 font-semibold">
                             Your Interests:
                         </span>
-                        {interests.map(tag => (
-                            <span
-                                key={tag}
-                                className="flex items-center gap-1 px-3 py-1 bg-indigo-100 text-indigo-700 rounded-full text-sm"
-                            >
-                                <Tag size={12} />
-                                {tag}
-                                <button
-                                    onClick={() => handleRemoveTag(tag)}
-                                    className="ml-1 hover:text-indigo-900"
+                        <div className="flex items-center gap-1.5 overflow-x-auto mobile-scroll pb-1">
+                            {interests.map(tag => (
+                                <span
+                                    key={tag}
+                                    className="flex items-center gap-1 px-2.5 md:px-3 py-1 bg-indigo-100 text-indigo-700 rounded-full text-xs md:text-sm whitespace-nowrap"
                                 >
-                                    <X size={12} />
-                                </button>
-                            </span>
-                        ))}
-                        {showTagInput ? (
-                            <div className="flex items-center gap-1">
-                                <input
-                                    type="text"
-                                    value={newTag}
-                                    onChange={(e) => setNewTag(e.target.value)}
-                                    onKeyPress={(e) => e.key === 'Enter' && handleAddTag()}
-                                    placeholder="Add interest..."
-                                    className="px-3 py-1 text-sm border border-slate-300 rounded-full focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                                    autoFocus
-                                />
+                                    <Tag size={12} />
+                                    {tag}
+                                    <button
+                                        onClick={() => handleRemoveTag(tag)}
+                                        className="ml-1 hover:text-indigo-900"
+                                    >
+                                        <X size={12} />
+                                    </button>
+                                </span>
+                            ))}
+                            {showTagInput ? (
+                                <div className="flex items-center gap-1">
+                                    <input
+                                        type="text"
+                                        value={newTag}
+                                        onChange={(e) => setNewTag(e.target.value)}
+                                        onKeyPress={(e) => e.key === 'Enter' && handleAddTag()}
+                                        placeholder="Add interest..."
+                                        className="px-3 py-1 text-sm border border-slate-300 rounded-full focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                        autoFocus
+                                    />
+                                    <button
+                                        onClick={handleAddTag}
+                                        className="p-1 text-indigo-600 hover:text-indigo-800"
+                                    >
+                                        <Plus size={16} />
+                                    </button>
+                                </div>
+                            ) : (
                                 <button
-                                    onClick={handleAddTag}
-                                    className="p-1 text-indigo-600 hover:text-indigo-800"
+                                    onClick={() => setShowTagInput(true)}
+                                    className="flex items-center gap-1 px-2.5 md:px-3 py-1 border border-dashed border-slate-300 text-slate-500 rounded-full text-xs md:text-sm hover:border-indigo-400 hover:text-indigo-600 whitespace-nowrap"
                                 >
-                                    <Plus size={16} />
+                                    <Plus size={14} />
+                                    Add Tag
                                 </button>
-                            </div>
-                        ) : (
-                            <button
-                                onClick={() => setShowTagInput(true)}
-                                className="flex items-center gap-1 px-3 py-1 border border-dashed border-slate-300 text-slate-500 rounded-full text-sm hover:border-indigo-400 hover:text-indigo-600"
-                            >
-                                <Plus size={14} />
-                                Add Tag
-                            </button>
-                        )}
+                            )}
+                        </div>
                     </div>
                 </div>
             </div>
 
             {/* Slider Section */}
-            <div className="max-w-7xl mx-auto px-8 py-6">
+            <div className="max-w-7xl mx-auto px-4 md:px-8 py-4 md:py-6">
                 <WeightSlider value={sliderValue} onChange={setSliderValue} />
             </div>
 
-            {/* Three Column Layout */}
-            <div className="max-w-7xl mx-auto px-8 pb-32">
-                <div className="grid grid-cols-3 gap-6">
-                    {/* Column 1: Popularity (Checkbox Mode) */}
-                    <div>
+            {/* Mobile: Expandable Rankings Toggle */}
+            {isMobile && (
+                <div className="px-4 pb-3">
+                    <button
+                        onClick={() => setShowAllRankings(!showAllRankings)}
+                        className="flex items-center gap-2 px-3 py-2 bg-slate-100 rounded-lg text-xs font-medium text-slate-600 w-full justify-center"
+                    >
+                        <MoreVertical size={14} />
+                        {showAllRankings ? 'Hide Detailed Rankings' : 'Show Popularity & Personalization Rankings'}
+                    </button>
+                </div>
+            )}
+
+            {/* Columns */}
+            <div className="max-w-7xl mx-auto px-4 md:px-8 pb-32">
+                <div className={`grid gap-6 ${showAllRankings && isMobile ? 'grid-cols-1' : 'grid-cols-1 md:grid-cols-3'}`}>
+                    {/* Column 1: Popularity (hidden on mobile unless expanded) */}
+                    <div className={isMobile && !showAllRankings ? 'hidden' : ''}>
                         <h3 className="text-sm font-bold text-blue-600 uppercase tracking-wider mb-4 flex items-center gap-2">
                             <span className="w-2 h-2 rounded-full bg-blue-500" />
                             Popularity Rank
                         </h3>
-                        <div className="space-y-4">
+                        <div className="space-y-3 md:space-y-4">
                             {byPopularity.slice(0, targetCount + 5).map((place) => (
                                 <PlaceCard
                                     key={`pop-${place.id}`}
@@ -366,13 +372,13 @@ export function PlacesExplorer({ userProfile, tripConfig, onBack, onBuildItinera
                         </div>
                     </div>
 
-                    {/* Column 2: Similarity (Checkbox Mode) */}
-                    <div>
+                    {/* Column 2: Similarity (hidden on mobile unless expanded) */}
+                    <div className={isMobile && !showAllRankings ? 'hidden' : ''}>
                         <h3 className="text-sm font-bold text-purple-600 uppercase tracking-wider mb-4 flex items-center gap-2">
                             <span className="w-2 h-2 rounded-full bg-purple-500" />
                             Personalization Rank
                         </h3>
-                        <div className="space-y-4">
+                        <div className="space-y-3 md:space-y-4">
                             {bySimilarity.slice(0, targetCount + 5).map((place) => (
                                 <PlaceCard
                                     key={`sim-${place.id}`}
@@ -388,20 +394,20 @@ export function PlacesExplorer({ userProfile, tripConfig, onBack, onBuildItinera
                         </div>
                     </div>
 
-                    {/* Column 3: Final (Button Mode - Prominent) */}
+                    {/* Column 3: Final (Always visible) */}
                     <div>
                         <h3 className="text-sm font-bold text-emerald-600 uppercase tracking-wider mb-4 flex items-center gap-2">
                             <span className="w-2 h-2 rounded-full bg-emerald-500" />
                             Final Ranking
                         </h3>
-                        <div className="space-y-4">
+                        <div className="space-y-3 md:space-y-4">
                             <AnimatePresence mode="popLayout">
                                 {places.slice(0, targetCount + 5).map((place) => (
                                     <PlaceCard
                                         key={`final-${place.id}`}
                                         {...place}
                                         showScore="final"
-                                        actionType="button" // Keep button for final ranking
+                                        actionType="button"
                                         isSelected={selectedIds.has(place.id)}
                                         onToggleSelect={toggleSelect}
                                         onKeepFlagged={handleKeepFlagged}
@@ -415,9 +421,9 @@ export function PlacesExplorer({ userProfile, tripConfig, onBack, onBuildItinera
             </div>
 
             {/* Floating Footer */}
-            <div className="fixed bottom-0 left-0 right-0 bg-white/90 backdrop-blur-lg border-t border-slate-200 p-4 z-40">
-                <div className="max-w-7xl mx-auto flex items-center justify-between">
-                    <div className="text-sm text-slate-500">
+            <div className="fixed bottom-0 left-0 right-0 bg-white/90 backdrop-blur-lg border-t border-slate-200 p-3 md:p-4 z-40 safe-bottom">
+                <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-2 md:gap-0">
+                    <div className="text-xs md:text-sm text-slate-500">
                         <span className="font-semibold text-slate-900">{selectedIds.size}</span> places selected out of <span className="font-semibold text-slate-900">{targetCount}</span> recommended
                         {keptFlaggedIds.size > 0 && (
                             <span className="ml-2 text-amber-600 bg-amber-50 px-2 py-0.5 rounded-full text-xs font-medium border border-amber-200">
@@ -430,7 +436,7 @@ export function PlacesExplorer({ userProfile, tripConfig, onBack, onBuildItinera
                         whileTap={{ scale: 0.98 }}
                         onClick={handleBuildItinerary}
                         disabled={selectedIds.size === 0}
-                        className="flex items-center gap-3 px-8 py-4 bg-slate-900 text-white rounded-xl font-bold shadow-2xl hover:bg-slate-800 disabled:opacity-50"
+                        className="w-full md:w-auto flex items-center justify-center gap-3 px-6 md:px-8 py-3 md:py-4 bg-slate-900 text-white rounded-xl font-bold shadow-2xl hover:bg-slate-800 disabled:opacity-50"
                     >
                         <Sparkles size={18} className="text-indigo-400" />
                         Build {tripConfig.numDays}-Day Itinerary

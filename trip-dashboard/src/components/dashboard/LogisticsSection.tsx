@@ -57,10 +57,10 @@ export function LogisticsSection({ trip, errors = {} }: LogisticsSectionProps) {
     return (
         <motion.section
             id="logistics-section"
-            className="card-premium p-8"
+            className="card-premium p-4 md:p-8"
             whileHover={{ y: -2 }}
         >
-            <div className="flex items-start justify-between mb-8">
+            <div className="flex items-start justify-between mb-4 md:mb-8">
                 <div className="flex items-center gap-4">
                     <div className="w-12 h-12 rounded-2xl bg-indigo-50 flex items-center justify-center border border-indigo-100">
                         <Calendar className="text-indigo-600" size={24} />
@@ -75,10 +75,10 @@ export function LogisticsSection({ trip, errors = {} }: LogisticsSectionProps) {
                 </div>
             </div>
 
-            <div className="grid grid-cols-12 gap-8">
-                {/* Left Col: Dates (Width 7) */}
-                <div className="col-span-7 space-y-6">
-                    <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-8">
+                {/* Left Col: Dates */}
+                <div className="md:col-span-7 space-y-4 md:space-y-6">
+                    <div className="grid grid-cols-2 gap-3 md:gap-4">
                         <div>
                             <label className="block text-label mb-2 text-slate-500">Arrival Date</label>
                             <div className="relative group">
@@ -104,7 +104,7 @@ export function LogisticsSection({ trip, errors = {} }: LogisticsSectionProps) {
                     </div>
 
                     {/* Time Selection - Button Groups (Single Click) */}
-                    <div className={`grid grid-cols-2 gap-4 ${errors.times ? 'ring-2 ring-red-200 rounded-2xl p-2 -m-2' : ''}`}>
+                    <div className={`grid grid-cols-2 gap-3 md:gap-4 ${errors.times ? 'ring-2 ring-red-200 rounded-2xl p-2 -m-2' : ''}`}>
                         <div>
                             <label className={`block text-label mb-2 ${errors.times ? 'text-red-500' : 'text-slate-500'}`}>
                                 Arrival Time {errors.times && <span className="text-red-400">*</span>}
@@ -164,7 +164,7 @@ export function LogisticsSection({ trip, errors = {} }: LogisticsSectionProps) {
                 </div>
 
                 {/* Right Col: Group (Width 5) */}
-                <div className={`col-span-5 bg-slate-50 rounded-2xl p-6 border ${errors.group ? 'border-red-300 ring-2 ring-red-100' : 'border-slate-100'}`}>
+                <div className={`md:col-span-5 bg-slate-50 rounded-2xl p-4 md:p-6 border ${errors.group ? 'border-red-300 ring-2 ring-red-100' : 'border-slate-100'}`}>
                     <label className={`block text-label mb-4 ${errors.group ? 'text-red-500' : 'text-slate-500'}`}>
                         Who is traveling? {errors.group && <span className="text-red-400">*</span>}
                     </label>

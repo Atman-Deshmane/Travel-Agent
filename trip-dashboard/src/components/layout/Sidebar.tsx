@@ -1,21 +1,27 @@
+import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { TripList } from './TripList'
 import { UserSwitcher } from './UserSwitcher'
-import { Mountain } from 'lucide-react'
+import { MobileDrawer } from './MobileDrawer'
+import { Mountain, Menu } from 'lucide-react'
+import { useIsMobile } from '../../lib/useMediaQuery'
 
 interface SidebarProps {
     children: React.ReactNode
 }
 
 export function Sidebar({ children }: SidebarProps) {
+    const isMobile = useIsMobile()
+    const [drawerOpen, setDrawerOpen] = useState(false)
+
     return (
-        <div className="flex h-[calc(100vh-64px)] bg-slate-50 overflow-hidden">
-            {/* Premium Dark Sidebar */}
+        <div className="flex flex-col md:flex-row h-[calc(100vh-48px)] md:h-[calc(100vh-64px)] bg-slate-50 overflow-hidden">
+            {/* Desktop Dark Sidebar */}
             <motion.aside
                 initial={{ x: -20, opacity: 0 }}
                 animate={{ x: 0, opacity: 1 }}
                 transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                className="w-72 flex flex-col sidebar-glass relative z-20"
+                className="hidden md:flex w-72 flex-col sidebar-glass relative z-20"
             >
                 {/* Logo */}
                 <div className="flex items-center gap-3 px-6 py-6 border-b border-slate-800/50">
@@ -36,6 +42,34 @@ export function Sidebar({ children }: SidebarProps) {
                 {/* User Switcher */}
                 <UserSwitcher />
             </motion.aside>
+
+            {/* Mobile: Floating toggle for trip/user settings */}
+            {isMobile && (
+                <div className="flex items-center justify-between px-4 py-2 bg-white border-b border-slate-200">
+                    <button
+                        onClick={() => setDrawerOpen(true)}
+                        className="flex items-center gap-2 px-3 py-2 bg-slate-100 rounded-lg text-slate-700 text-sm font-medium"
+                    >
+                        <Menu size={16} />
+                        Trip Settings
+                    </button>
+                </div>
+            )}
+
+            {/* Mobile Drawer for Trip/User */}
+            <MobileDrawer
+                isOpen={drawerOpen}
+                onClose={() => setDrawerOpen(false)}
+                position="left"
+                title="Trip Settings"
+            >
+                <div className="sidebar-glass min-h-full">
+                    <div className="flex-1 overflow-y-auto">
+                        <TripList />
+                    </div>
+                    <UserSwitcher />
+                </div>
+            </MobileDrawer>
 
             {/* Main Content */}
             <main className="flex-1 overflow-y-auto bg-slate-50 relative z-10 scroll-smooth">

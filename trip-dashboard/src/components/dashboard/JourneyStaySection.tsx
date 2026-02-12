@@ -68,10 +68,10 @@ export function JourneyStaySection({ trip }: JourneyStaySectionProps) {
 
     return (
         <motion.section
-            className="card-premium p-8"
+            className="card-premium p-4 md:p-8"
             whileHover={{ y: -2 }}
         >
-            <div className="flex items-center gap-4 mb-8">
+            <div className="flex items-center gap-4 mb-4 md:mb-8">
                 <div className="w-12 h-12 rounded-2xl bg-emerald-50 flex items-center justify-center border border-emerald-100">
                     <MapPin className="text-emerald-600" size={24} />
                 </div>

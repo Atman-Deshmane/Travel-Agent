@@ -4,8 +4,9 @@ import { useUserStore } from '../../store/useUserStore'
 import { LogisticsSection } from './LogisticsSection'
 import { JourneyStaySection } from './JourneyStaySection'
 import { VibeSection } from './VibeSection'
-import { MapPin, Sparkles, ArrowRight, Terminal, CheckCircle, AlertCircle, Loader2 } from 'lucide-react'
+import { MapPin, Sparkles, ArrowRight, ArrowLeft, Terminal, CheckCircle, AlertCircle, Loader2 } from 'lucide-react'
 import { API_BASE_URL, API_ENDPOINTS } from '../../config/api'
+import { useIsMobile } from '../../lib/useMediaQuery'
 
 // Validation Error Types
 interface ValidationErrors {
@@ -118,6 +119,10 @@ export function TripConfigurator({ onFetchPlaces }: TripConfiguratorProps) {
     const [isGenerating, setIsGenerating] = useState(false)
     const [errors, setErrors] = useState<ValidationErrors>({})
     const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' } | null>(null)
+    const [mobileStep, setMobileStep] = useState(0)
+    const isMobile = useIsMobile()
+
+    const STEP_LABELS = ['Logistics', 'Journey & Stay', 'Vibe & Interests']
 
     // Refs for scrolling
     const logisticsRef = useRef<HTMLDivElement>(null)
@@ -390,6 +395,13 @@ export function TripConfigurator({ onFetchPlaces }: TripConfiguratorProps) {
         }
     }
 
+    // Step sections for mobile wizard
+    const sections = [
+        <LogisticsSection key="logistics" trip={activeTrip} errors={{ group: errors.group, times: errors.times }} />,
+        <JourneyStaySection key="journey" trip={activeTrip} />,
+        <VibeSection key="vibe" trip={activeTrip} errors={{ interests: errors.interests }} />
+    ]
+
     return (
         <>
             <motion.div
@@ -397,80 +409,150 @@ export function TripConfigurator({ onFetchPlaces }: TripConfiguratorProps) {
                 initial="hidden"
                 animate="visible"
                 variants={containerVariants}
-                className="max-w-5xl mx-auto p-12 pb-24"
+                className="max-w-5xl mx-auto p-4 pb-28 md:p-12 md:pb-24"
             >
                 {/* Header Section */}
-                <motion.div variants={itemVariants} className="mb-12">
+                <motion.div variants={itemVariants} className="mb-6 md:mb-12">
                     <div className="flex items-center justify-between mb-2">
                         <div className="flex items-center gap-2 px-3 py-1 bg-white border border-slate-200 rounded-full shadow-sm">
                             <Sparkles size={12} className="text-amber-500" />
                             <span className="text-[10px] font-bold text-slate-600 uppercase tracking-wider">AI Planning Mode</span>
                         </div>
-                        <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">ID: {activeTrip.id.substring(0, 8)}</span>
+                        <span className="hidden md:inline text-[10px] font-bold text-slate-400 uppercase tracking-widest">ID: {activeTrip.id.substring(0, 8)}</span>
                     </div>
-                    <h1 className="text-5xl font-bold text-slate-900 tracking-tight mb-4">{activeTrip.name}</h1>
-                    <p className="text-slate-500 text-lg max-w-2xl leading-relaxed">
+                    <h1 className="text-2xl md:text-5xl font-bold text-slate-900 tracking-tight mb-2 md:mb-4">{activeTrip.name}</h1>
+                    <p className="text-slate-500 text-sm md:text-lg max-w-2xl leading-relaxed">
                         Configure your preferences below. Our AI will analyze {activeTrip.group_type || 'your'} dynamics to generate the perfect itinerary.
                     </p>
                 </motion.div>
 
+                {/* Mobile Step Indicator */}
+                {isMobile && (
+                    <div className="flex items-center justify-center gap-3 mb-6">
+                        {STEP_LABELS.map((label, i) => (
+                            <button
+                                key={label}
+                                onClick={() => setMobileStep(i)}
+                                className="flex items-center gap-1.5"
+                            >
+                                <div className={`w-2.5 h-2.5 rounded-full transition-all ${i === mobileStep ? 'bg-indigo-600 scale-125' :
+                                        i < mobileStep ? 'bg-emerald-500' : 'bg-slate-300'
+                                    }`} />
+                                <span className={`text-xs font-medium ${i === mobileStep ? 'text-indigo-600' : 'text-slate-400'
+                                    }`}>{label}</span>
+                            </button>
+                        ))}
+                    </div>
+                )}
+
                 {/* Main Grid Layout */}
-                <div className="grid grid-cols-1 gap-10">
-                    <motion.div variants={itemVariants} ref={logisticsRef}>
-                        <LogisticsSection trip={activeTrip} errors={{ group: errors.group, times: errors.times }} />
-                    </motion.div>
-
-                    <motion.div variants={itemVariants}>
-                        <JourneyStaySection trip={activeTrip} />
-                    </motion.div>
-
-                    <motion.div variants={itemVariants} ref={vibeRef}>
-                        <VibeSection trip={activeTrip} errors={{ interests: errors.interests }} />
-                    </motion.div>
+                <div className="grid grid-cols-1 gap-6 md:gap-10">
+                    {isMobile ? (
+                        /* Mobile: Show only active step */
+                        <AnimatePresence mode="wait">
+                            <motion.div
+                                key={mobileStep}
+                                initial={{ opacity: 0, x: 30 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                exit={{ opacity: 0, x: -30 }}
+                                transition={{ duration: 0.2 }}
+                            >
+                                {sections[mobileStep]}
+                            </motion.div>
+                        </AnimatePresence>
+                    ) : (
+                        /* Desktop: Show all sections */
+                        <>
+                            <motion.div variants={itemVariants} ref={logisticsRef}>
+                                <LogisticsSection trip={activeTrip} errors={{ group: errors.group, times: errors.times }} />
+                            </motion.div>
+                            <motion.div variants={itemVariants}>
+                                <JourneyStaySection trip={activeTrip} />
+                            </motion.div>
+                            <motion.div variants={itemVariants} ref={vibeRef}>
+                                <VibeSection trip={activeTrip} errors={{ interests: errors.interests }} />
+                            </motion.div>
+                        </>
+                    )}
                 </div>
 
                 {/* Footer / Generate Action */}
                 <motion.div
                     variants={itemVariants}
-                    className="mt-16 pt-10 border-t border-slate-200 flex items-center justify-between bg-white/80 backdrop-blur-lg p-6 rounded-2xl border border-white/20 shadow-lg"
+                    className="mt-8 md:mt-16 pt-6 md:pt-10 border-t border-slate-200 flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4 bg-white/80 backdrop-blur-lg p-4 md:p-6 rounded-2xl border border-white/20 shadow-lg"
                 >
-                    <div>
-                        <p className="text-label mb-1">Status</p>
-                        <div className="flex items-center gap-2">
-                            {Object.keys(errors).length > 0 ? (
-                                <>
-                                    <div className="w-2 h-2 rounded-full bg-red-500" />
-                                    <span className="text-sm font-semibold text-red-600">Missing Required Fields</span>
-                                </>
-                            ) : (
-                                <>
-                                    <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                                    <span className="text-sm font-semibold text-slate-700">Ready to Generate</span>
-                                </>
+                    {/* Mobile Step Navigation */}
+                    {isMobile && mobileStep < 2 ? (
+                        <div className="flex gap-3 w-full">
+                            {mobileStep > 0 && (
+                                <button
+                                    onClick={() => setMobileStep(s => s - 1)}
+                                    className="flex-1 flex items-center justify-center gap-2 px-4 py-3.5 bg-slate-100 text-slate-700 rounded-xl font-semibold"
+                                >
+                                    <ArrowLeft size={16} />
+                                    Back
+                                </button>
                             )}
+                            <button
+                                onClick={() => setMobileStep(s => s + 1)}
+                                className="flex-1 flex items-center justify-center gap-2 px-4 py-3.5 bg-indigo-600 text-white rounded-xl font-semibold shadow-lg"
+                            >
+                                Next
+                                <ArrowRight size={16} />
+                            </button>
                         </div>
-                    </div>
+                    ) : (
+                        /* Desktop or final mobile step: show generate */
+                        <>
+                            <div className="hidden md:block">
+                                <p className="text-label mb-1">Status</p>
+                                <div className="flex items-center gap-2">
+                                    {Object.keys(errors).length > 0 ? (
+                                        <>
+                                            <div className="w-2 h-2 rounded-full bg-red-500" />
+                                            <span className="text-sm font-semibold text-red-600">Missing Required Fields</span>
+                                        </>
+                                    ) : (
+                                        <>
+                                            <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                                            <span className="text-sm font-semibold text-slate-700">Ready to Generate</span>
+                                        </>
+                                    )}
+                                </div>
+                            </div>
 
-                    <motion.button
-                        whileHover={{ scale: 1.02, translateY: -2 }}
-                        whileTap={{ scale: 0.98 }}
-                        onClick={handleGenerate}
-                        disabled={isGenerating}
-                        className={`flex items-center gap-3 px-8 py-4 bg-slate-900 text-white rounded-xl font-bold shadow-2xl hover:bg-slate-800 transition-all ${isGenerating ? 'opacity-80 cursor-not-allowed' : ''}`}
-                    >
-                        {isGenerating ? (
-                            <>
-                                <Loader2 size={18} className="animate-spin text-indigo-400" />
-                                Generating...
-                            </>
-                        ) : (
-                            <>
-                                <Sparkles size={18} className="text-indigo-400" />
-                                Fetch Places
-                                <ArrowRight size={18} className="text-slate-400" />
-                            </>
-                        )}
-                    </motion.button>
+                            <div className="flex gap-3 w-full md:w-auto">
+                                {isMobile && mobileStep > 0 && (
+                                    <button
+                                        onClick={() => setMobileStep(s => s - 1)}
+                                        className="flex items-center justify-center gap-2 px-4 py-3.5 bg-slate-100 text-slate-700 rounded-xl font-semibold"
+                                    >
+                                        <ArrowLeft size={16} />
+                                    </button>
+                                )}
+                                <motion.button
+                                    whileHover={{ scale: 1.02, translateY: -2 }}
+                                    whileTap={{ scale: 0.98 }}
+                                    onClick={handleGenerate}
+                                    disabled={isGenerating}
+                                    className={`flex-1 md:flex-none flex items-center justify-center gap-3 px-6 md:px-8 py-3.5 md:py-4 bg-slate-900 text-white rounded-xl font-bold shadow-2xl hover:bg-slate-800 transition-all ${isGenerating ? 'opacity-80 cursor-not-allowed' : ''}`}
+                                >
+                                    {isGenerating ? (
+                                        <>
+                                            <Loader2 size={18} className="animate-spin text-indigo-400" />
+                                            Generating...
+                                        </>
+                                    ) : (
+                                        <>
+                                            <Sparkles size={18} className="text-indigo-400" />
+                                            Fetch Places
+                                            <ArrowRight size={18} className="text-slate-400" />
+                                        </>
+                                    )}
+                                </motion.button>
+                            </div>
+                        </>
+                    )}
                 </motion.div>
             </motion.div>
 
