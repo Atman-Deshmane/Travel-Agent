@@ -21,6 +21,12 @@ interface ScoredPlace {
     final_score: number
     popularity_rank?: number
     flags: string[]
+    // Detail fields from place_data
+    tips?: string[]
+    short_summary?: string
+    best_time_text?: string
+    is_forest_circuit?: boolean
+    place_data?: any
 }
 
 interface PlacesExplorerProps {
@@ -163,6 +169,19 @@ export function PlacesExplorer({ userProfile, tripConfig, onBack, onBuildItinera
             setLoading(false)
         }
     }, [interests, userProfile.difficulty]) // eslint-disable-line react-hooks/exhaustive-deps
+
+    // Enrich a scored place with detail fields from place_data for the modal
+    const enrichAndSelectPlace = (place: ScoredPlace) => {
+        const pd = place.place_data
+        const enriched: ScoredPlace = {
+            ...place,
+            tips: pd?.content?.tips || [],
+            short_summary: pd?.content?.short_summary || '',
+            best_time_text: pd?.content?.best_time_text || '',
+            is_forest_circuit: pd?.logic?.is_forest_circuit || false,
+        }
+        setSelectedPlace(enriched)
+    }
 
     // Initial fetch
     useEffect(() => {
@@ -341,7 +360,7 @@ export function PlacesExplorer({ userProfile, tripConfig, onBack, onBuildItinera
                                     isSelected={selectedIds.has(place.id)}
                                     onToggleSelect={toggleSelect}
                                     onKeepFlagged={handleKeepFlagged}
-                                    onClick={() => setSelectedPlace(place)}
+                                    onClick={() => enrichAndSelectPlace(place)}
                                 />
                             ))}
                         </div>
@@ -363,7 +382,7 @@ export function PlacesExplorer({ userProfile, tripConfig, onBack, onBuildItinera
                                     isSelected={selectedIds.has(place.id)}
                                     onToggleSelect={toggleSelect}
                                     onKeepFlagged={handleKeepFlagged}
-                                    onClick={() => setSelectedPlace(place)}
+                                    onClick={() => enrichAndSelectPlace(place)}
                                 />
                             ))}
                         </div>
@@ -386,7 +405,7 @@ export function PlacesExplorer({ userProfile, tripConfig, onBack, onBuildItinera
                                         isSelected={selectedIds.has(place.id)}
                                         onToggleSelect={toggleSelect}
                                         onKeepFlagged={handleKeepFlagged}
-                                        onClick={() => setSelectedPlace(place)}
+                                        onClick={() => enrichAndSelectPlace(place)}
                                     />
                                 ))}
                             </AnimatePresence>
