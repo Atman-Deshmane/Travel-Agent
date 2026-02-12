@@ -36,7 +36,7 @@ interface AllPlacesSidebarProps {
 export function AllPlacesSidebar({
     places,
     selectedIds,
-    dayClusterMap,
+    dayClusterMap: _dayClusterMap,
     onAddPlace,
     onBuildWithStaged,
     onOpenDetail,
