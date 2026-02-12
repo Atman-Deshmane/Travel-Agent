@@ -112,7 +112,7 @@ interface TripConfiguratorProps {
 }
 
 export function TripConfigurator({ onFetchPlaces }: TripConfiguratorProps) {
-    const { getActiveTrip, getCurrentUser } = useUserStore()
+    const { getActiveTrip, getCurrentUser, createTrip } = useUserStore()
     const activeTrip = getActiveTrip()
     const currentUser = getCurrentUser()
     const [loading, setLoading] = useState(true)
@@ -365,6 +365,7 @@ export function TripConfigurator({ onFetchPlaces }: TripConfiguratorProps) {
                     <motion.button
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
+                        onClick={createTrip}
                         className="w-full flex items-center justify-center gap-2 px-6 py-4 bg-indigo-600 text-white rounded-xl font-semibold shadow-xl shadow-indigo-200 hover:shadow-2xl hover:bg-indigo-700 transition-all"
                     >
                         Start New Journey
@@ -436,7 +437,7 @@ export function TripConfigurator({ onFetchPlaces }: TripConfiguratorProps) {
                                 className="flex items-center gap-1.5"
                             >
                                 <div className={`w-2.5 h-2.5 rounded-full transition-all ${i === mobileStep ? 'bg-indigo-600 scale-125' :
-                                        i < mobileStep ? 'bg-emerald-500' : 'bg-slate-300'
+                                    i < mobileStep ? 'bg-emerald-500' : 'bg-slate-300'
                                     }`} />
                                 <span className={`text-xs font-medium ${i === mobileStep ? 'text-indigo-600' : 'text-slate-400'
                                     }`}>{label}</span>
