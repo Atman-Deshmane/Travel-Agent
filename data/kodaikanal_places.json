@@ -109,7 +109,8 @@
           16,
           17
         ],
-        "difficulty": "Easy"
+        "difficulty": "Easy",
+        "itinerary_include": true
       },
       "content": {
         "short_summary": "Bryant Park is a 20-acre botanical garden with diverse plant life and seasonal flower shows, perfect for nature lovers.",
@@ -273,7 +274,8 @@
           16,
           17
         ],
-        "difficulty": "Easy"
+        "difficulty": "Easy",
+        "itinerary_include": true
       },
       "content": {
         "short_summary": "Serene pine forest with towering trees, perfect for nature walks, photography, and relaxation.",
@@ -423,7 +425,8 @@
           11,
           12
         ],
-        "difficulty": "Easy"
+        "difficulty": "Easy",
+        "itinerary_include": true
       },
       "content": {
         "short_summary": "A popular tourist destination in Kodaikanal.",
@@ -565,7 +568,8 @@
           12,
           13
         ],
-        "difficulty": "Easy"
+        "difficulty": "Easy",
+        "itinerary_include": true
       },
       "content": {
         "short_summary": "Moir Point offers panoramic views of valleys and hills. Named after Sir Thomas Moir, it's a popular, easily accessible spot.",
@@ -727,7 +731,8 @@
           14,
           15
         ],
-        "difficulty": "Easy"
+        "difficulty": "Easy",
+        "itinerary_include": true
       },
       "content": {
         "short_summary": "Green Valley Viewpoint offers stunning panoramas of valleys, hills, and the Vaigai Dam. Once known as Suicide Point, it's now a safe, popular spot.",
@@ -883,7 +888,8 @@
           12,
           16
         ],
-        "difficulty": "Moderate"
+        "difficulty": "Moderate",
+        "itinerary_include": true
       },
       "content": {
         "short_summary": "Liril Falls, also known as Pambar Falls, is a scenic waterfall in Kodaikanal, famed for the Liril soap advertisement shot here.",
@@ -1031,7 +1037,8 @@
           12,
           16
         ],
-        "difficulty": "Easy"
+        "difficulty": "Easy",
+        "itinerary_include": true
       },
       "content": {
         "short_summary": "Offers a panoramic view of Kodaikanal Lake and surrounding green valleys. Ideal for photographers and nature lovers.",
@@ -1196,7 +1203,8 @@
           16,
           17
         ],
-        "difficulty": "Easy"
+        "difficulty": "Easy",
+        "itinerary_include": true
       },
       "content": {
         "short_summary": "A 1km paved walking path offering panoramic views of valleys and hills, perfect for a serene experience in Kodaikanal.",
@@ -1276,7 +1284,8 @@
           12,
           16
         ],
-        "difficulty": "Easy"
+        "difficulty": "Easy",
+        "itinerary_include": true
       },
       "content": {
         "short_summary": "A star-shaped, man-made lake in Kodaikanal offering boating, cycling, and scenic beauty. Perfect for relaxation and nature lovers.",
@@ -1446,7 +1455,8 @@
           16,
           17
         ],
-        "difficulty": "Easy"
+        "difficulty": "Easy",
+        "itinerary_include": true
       },
       "content": {
         "short_summary": "A serene temple dedicated to Lord Murugan, known for Kurinji flowers and panoramic views.",
@@ -1604,7 +1614,8 @@
           12,
           13
         ],
-        "difficulty": "Hard"
+        "difficulty": "Hard",
+        "itinerary_include": true
       },
       "content": {
         "short_summary": "A cliff resembling a dolphin's nose offering panoramic views after a difficult 3km trek.",
@@ -1679,7 +1690,8 @@
           13,
           16
         ],
-        "difficulty": "Easy"
+        "difficulty": "Easy",
+        "itinerary_include": true
       },
       "content": {
         "short_summary": "A stunning 180-foot waterfall formed by Kodaikanal Lake's overflow, offering a refreshing break with scenic views.",
@@ -1834,7 +1846,8 @@
           13,
           14
         ],
-        "difficulty": "Easy"
+        "difficulty": "Easy",
+        "itinerary_include": true
       },
       "content": {
         "short_summary": "Altaf's Cafe in Vattakanal offers Middle Eastern cuisine and stunning mountain views in a cozy, laid-back atmosphere.",
@@ -1996,7 +2009,8 @@
           11,
           12
         ],
-        "difficulty": "Moderate"
+        "difficulty": "Moderate",
+        "itinerary_include": true
       },
       "content": {
         "short_summary": "Picturesque waterfall near Periyakulam, Theni, cascading down Kodaikanal Hills, offering a serene and refreshing experience.",
@@ -2156,7 +2170,8 @@
           11,
           12
         ],
-        "difficulty": "Easy"
+        "difficulty": "Easy",
+        "itinerary_include": true
       },
       "content": {
         "short_summary": "Chettiar Park in Kodaikanal is a serene and beautiful garden with lush greenery and diverse flora.",
@@ -2367,7 +2382,8 @@
           10,
           11
         ],
-        "difficulty": "Easy"
+        "difficulty": "Easy",
+        "itinerary_include": true
       },
       "content": {
         "short_summary": "Explore solar science and India's astronomy legacy in the quiet, misty hills of Kodaikanal.",
@@ -2517,7 +2533,8 @@
           12,
           16
         ],
-        "difficulty": "Easy"
+        "difficulty": "Easy",
+        "itinerary_include": true
       },
       "content": {
         "short_summary": "Mannavanur Lake is a serene lake near Kodaikanal, surrounded by meadows, forests, and rolling hills, offering a peaceful nature escape.",
@@ -2673,7 +2690,8 @@
           11,
           12
         ],
-        "difficulty": "Easy"
+        "difficulty": "Easy",
+        "itinerary_include": true
       },
       "content": {
         "short_summary": "A fascinating museum with diverse collections of flora, fauna, and artifacts, reflecting Kodaikanal's cultural and natural heritage.",
@@ -2824,7 +2842,8 @@
           12,
           13
         ],
-        "difficulty": "Easy"
+        "difficulty": "Easy",
+        "itinerary_include": true
       },
       "content": {
         "short_summary": "A charming waterfall nestled in lush greenery, offering a tranquil and scenic escape near Kodaikanal Lake.",
@@ -2971,7 +2990,8 @@
           15,
           16
         ],
-        "difficulty": "Easy"
+        "difficulty": "Easy",
+        "itinerary_include": true
       },
       "content": {
         "short_summary": "A fascinating museum with over 500 species, showcasing Kodaikanal's natural history and biodiversity.",
@@ -3045,7 +3065,8 @@
           12,
           15
         ],
-        "difficulty": "Easy"
+        "difficulty": "Easy",
+        "itinerary_include": true
       },
       "content": {
         "short_summary": "A captivating museum showcasing vintage items, offering a nostalgic trip down memory lane in Kodaikanal.",
@@ -3203,7 +3224,8 @@
           18,
           19
         ],
-        "difficulty": "Easy"
+        "difficulty": "Easy",
+        "itinerary_include": true
       },
       "content": {
         "short_summary": "Experience multi-dimensional visuals with 3D specs at this theater by Kodai Lake; a great attraction for kids.",
@@ -3290,7 +3312,8 @@
           17,
           18
         ],
-        "difficulty": "Easy"
+        "difficulty": "Easy",
+        "itinerary_include": false
       },
       "content": {
         "short_summary": "Centrally located bus stand providing access to Kodaikanal and nearby attractions, with buses running until 10 PM.",
@@ -3420,7 +3443,8 @@
           11,
           12
         ],
-        "difficulty": "Easy"
+        "difficulty": "Easy",
+        "itinerary_include": true
       },
       "content": {
         "short_summary": "A popular tourist destination in Kodaikanal.",
@@ -3484,7 +3508,8 @@
           16,
           17
         ],
-        "difficulty": "Easy"
+        "difficulty": "Easy",
+        "itinerary_include": true
       },
       "content": {
         "short_summary": "Offers stunning views of the Palani hills, Western Ghats, and lush Silent Valley, easily accessible with a short trail.",
@@ -3636,7 +3661,8 @@
           11,
           12
         ],
-        "difficulty": "Easy"
+        "difficulty": "Easy",
+        "itinerary_include": true
       },
       "content": {
         "short_summary": "Sprawling garden with thousands of rose varieties, walking paths, and valley views, perfect for nature lovers and families.",
@@ -3715,7 +3741,8 @@
           10,
           11
         ],
-        "difficulty": "Moderate"
+        "difficulty": "Moderate",
+        "itinerary_include": true
       },
       "content": {
         "short_summary": "Pampadum Shola National Park is Kerala's smallest national park, known for its shola forests and rich biodiversity.",
@@ -3802,7 +3829,8 @@
           12,
           13
         ],
-        "difficulty": "Easy"
+        "difficulty": "Easy",
+        "itinerary_include": true
       },
       "content": {
         "short_summary": "Vattakanal Waterfalls is a serene and picturesque retreat nestled amidst lush greenery near Kodaikanal, offering a refreshing escape.",
@@ -3957,7 +3985,8 @@
           12,
           16
         ],
-        "difficulty": "Easy"
+        "difficulty": "Easy",
+        "itinerary_include": true
       },
       "content": {
         "short_summary": "Enjoy boating on the serene, star-shaped Kodaikanal Lake with various boat options and scenic views.",
@@ -4106,7 +4135,8 @@
           11,
           16
         ],
-        "difficulty": "Easy"
+        "difficulty": "Easy",
+        "itinerary_include": true
       },
       "content": {
         "short_summary": "Offers panoramic vistas of Poombarai village, known for its lush greenery and terraced farms, about 20 km from Kodaikanal.",
@@ -4196,7 +4226,8 @@
           10,
           11
         ],
-        "difficulty": "Moderate"
+        "difficulty": "Moderate",
+        "itinerary_include": false
       },
       "content": {
         "short_summary": "Explore Kodaikanal's hidden gems with thrilling off-road jeep safaris through forests, valleys, and viewpoints.",
@@ -4293,7 +4324,8 @@
           12,
           16
         ],
-        "difficulty": "Moderate"
+        "difficulty": "Moderate",
+        "itinerary_include": false
       },
       "content": {
         "short_summary": "Remas Resorts and Adventure Park offers a blend of nature and adventure with activities and comfortable accommodations in Kodaikanal.",
@@ -4362,7 +4394,8 @@
           11,
           12
         ],
-        "difficulty": "Easy"
+        "difficulty": "Easy",
+        "itinerary_include": true
       },
       "content": {
         "short_summary": "A serene freshwater lake surrounded by forests, offering a peaceful escape and diverse activities.",
@@ -4449,7 +4482,8 @@
           12,
           13
         ],
-        "difficulty": "Hard"
+        "difficulty": "Hard",
+        "itinerary_include": true
       },
       "content": {
         "short_summary": "Thalaiyar Falls, also known as Rat Tail Falls, is Tamil Nadu's tallest waterfall, offering scenic beauty and challenging treks.",
@@ -4611,7 +4645,8 @@
           11,
           16
         ],
-        "difficulty": "Easy"
+        "difficulty": "Easy",
+        "itinerary_include": true
       },
       "content": {
         "short_summary": "La Saleth Church, established in 1866, showcases Tamil-French architecture and offers serene mountain views at 7,000 feet.",
@@ -4752,7 +4787,8 @@
           12,
           16
         ],
-        "difficulty": "Easy"
+        "difficulty": "Easy",
+        "itinerary_include": true
       },
       "content": {
         "short_summary": "A peaceful viewpoint in Kodaikanal offering stunning views of the Palani Hills and surrounding landscape.",
@@ -4821,7 +4857,8 @@
           11,
           16
         ],
-        "difficulty": "Easy"
+        "difficulty": "Easy",
+        "itinerary_include": true
       },
       "content": {
         "short_summary": "Explore ancient megalithic burial sites dating back to 5000 BC, offering a glimpse into prehistoric human life and culture.",
@@ -4897,7 +4934,8 @@
           11,
           12
         ],
-        "difficulty": "Moderate"
+        "difficulty": "Moderate",
+        "itinerary_include": true
       },
       "content": {
         "short_summary": "Perumal Peak, Kodaikanal's highest, offers stunning views and trekking in the Western Ghats. Ideal for adventure and nature lovers.",
@@ -5049,7 +5087,8 @@
           12,
           16
         ],
-        "difficulty": "Easy"
+        "difficulty": "Easy",
+        "itinerary_include": true
       },
       "content": {
         "short_summary": "A small museum featuring wax statues of Indian personalities and cultural displays.",
@@ -5135,7 +5174,8 @@
           11,
           12
         ],
-        "difficulty": "Easy"
+        "difficulty": "Easy",
+        "itinerary_include": true
       },
       "content": {
         "short_summary": "Majestic rock formations offering panoramic views of valleys and mountains. A must-visit for nature lovers and photographers.",

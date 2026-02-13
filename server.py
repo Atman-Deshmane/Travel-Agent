@@ -200,6 +200,45 @@ def places_autocomplete():
         return jsonify({"suggestions": [], "error": str(e)}), 500
 
 
+@app.route('/api/places/details', methods=['GET'])
+def place_details():
+    """
+    Get place details (lat, lng, name, address) from a Google place_id.
+    Used by accommodation search to resolve coordinates.
+    
+    Query params:
+        place_id: Google Maps place_id
+    
+    Returns:
+        {"name": "...", "lat": 10.23, "lng": 77.49, "formatted_address": "...", "google_place_id": "..."}
+    """
+    place_id = request.args.get('place_id', '').strip()
+    
+    if not place_id:
+        return jsonify({"error": "place_id is required"}), 400
+    
+    try:
+        gmaps = get_maps_client()
+        result = gmaps.place(place_id, fields=['name', 'geometry', 'formatted_address'])
+        
+        place_result = result.get('result', {})
+        location = place_result.get('geometry', {}).get('location', {})
+        
+        return jsonify({
+            "name": place_result.get('name', ''),
+            "lat": location.get('lat', 0),
+            "lng": location.get('lng', 0),
+            "formatted_address": place_result.get('formatted_address', ''),
+            "google_place_id": place_id
+        })
+        
+    except Exception as e:
+        print(f"Error fetching place details: {e}")
+        import traceback
+        traceback.print_exc()
+        return jsonify({"error": str(e)}), 500
+
+
 # ===== EQUALIZER API (Scoring) =====
 
 @app.route('/api/fetch-scored-places', methods=['POST'])

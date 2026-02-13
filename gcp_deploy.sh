@@ -112,6 +112,10 @@ chown ${APP_USER}:${APP_USER} /var/log/${APP_NAME}
 # Set ownership
 chown -R ${APP_USER}:${APP_USER} "$APP_DIR"
 
+# Ensure data directory is writable (for add-place, user-data, etc.)
+chmod 775 "$APP_DIR/data" "$APP_DIR/user_data" 2>/dev/null || true
+chmod 664 "$APP_DIR/data/"*.json 2>/dev/null || true
+
 systemctl daemon-reload
 systemctl enable ${APP_NAME}
 

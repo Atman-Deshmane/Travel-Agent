@@ -540,6 +540,12 @@ class ItineraryScheduler:
             if pid in self.places_data
         ]
         
+        # Filter out places not meant for itinerary (restaurants, services, etc.)
+        selected_places = [
+            p for p in selected_places 
+            if p.get('logic', {}).get('itinerary_include', True) is not False
+        ]
+        
         if not selected_places:
             return {"days": [], "error": "No valid places selected"}
         

@@ -20,6 +20,7 @@ export const API_ENDPOINTS = {
     fetchScoredPlaces: `${API_BASE_URL}/api/fetch-scored-places`,
     rankPlaces: `${API_BASE_URL}/api/rank-places`,
     autocomplete: `${API_BASE_URL}/api/places/autocomplete`,
+    placeDetails: `${API_BASE_URL}/api/places/details`,
 
     // Itinerary
     buildItinerary: `${API_BASE_URL}/api/build-itinerary`,

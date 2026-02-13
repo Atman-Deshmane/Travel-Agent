@@ -1,13 +1,22 @@
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useUserStore } from '../../store/useUserStore'
 import type { TripContext } from '../../store/useUserStore'
-import { MapPin, Car, Bus, Train, Plane, Sparkles, Building2 } from 'lucide-react'
+import { MapPin, Car, Bus, Train, Plane, Sparkles, Search, Loader2, MapPinned } from 'lucide-react'
 import { CLUSTER_OPTIONS } from '../../data/mock_users'
 import { SmartFieldWrapper } from '../ui/SmartFieldWrapper'
+import { API_ENDPOINTS } from '../../config/api'
 
 interface JourneyStaySectionProps {
     trip: TripContext
+}
+
+interface AccommodationSuggestion {
+    name: string
+    place_id?: string
+    id?: string
+    cluster?: string
+    in_database: boolean
 }
 
 export function JourneyStaySection({ trip }: JourneyStaySectionProps) {
@@ -22,6 +31,109 @@ export function JourneyStaySection({ trip }: JourneyStaySectionProps) {
     const [saveTransportAsDefault, setSaveTransportAsDefault] = useState(
         currentUser?.defaults.transport_mode_preference === trip.transport_in_city
     )
+
+    // Accommodation autocomplete state
+    const [hotelQuery, setHotelQuery] = useState(accommodation.booked_location?.name || '')
+    const [hotelSuggestions, setHotelSuggestions] = useState<AccommodationSuggestion[]>([])
+    const [hotelSearchLoading, setHotelSearchLoading] = useState(false)
+    const [showHotelDropdown, setShowHotelDropdown] = useState(false)
+    const [resolvingDetails, setResolvingDetails] = useState(false)
+    const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+    const dropdownRef = useRef<HTMLDivElement>(null)
+
+    // Sync hotelQuery when accommodation changes externally
+    useEffect(() => {
+        if (accommodation.booked_location?.name && accommodation.booked_location.name !== hotelQuery) {
+            setHotelQuery(accommodation.booked_location.name)
+        }
+    }, [accommodation.booked_location?.name])
+
+    // Close dropdown on outside click
+    useEffect(() => {
+        const handleClickOutside = (e: MouseEvent) => {
+            if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
+                setShowHotelDropdown(false)
+            }
+        }
+        document.addEventListener('mousedown', handleClickOutside)
+        return () => document.removeEventListener('mousedown', handleClickOutside)
+    }, [])
+
+    // Debounced search for hotel suggestions
+    const handleHotelSearch = (query: string) => {
+        setHotelQuery(query)
+
+        if (debounceRef.current) clearTimeout(debounceRef.current)
+
+        if (query.length < 2) {
+            setHotelSuggestions([])
+            setShowHotelDropdown(false)
+            return
+        }
+
+        debounceRef.current = setTimeout(async () => {
+            setHotelSearchLoading(true)
+            try {
+                const res = await fetch(`${API_ENDPOINTS.autocomplete}?q=${encodeURIComponent(query)}`)
+                const data = await res.json()
+                setHotelSuggestions(data.suggestions || [])
+                setShowHotelDropdown(true)
+            } catch (err) {
+                console.error('Hotel search failed:', err)
+                setHotelSuggestions([])
+            } finally {
+                setHotelSearchLoading(false)
+            }
+        }, 300)
+    }
+
+    // When user selects a hotel suggestion
+    const handleHotelSelect = async (suggestion: AccommodationSuggestion) => {
+        setShowHotelDropdown(false)
+        setHotelQuery(suggestion.name)
+
+        const placeId = suggestion.place_id
+        if (!placeId) {
+            // Local DB match without place_id — just store name
+            updateTrip(trip.id, {
+                accommodation: {
+                    ...accommodation,
+                    booked_location: { name: suggestion.name, lat: 0, lng: 0 }
+                }
+            })
+            return
+        }
+
+        // Resolve lat/lng from place_id
+        setResolvingDetails(true)
+        try {
+            const res = await fetch(`${API_ENDPOINTS.placeDetails}?place_id=${encodeURIComponent(placeId)}`)
+            const details = await res.json()
+
+            updateTrip(trip.id, {
+                accommodation: {
+                    ...accommodation,
+                    booked_location: {
+                        name: details.name || suggestion.name,
+                        lat: details.lat || 0,
+                        lng: details.lng || 0,
+                        google_place_id: placeId
+                    }
+                }
+            })
+            setHotelQuery(details.name || suggestion.name)
+        } catch (err) {
+            console.error('Failed to resolve place details:', err)
+            updateTrip(trip.id, {
+                accommodation: {
+                    ...accommodation,
+                    booked_location: { name: suggestion.name, lat: 0, lng: 0 }
+                }
+            })
+        } finally {
+            setResolvingDetails(false)
+        }
+    }
 
     const modeToKodaiOptions = [
         { value: 'own_vehicle', icon: <Car size={24} />, label: 'Own Vehicle' },
@@ -187,17 +299,66 @@ export function JourneyStaySection({ trip }: JourneyStaySectionProps) {
                                 animate={{ opacity: 1, y: 0 }}
                                 exit={{ opacity: 0, y: -10 }}
                             >
-                                <label className="block text-label mb-2 text-slate-500">Hotel Name</label>
-                                <div className="relative">
-                                    <Building2 className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
+                                <label className="block text-label mb-2 text-slate-500">Search Hotel / Stay</label>
+                                <div className="relative" ref={dropdownRef}>
+                                    <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
+                                    {(hotelSearchLoading || resolvingDetails) && (
+                                        <Loader2 className="absolute right-4 top-1/2 -translate-y-1/2 text-emerald-500 animate-spin" size={18} />
+                                    )}
                                     <input
                                         type="text"
-                                        placeholder="Enter hotel name..."
-                                        value={accommodation.booked_location?.name || ''}
-                                        onChange={(e) => updateTrip(trip.id, { accommodation: { ...accommodation, booked_location: { name: e.target.value, lat: 0, lng: 0 } } })}
-                                        className="w-full pl-11 pr-4 py-3 bg-white border border-slate-200 rounded-xl text-slate-900 placeholder-slate-400 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500"
+                                        placeholder="Search hotels, hostels, stays..."
+                                        value={hotelQuery}
+                                        onChange={(e) => handleHotelSearch(e.target.value)}
+                                        onFocus={() => {
+                                            if (hotelSuggestions.length > 0) setShowHotelDropdown(true)
+                                        }}
+                                        className="w-full pl-11 pr-10 py-3 bg-white border border-slate-200 rounded-xl text-slate-900 placeholder-slate-400 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500"
                                     />
+
+                                    {/* Autocomplete dropdown */}
+                                    <AnimatePresence>
+                                        {showHotelDropdown && hotelSuggestions.length > 0 && (
+                                            <motion.div
+                                                initial={{ opacity: 0, y: -4 }}
+                                                animate={{ opacity: 1, y: 0 }}
+                                                exit={{ opacity: 0, y: -4 }}
+                                                className="absolute z-50 w-full mt-1 bg-white border border-slate-200 rounded-xl shadow-lg overflow-hidden max-h-60 overflow-y-auto"
+                                            >
+                                                {hotelSuggestions.map((s, i) => (
+                                                    <button
+                                                        key={`${s.place_id || s.id}-${i}`}
+                                                        onClick={() => handleHotelSelect(s)}
+                                                        className="w-full text-left px-4 py-3 hover:bg-emerald-50 transition-colors border-b border-slate-100 last:border-b-0 flex items-start gap-3"
+                                                    >
+                                                        <MapPinned className="text-slate-400 mt-0.5 flex-shrink-0" size={16} />
+                                                        <div className="min-w-0">
+                                                            <p className="text-sm font-medium text-slate-900 truncate">{s.name}</p>
+                                                            {s.in_database && s.cluster && (
+                                                                <p className="text-xs text-emerald-600 mt-0.5">📍 {s.cluster} • In database</p>
+                                                            )}
+                                                            {!s.in_database && (
+                                                                <p className="text-xs text-slate-400 mt-0.5">via Google Maps</p>
+                                                            )}
+                                                        </div>
+                                                    </button>
+                                                ))}
+                                            </motion.div>
+                                        )}
+                                    </AnimatePresence>
                                 </div>
+
+                                {/* Show resolved location info */}
+                                {accommodation.booked_location?.lat !== undefined && accommodation.booked_location.lat !== 0 && (
+                                    <motion.div
+                                        initial={{ opacity: 0 }}
+                                        animate={{ opacity: 1 }}
+                                        className="mt-3 flex items-center gap-2 text-xs text-emerald-600 bg-emerald-50 px-3 py-2 rounded-lg"
+                                    >
+                                        <MapPin size={14} />
+                                        <span>Location found — coordinates saved for itinerary routing</span>
+                                    </motion.div>
+                                )}
                             </motion.div>
                         ) : (
                             <motion.div

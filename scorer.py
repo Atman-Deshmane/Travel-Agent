@@ -234,7 +234,7 @@ class ItineraryRanker:
         
         for idx, place in enumerate(self.places):
             # Skip places marked as excluded from itinerary
-            if place.get('metadata', {}).get('itinerary_include') is False:
+            if place.get('logic', {}).get('itinerary_include') is False:
                 continue
             
             place_id = place.get('id')
