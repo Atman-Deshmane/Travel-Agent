@@ -4,7 +4,7 @@ import { useUserStore } from '../../store/useUserStore'
 import { LogisticsSection } from './LogisticsSection'
 import { JourneyStaySection } from './JourneyStaySection'
 import { VibeSection } from './VibeSection'
-import { MapPin, Sparkles, ArrowRight, ArrowLeft, Terminal, CheckCircle, AlertCircle, Loader2 } from 'lucide-react'
+import { MapPin, Sparkles, ArrowRight, ArrowLeft, Terminal, CheckCircle, AlertCircle, Loader2, Star, Zap, Compass } from 'lucide-react'
 import { API_BASE_URL, API_ENDPOINTS } from '../../config/api'
 import { useIsMobile } from '../../lib/useMediaQuery'
 
@@ -352,23 +352,46 @@ export function TripConfigurator({ onFetchPlaces }: TripConfiguratorProps) {
             <motion.div
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
-                className="flex flex-col items-center justify-center h-full bg-slate-50 p-8"
+                className="flex flex-col items-center justify-center h-full bg-slate-50 p-6 md:p-8"
             >
-                <div className="card-premium p-12 text-center max-w-lg w-full">
-                    <div className="w-16 h-16 rounded-2xl bg-indigo-50 flex items-center justify-center mx-auto mb-6">
-                        <MapPin size={32} className="text-indigo-600" />
+                <div className="card-premium p-8 md:p-12 text-center max-w-lg w-full">
+                    <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center mx-auto mb-6 shadow-lg shadow-indigo-200">
+                        <Compass size={32} className="text-white" />
                     </div>
-                    <h2 className="text-2xl font-bold text-slate-900 mb-3">No Trip Selected</h2>
-                    <p className="text-slate-500 mb-8 leading-relaxed">
-                        Ready to plan your next adventure? Create a new trip context or select an existing one to get started.
+                    <h2 className="text-2xl md:text-3xl font-bold text-slate-900 mb-3">Plan Your Perfect Kodaikanal Trip</h2>
+                    <p className="text-slate-500 mb-6 leading-relaxed text-sm md:text-base">
+                        Our AI-powered planner ranks 50+ places based on your interests, builds optimized day-wise itineraries, and gives you local insider tips.
                     </p>
+                    <div className="grid grid-cols-1 gap-3 text-left mb-8">
+                        <div className="flex items-start gap-3 p-3 bg-indigo-50/50 rounded-xl">
+                            <Star size={18} className="text-indigo-600 mt-0.5 shrink-0" />
+                            <div>
+                                <p className="text-sm font-semibold text-slate-800">Personalized Rankings</p>
+                                <p className="text-xs text-slate-500">Places scored by your interests & popularity</p>
+                            </div>
+                        </div>
+                        <div className="flex items-start gap-3 p-3 bg-emerald-50/50 rounded-xl">
+                            <Zap size={18} className="text-emerald-600 mt-0.5 shrink-0" />
+                            <div>
+                                <p className="text-sm font-semibold text-slate-800">Smart Scheduling</p>
+                                <p className="text-xs text-slate-500">Optimized routes with drive times & lunch breaks</p>
+                            </div>
+                        </div>
+                        <div className="flex items-start gap-3 p-3 bg-amber-50/50 rounded-xl">
+                            <MapPin size={18} className="text-amber-600 mt-0.5 shrink-0" />
+                            <div>
+                                <p className="text-sm font-semibold text-slate-800">Local Insights</p>
+                                <p className="text-xs text-slate-500">Pro tips, best times to visit & hidden gems</p>
+                            </div>
+                        </div>
+                    </div>
                     <motion.button
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
                         onClick={createTrip}
                         className="w-full flex items-center justify-center gap-2 px-6 py-4 bg-indigo-600 text-white rounded-xl font-semibold shadow-xl shadow-indigo-200 hover:shadow-2xl hover:bg-indigo-700 transition-all"
                     >
-                        Start New Journey
+                        Start Planning
                         <ArrowRight size={18} />
                     </motion.button>
                 </div>
@@ -417,13 +440,13 @@ export function TripConfigurator({ onFetchPlaces }: TripConfiguratorProps) {
                     <div className="flex items-center justify-between mb-2">
                         <div className="flex items-center gap-2 px-3 py-1 bg-white border border-slate-200 rounded-full shadow-sm">
                             <Sparkles size={12} className="text-amber-500" />
-                            <span className="text-[10px] font-bold text-slate-600 uppercase tracking-wider">AI Planning Mode</span>
+                            <span className="text-[10px] font-bold text-slate-600 uppercase tracking-wider">Trip Planner</span>
                         </div>
                         <span className="hidden md:inline text-[10px] font-bold text-slate-400 uppercase tracking-widest">ID: {activeTrip.id.substring(0, 8)}</span>
                     </div>
                     <h1 className="text-2xl md:text-5xl font-bold text-slate-900 tracking-tight mb-2 md:mb-4">{activeTrip.name}</h1>
                     <p className="text-slate-500 text-sm md:text-lg max-w-2xl leading-relaxed">
-                        Configure your preferences below. Our AI will analyze {activeTrip.group_type || 'your'} dynamics to generate the perfect itinerary.
+                        Tell us about your trip and we'll find the best places, build your day-wise itinerary, and optimize routes.
                     </p>
                 </motion.div>
 

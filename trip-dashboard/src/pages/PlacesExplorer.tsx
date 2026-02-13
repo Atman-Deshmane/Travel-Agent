@@ -258,7 +258,7 @@ export function PlacesExplorer({ userProfile, tripConfig, onBack, onBuildItinera
     }
 
     return (
-        <div className="min-h-screen bg-slate-50">
+        <div className="min-h-screen bg-slate-50" style={{ overscrollBehavior: 'contain' }}>
             {/* Header */}
             <div className="sticky top-0 z-10 bg-white/90 backdrop-blur-lg border-b border-slate-200 px-4 md:px-8 py-3 md:py-4">
                 <div className="max-w-7xl mx-auto">
@@ -348,7 +348,7 @@ export function PlacesExplorer({ userProfile, tripConfig, onBack, onBuildItinera
             )}
 
             {/* Columns */}
-            <div className="max-w-7xl mx-auto px-4 md:px-8 pb-32">
+            <div className="max-w-7xl mx-auto px-4 md:px-8 pb-36 md:pb-32" style={{ overscrollBehavior: 'contain' }}>
                 <div className={`grid gap-6 ${showAllRankings && isMobile ? 'grid-cols-1' : 'grid-cols-1 md:grid-cols-3'}`}>
                     {/* Column 1: Popularity (hidden on mobile unless expanded) */}
                     <div className={isMobile && !showAllRankings ? 'hidden' : ''}>
@@ -421,7 +421,7 @@ export function PlacesExplorer({ userProfile, tripConfig, onBack, onBuildItinera
             </div>
 
             {/* Floating Footer */}
-            <div className="fixed bottom-0 left-0 right-0 bg-white/90 backdrop-blur-lg border-t border-slate-200 p-3 md:p-4 z-40 safe-bottom">
+            <div className="fixed bottom-0 left-0 right-0 bg-white/90 backdrop-blur-lg border-t border-slate-200 p-3 md:p-4 z-40 fixed-footer-safe">
                 <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-2 md:gap-0">
                     <div className="text-xs md:text-sm text-slate-500">
                         <span className="font-semibold text-slate-900">{selectedIds.size}</span> places selected out of <span className="font-semibold text-slate-900">{targetCount}</span> recommended

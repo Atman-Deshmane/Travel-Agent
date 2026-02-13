@@ -15,10 +15,15 @@ export function LogisticsSection({ trip, errors = {} }: LogisticsSectionProps) {
     const updateTrip = useUserStore(state => state.updateTrip)
 
     const dates = trip.dates || { from: null, to: null }
+    const today = new Date().toISOString().split('T')[0]
 
     const handleDateChange = (field: 'from' | 'to', value: string) => {
         const newDates = { ...dates }
         newDates[field] = value ? new Date(value) : null
+        // If arrival date moved past departure, auto-clear departure
+        if (field === 'from' && newDates.to && newDates.from && new Date(newDates.from) > new Date(newDates.to)) {
+            newDates.to = null
+        }
         updateTrip(trip.id, { dates: newDates })
     }
 
@@ -61,16 +66,16 @@ export function LogisticsSection({ trip, errors = {} }: LogisticsSectionProps) {
             whileHover={{ y: -2 }}
         >
             <div className="flex items-start justify-between mb-4 md:mb-8">
-                <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 rounded-2xl bg-indigo-50 flex items-center justify-center border border-indigo-100">
-                        <Calendar className="text-indigo-600" size={24} />
+                <div className="flex items-center gap-3 md:gap-4">
+                    <div className="w-10 h-10 md:w-12 md:h-12 rounded-2xl bg-indigo-50 flex items-center justify-center border border-indigo-100">
+                        <Calendar className="text-indigo-600" size={20} />
                     </div>
                     <div>
-                        <h3 className="text-xl font-bold text-slate-900">The When & Who</h3>
-                        <p className="text-label text-slate-500 mt-1">Dates & Travel Group</p>
+                        <h3 className="text-lg md:text-xl font-bold text-slate-900">The When & Who</h3>
+                        <p className="text-label text-slate-500 mt-0.5 md:mt-1">Dates & Travel Group</p>
                     </div>
                 </div>
-                <div className="px-3 py-1 bg-slate-50 rounded-full border border-slate-100">
+                <div className="hidden md:block px-3 py-1 bg-slate-50 rounded-full border border-slate-100">
                     <span className="text-xs font-medium text-slate-500">Step 1 of 3</span>
                 </div>
             </div>
@@ -85,6 +90,7 @@ export function LogisticsSection({ trip, errors = {} }: LogisticsSectionProps) {
                                 <input
                                     type="date"
                                     value={formatDateForInput(dates.from)}
+                                    min={today}
                                     onChange={(e) => handleDateChange('from', e.target.value)}
                                     className="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl text-slate-900 font-medium focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all cursor-pointer relative z-10"
                                 />
@@ -96,6 +102,7 @@ export function LogisticsSection({ trip, errors = {} }: LogisticsSectionProps) {
                                 <input
                                     type="date"
                                     value={formatDateForInput(dates.to)}
+                                    min={formatDateForInput(dates.from) || today}
                                     onChange={(e) => handleDateChange('to', e.target.value)}
                                     className="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl text-slate-900 font-medium focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all cursor-pointer relative z-10"
                                 />
@@ -115,7 +122,7 @@ export function LogisticsSection({ trip, errors = {} }: LogisticsSectionProps) {
                                         key={opt.value}
                                         onClick={() => updateTrip(trip.id, { arrival_time: opt.value })}
                                         className={`
-                                            flex-1 flex flex-col items-center gap-1 py-2.5 px-2 rounded-lg text-xs font-semibold transition-all
+                                            flex-1 flex flex-col items-center gap-0.5 md:gap-1 py-2 md:py-2.5 px-1 md:px-2 rounded-lg text-[10px] md:text-xs font-semibold transition-all
                                             ${trip.arrival_time === opt.value
                                                 ? 'bg-white text-indigo-700 shadow-sm border border-indigo-200'
                                                 : 'text-slate-500 hover:text-slate-700 hover:bg-white/50'
@@ -138,7 +145,7 @@ export function LogisticsSection({ trip, errors = {} }: LogisticsSectionProps) {
                                         key={opt.value}
                                         onClick={() => updateTrip(trip.id, { departure_time: opt.value })}
                                         className={`
-                                            flex-1 flex flex-col items-center gap-1 py-2.5 px-2 rounded-lg text-xs font-semibold transition-all
+                                            flex-1 flex flex-col items-center gap-0.5 md:gap-1 py-2 md:py-2.5 px-1 md:px-2 rounded-lg text-[10px] md:text-xs font-semibold transition-all
                                             ${trip.departure_time === opt.value
                                                 ? 'bg-white text-indigo-700 shadow-sm border border-indigo-200'
                                                 : 'text-slate-500 hover:text-slate-700 hover:bg-white/50'

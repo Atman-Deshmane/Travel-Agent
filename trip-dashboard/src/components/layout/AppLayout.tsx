@@ -29,7 +29,7 @@ export function AppLayout({ mainTab, onMainTabChange, children, secondaryNav }: 
                                     <MapPin className="w-4 h-4 md:w-5 md:h-5 text-white" />
                                 </div>
                                 <span className="font-bold text-slate-800 text-base md:text-lg tracking-tight">
-                                    Kodaikanal
+                                    Kodai Planner
                                 </span>
                             </div>
 

@@ -43,7 +43,7 @@ export function PlaceDetailModal({ place, isOpen, onClose }: PlaceDetailModalPro
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: 50 }}
                         className="fixed z-50 bg-white overflow-hidden flex flex-col
-                            inset-x-0 bottom-0 rounded-t-2xl max-h-[90vh]
+                            inset-x-0 bottom-0 rounded-t-2xl max-h-[85dvh]
                             md:inset-x-4 md:bottom-auto md:top-[10%] md:max-w-2xl md:mx-auto md:rounded-2xl md:max-h-[80vh] md:shadow-2xl
                         ">
                         {/* Drag Handle (Mobile) */}

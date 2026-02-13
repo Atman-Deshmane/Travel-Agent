@@ -136,9 +136,31 @@ body {
     padding-bottom: env(safe-area-inset-bottom, 0px);
 }
 
+/* Use dynamic viewport height for mobile (accounts for browser chrome) */
+.min-h-screen-safe {
+    min-height: 100vh;
+    min-height: 100dvh;
+}
+
+/* Prevent background scroll bleed on scroll containers */
+.scroll-contain {
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+}
+
 /* Touch-friendly hit targets */
 @media (max-width: 767px) {
     .mobile-scroll {
         -webkit-overflow-scrolling: touch;
     }
+
+    /* Fix for mobile browser address/nav bar viewport */
+    .min-h-screen {
+        min-height: 100dvh;
+    }
+}
+
+/* Fixed footer safe area for mobile browsers */
+.fixed-footer-safe {
+    padding-bottom: max(env(safe-area-inset-bottom, 0px), 12px);
 }

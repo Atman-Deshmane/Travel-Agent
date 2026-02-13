@@ -282,7 +282,7 @@ export function ItineraryBuilder({ selectedPlaceIds, userConfig, onBack, allPlac
     }
 
     return (
-        <div className="min-h-screen bg-gradient-to-b from-slate-900 to-slate-950">
+        <div className="min-h-screen bg-gradient-to-b from-slate-900 to-slate-950" style={{ overscrollBehavior: 'contain' }}>
             {/* Header */}
             <div className="sticky top-0 z-10 bg-slate-900/90 backdrop-blur-lg border-b border-slate-800 px-4 md:px-8 py-3 md:py-4">
                 <div className="max-w-5xl mx-auto flex items-center justify-between">
