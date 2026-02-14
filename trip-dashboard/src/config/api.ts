@@ -25,6 +25,7 @@ export const API_ENDPOINTS = {
     // Itinerary
     buildItinerary: `${API_BASE_URL}/api/build-itinerary`,
     saveItinerary: `${API_BASE_URL}/api/save-itinerary`,
+    nearbyEateries: `${API_BASE_URL}/api/nearby-eateries`,
 
     // Dashboard
     dashboardData: `${API_BASE_URL}/api/dashboard/data`,

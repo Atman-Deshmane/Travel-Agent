@@ -29,7 +29,14 @@ function App() {
   } | null>(null)
   const [itineraryData, setItineraryData] = useState<{
     selectedIds: string[]
-    userConfig: { num_days: number; pace: string; hotel_cluster: string }
+    userConfig: {
+      num_days: number
+      pace: string
+      hotel_cluster: string
+      hotel_location?: { lat: number; lng: number; name: string }
+      food_preference?: string
+      start_date?: string
+    }
     allPlaces: any[]
   } | null>(null)
 
@@ -54,12 +61,24 @@ function App() {
     const to = activeTrip.dates.to ? new Date(activeTrip.dates.to) : new Date()
     const numDays = Math.ceil(Math.abs(to.getTime() - from.getTime()) / (1000 * 60 * 60 * 24)) + 1
 
+    // Get hotel location from accommodation
+    const hotelLocation = activeTrip.accommodation?.booked_location?.lat
+      ? {
+        lat: activeTrip.accommodation.booked_location.lat,
+        lng: activeTrip.accommodation.booked_location.lng,
+        name: activeTrip.accommodation.booked_location.name || 'Hotel'
+      }
+      : undefined
+
     setItineraryData({
       selectedIds,
       userConfig: {
         num_days: numDays,
         pace: activeTrip.pace || 'medium',
-        hotel_cluster: 'Town Center' // Default, could be derived from accommodation
+        hotel_cluster: 'Town Center',
+        hotel_location: hotelLocation,
+        food_preference: activeTrip.food_preference || 'flexible',
+        start_date: activeTrip.dates.from ? new Date(activeTrip.dates.from).toISOString() : undefined
       },
       allPlaces
     })

@@ -239,6 +239,186 @@ def place_details():
         return jsonify({"error": str(e)}), 500
 
 
+# ===== NEARBY EATERIES API =====
+
+# Keywords that indicate primarily non-veg restaurants
+NON_VEG_KEYWORDS = [
+    'chicken', 'mutton', 'biryani', 'kebab', 'tandoori', 'fish', 'meat',
+    'non veg', 'non-veg', 'seafood', 'beef', 'pork', 'shawarma'
+]
+
+VEG_KEYWORDS = [
+    'pure veg', 'vegetarian', 'veg restaurant', 'south indian', 'udipi',
+    'jain', 'satvic'
+]
+
+
+@app.route('/api/nearby-eateries', methods=['POST'])
+def nearby_eateries():
+    """
+    Find nearby eateries based on location, food preference, and cluster.
+    
+    For non-Forest clusters: Google Maps Nearby Search.
+    For Forest Circuit: Gemini with Google Search grounding.
+    
+    Request body:
+        lat: float - latitude of the lunch location
+        lng: float - longitude of the lunch location
+        food_preference: str - 'veg', 'non_veg', or 'flexible'
+        cluster: str - cluster name (used to detect Forest Circuit)
+        place_names: list[str] - optional, names of nearby places (for Forest Circuit prompt)
+    
+    Returns:
+        {"eateries": [{"name": "...", "type": "...", "rating": 4.5, "vicinity": "..."}]}
+    """
+    data = request.get_json()
+    lat = data.get('lat', 0)
+    lng = data.get('lng', 0)
+    food_preference = data.get('food_preference', 'flexible').lower()
+    cluster = data.get('cluster', '')
+    place_names = data.get('place_names', [])
+    
+    try:
+        if 'Forest Circuit' in cluster:
+            # Use Gemini with Google Search grounding for Forest Circuit
+            eateries = _search_forest_circuit_eateries(place_names, food_preference)
+        else:
+            # Use Google Maps Nearby Search
+            eateries = _search_nearby_restaurants(lat, lng, food_preference)
+        
+        return jsonify({"eateries": eateries})
+    
+    except Exception as e:
+        print(f"Error finding nearby eateries: {e}")
+        import traceback
+        traceback.print_exc()
+        return jsonify({"eateries": [], "error": str(e)}), 500
+
+
+def _search_nearby_restaurants(lat: float, lng: float, food_preference: str) -> list:
+    """Search for restaurants near a location using Google Maps."""
+    gmaps = get_maps_client()
+    
+    # Search for restaurants within 2km
+    results = gmaps.places_nearby(
+        location=(lat, lng),
+        radius=2000,
+        type='restaurant',
+        rank_by=None
+    )
+    
+    places = results.get('results', [])
+    
+    # Filter and format
+    eateries = []
+    for place in places:
+        name_lower = place.get('name', '').lower()
+        
+        if food_preference == 'veg':
+            # Skip restaurants that are primarily non-veg
+            if any(kw in name_lower for kw in NON_VEG_KEYWORDS):
+                continue
+        
+        eateries.append({
+            'name': place.get('name', ''),
+            'type': ', '.join(place.get('types', [])[:2]),
+            'rating': place.get('rating', 0),
+            'review_count': place.get('user_ratings_total', 0),
+            'vicinity': place.get('vicinity', ''),
+            'is_veg_friendly': any(kw in name_lower for kw in VEG_KEYWORDS),
+            'place_id': place.get('place_id', '')
+        })
+    
+    # Sort: for veg preference, prioritize veg-friendly restaurants
+    if food_preference == 'veg':
+        eateries.sort(key=lambda x: (-int(x.get('is_veg_friendly', False)), -x.get('rating', 0)))
+    else:
+        eateries.sort(key=lambda x: -x.get('rating', 0))
+    
+    return eateries[:3]
+
+
+def _search_forest_circuit_eateries(place_names: list, food_preference: str) -> list:
+    """Use Gemini with Google Search grounding for Forest Circuit food stalls."""
+    gemini_key = os.getenv('GEMINI_API_KEY')
+    if not gemini_key:
+        return [{"name": "Food stalls available at gates", "type": "Various street food", "rating": 0, "vicinity": "Outside tourist spot gates"}]
+    
+    try:
+        from google import genai
+        from google.genai import types
+        
+        client = genai.Client(api_key=gemini_key)
+        
+        places_str = ', '.join(place_names) if place_names else 'Guna Caves, Pine Forest, Pillar Rocks, Moir Point, Green Valley View'
+        
+        veg_instruction = ""
+        if food_preference == 'veg':
+            veg_instruction = "Focus on vegetarian options. Exclude any non-vegetarian food stalls."
+        elif food_preference == 'non_veg':
+            veg_instruction = "Include all types of food stalls including non-vegetarian options."
+        
+        prompt = f"""What food stalls, tea shops, hot chocolate stations, snack shops, and eateries are available just outside the entry gates of these Kodaikanal Pine Forest Circuit tourist spots: {places_str}?
+
+{veg_instruction}
+
+List the top 3-5 options. For each, provide:
+1. Name or type of stall/shop
+2. What food/drinks they serve
+3. Which tourist spot gate they are near
+
+Respond ONLY in this JSON format, no other text:
+[{{"name": "...", "food_type": "...", "near_place": "..."}}]"""
+        
+        response = client.models.generate_content(
+            model='gemini-2.0-flash',
+            contents=prompt,
+            config=types.GenerateContentConfig(
+                tools=[types.Tool(google_search=types.GoogleSearch())],
+                temperature=0.3
+            )
+        )
+        
+        # Parse the response
+        response_text = response.text.strip()
+        # Clean up markdown code blocks if present
+        if response_text.startswith('```'):
+            response_text = response_text.split('\n', 1)[1]
+            if response_text.endswith('```'):
+                response_text = response_text[:-3]
+            response_text = response_text.strip()
+        
+        import json as json_lib
+        stalls = json_lib.loads(response_text)
+        
+        # Format into standard eatery format
+        eateries = []
+        for stall in stalls[:3]:
+            eateries.append({
+                'name': stall.get('name', 'Food Stall'),
+                'type': stall.get('food_type', 'Street Food'),
+                'rating': 0,
+                'review_count': 0,
+                'vicinity': f"Near {stall.get('near_place', 'Forest Circuit gates')}",
+                'is_forest_stall': True
+            })
+        
+        return eateries
+    
+    except Exception as e:
+        print(f"Gemini search for Forest Circuit eateries failed: {e}")
+        import traceback
+        traceback.print_exc()
+        # Fallback with known info
+        return [{
+            'name': 'Tea & Snack Stalls',
+            'type': 'Hot tea, coffee, hot chocolate, maggi, biscuits',
+            'rating': 0,
+            'vicinity': 'Outside gates of all Forest Circuit viewpoints',
+            'is_forest_stall': True
+        }]
+
+
 # ===== EQUALIZER API (Scoring) =====
 
 @app.route('/api/fetch-scored-places', methods=['POST'])

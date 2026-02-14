@@ -451,9 +451,15 @@ class ItineraryScheduler:
             if not days:
                 break
             
-            # Calculate duration for each day
+            # Never split Forest Circuit - it's a one-way route that must stay together
+            splittable_days = [d for d in days if 'Forest Circuit' not in d.get('cluster', '')]
+            if not splittable_days:
+                print("⚠️ Cannot split further - only Forest Circuit days remain")
+                break
+            
+            # Calculate duration for each splittable day
             day_durations = []
-            for day in days:
+            for day in splittable_days:
                 duration = sum(
                     p.get('avg_time_minutes', 60) + p.get('travel_to_next_min', 0) 
                     for p in day['places']
@@ -504,6 +510,32 @@ class ItineraryScheduler:
         
         return days
     
+    def _get_travel_time(self, origin_lat: float, origin_lng: float, dest_lat: float, dest_lng: float) -> int:
+        """
+        Get driving time in minutes between two coordinates.
+        Uses Google Maps Directions API, falls back to haversine estimate.
+        """
+        if not self.gmaps:
+            # Fallback: estimate ~3 min per km
+            dist_km = self._haversine(origin_lat, origin_lng, dest_lat, dest_lng)
+            return max(5, int(dist_km * 3))
+        
+        try:
+            result = self.gmaps.directions(
+                origin=(origin_lat, origin_lng),
+                destination=(dest_lat, dest_lng),
+                mode="driving"
+            )
+            if result and result[0].get('legs'):
+                duration_sec = result[0]['legs'][0]['duration']['value']
+                return max(1, int(duration_sec / 60))
+        except Exception as e:
+            print(f"⚠️ Google Maps directions failed: {e}")
+        
+        # Fallback
+        dist_km = self._haversine(origin_lat, origin_lng, dest_lat, dest_lng)
+        return max(5, int(dist_km * 3))
+
 
     def build_itinerary(
         self,
@@ -833,6 +865,57 @@ class ItineraryScheduler:
         # Renumber days
         for i, day in enumerate(days):
             day['day'] = i + 1
+        
+        # Calculate hotel travel times if hotel_location is provided
+        hotel_location = user_config.get('hotel_location')
+        hotel_name = 'Hotel'
+        if hotel_location and hotel_location.get('lat') and hotel_location.get('lng'):
+            hotel_lat = hotel_location['lat']
+            hotel_lng = hotel_location['lng']
+            hotel_name = hotel_location.get('name', 'Hotel')
+            
+            for day in days:
+                if not day['places']:
+                    continue
+                
+                first_place = day['places'][0]
+                last_place = day['places'][-1]
+                
+                # Get first place coordinates
+                first_data = self.places_data.get(first_place['id'], {})
+                first_loc = first_data.get('location', {})
+                first_lat = first_loc.get('lat', 0)
+                first_lng = first_loc.get('lng', 0)
+                
+                # Get last place coordinates
+                last_data = self.places_data.get(last_place['id'], {})
+                last_loc = last_data.get('location', {})
+                last_lat = last_loc.get('lat', 0)
+                last_lng = last_loc.get('lng', 0)
+                
+                # Calculate travel times
+                if first_lat and first_lng:
+                    day['hotel_to_first_min'] = self._get_travel_time(
+                        hotel_lat, hotel_lng, first_lat, first_lng
+                    )
+                else:
+                    day['hotel_to_first_min'] = 15  # Default estimate
+                
+                if last_lat and last_lng:
+                    day['last_to_hotel_min'] = self._get_travel_time(
+                        last_lat, last_lng, hotel_lat, hotel_lng
+                    )
+                else:
+                    day['last_to_hotel_min'] = 15  # Default estimate
+                
+                # Adjust start time to include hotel departure
+                hotel_depart_min = start_hour * 60 - day['hotel_to_first_min']
+                dep_h = int(hotel_depart_min // 60)
+                dep_m = int(hotel_depart_min % 60)
+                day['hotel_departure_time'] = f"{dep_h:02d}:{dep_m:02d}"
+                day['hotel_name'] = hotel_name
+                
+                print(f"  🏨 Day {day['day']}: Hotel→{first_place['name']} {day['hotel_to_first_min']}min, {last_place['name']}→Hotel {day['last_to_hotel_min']}min")
         
         print(f"✅ Built {len(days)}-day itinerary")
         if removed_places:
