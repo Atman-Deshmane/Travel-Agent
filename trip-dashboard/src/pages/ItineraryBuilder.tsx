@@ -113,7 +113,6 @@ const PACE_START_HOURS: Record<string, number> = {
     slow: 10, chill: 10, medium: 9, balanced: 9, fast: 7, packed: 7
 }
 
-const LUNCH_BREAK_TIME_HOURS = 13.5 // 1:30 PM
 const LUNCH_BREAK_DURATION_MIN = 90
 
 // ========== TIME RECALCULATION ==========
