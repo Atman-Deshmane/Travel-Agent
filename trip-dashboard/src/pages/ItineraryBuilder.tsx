@@ -1,13 +1,13 @@
 import { useState, useEffect, useMemo, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Calendar, Clock, MapPin, Star, ArrowLeft, Save, Loader2, Check, Route, ChevronLeft, ChevronRight, ChevronDown, AlertTriangle, List, GripVertical, X, Utensils, Hotel } from 'lucide-react'
+import { Calendar, Clock, MapPin, Star, ArrowLeft, Save, Loader2, Check, Route, ChevronLeft, ChevronRight, ChevronDown, AlertTriangle, List, GripVertical, X, Utensils, Hotel, ExternalLink } from 'lucide-react'
 import { PlaceDetailModal } from '../components/PlaceDetailModal'
 import { AllPlacesSidebar } from '../components/AllPlacesSidebar'
 import { MobileDrawer } from '../components/layout/MobileDrawer'
 import { API_ENDPOINTS } from '../config/api'
 import { useIsMobile } from '../lib/useMediaQuery'
 
-// DnD Kit
+// DnD Kit — only used for lunch break repositioning
 import {
     DndContext,
     closestCenter,
@@ -53,7 +53,7 @@ interface ItineraryPlace {
 // Unified item type for the sortable list
 type ItineraryItem =
     | { type: 'place'; data: ItineraryPlace }
-    | { type: 'lunch'; id: string }
+    | { type: 'lunch'; id: string; selectedEatery?: Eatery }
 
 interface ItineraryDay {
     day: number
@@ -107,18 +107,23 @@ interface ItineraryBuilderProps {
     tripName?: string
 }
 
-// ========== PACE CONFIG (mirroring scheduler.py) ==========
+// ========== PACE CONFIG ==========
 
 const PACE_START_HOURS: Record<string, number> = {
     slow: 10, chill: 10, medium: 9, balanced: 9, fast: 7, packed: 7
 }
 
+const START_HOUR_OPTIONS = [7, 8, 9, 10, 11]
 const LUNCH_BREAK_DURATION_MIN = 90
 
-// ========== TIME RECALCULATION ==========
+// ========== HELPERS ==========
 
-function recalculateTimes(items: ItineraryItem[], pace: string): ItineraryItem[] {
-    const startHour = PACE_START_HOURS[pace.toLowerCase()] ?? 9
+function formatHour(h: number): string {
+    if (h === 0 || h === 12) return `${h === 0 ? 12 : 12}:00 ${h < 12 ? 'AM' : 'PM'}`
+    return `${h > 12 ? h - 12 : h}:00 ${h >= 12 ? 'PM' : 'AM'}`
+}
+
+function recalculateTimes(items: ItineraryItem[], startHour: number): ItineraryItem[] {
     let currentTime = startHour * 60
 
     return items.map(item => {
@@ -131,24 +136,20 @@ function recalculateTimes(items: ItineraryItem[], pace: string): ItineraryItem[]
         const timeAtPlace = place.avg_time_minutes ?? 60
         const travelAfter = place.travel_to_next_min ?? 0
 
-        // Set scheduled time
         const hours = Math.floor(currentTime / 60)
         const minutes = Math.floor(currentTime % 60)
         place.scheduled_time = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`
 
-        // Departure time
         const depTime = currentTime + timeAtPlace
         const depH = Math.floor(depTime / 60)
         const depM = Math.floor(depTime % 60)
         place.departure_time = `${String(depH).padStart(2, '0')}:${String(depM).padStart(2, '0')}`
 
         currentTime = depTime + travelAfter
-
         return { type: 'place' as const, data: place }
     })
 }
 
-// Convert backend places array (with has_lunch_before flags) → unified items list
 function placesToItems(places: ItineraryPlace[]): ItineraryItem[] {
     const items: ItineraryItem[] = []
     places.forEach((place, idx) => {
@@ -160,7 +161,6 @@ function placesToItems(places: ItineraryPlace[]): ItineraryItem[] {
     return items
 }
 
-// Convert unified items list → places array (for saving / display)
 function itemsToPlaces(items: ItineraryItem[]): ItineraryPlace[] {
     const places: ItineraryPlace[] = []
     let lunchNext = false
@@ -179,9 +179,16 @@ function getItemId(item: ItineraryItem): string {
     return item.type === 'lunch' ? item.id : item.data.id
 }
 
-// ========== SORTABLE ITEM COMPONENTS ==========
+function getGoogleMapsUrl(eatery: Eatery): string {
+    if (eatery.place_id) {
+        return `https://www.google.com/maps/place/?q=place_id:${eatery.place_id}`
+    }
+    return `https://www.google.com/maps/search/${encodeURIComponent(eatery.name + ' Kodaikanal')}`
+}
 
-function SortablePlaceCard({
+// ========== PLACE CARD (no drag) ==========
+
+function PlaceCard({
     item,
     idx,
     onDelete,
@@ -194,24 +201,8 @@ function SortablePlaceCard({
     onClick: (place: ItineraryPlace) => void
     isLast: boolean
 }) {
-    const {
-        attributes,
-        listeners,
-        setNodeRef,
-        transform,
-        transition,
-        isDragging
-    } = useSortable({ id: item.id })
-
-    const style = {
-        transform: CSS.Transform.toString(transform),
-        transition,
-        opacity: isDragging ? 0.5 : 1,
-        zIndex: isDragging ? 50 : 'auto' as any
-    }
-
     return (
-        <div ref={setNodeRef} style={style} className="relative">
+        <div className="relative">
             <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -229,15 +220,6 @@ function SortablePlaceCard({
 
                 {/* Card */}
                 <div className="flex-1 bg-white rounded-xl overflow-hidden shadow-lg mb-4 group relative">
-                    {/* Drag Handle */}
-                    <div
-                        {...attributes}
-                        {...listeners}
-                        className="absolute top-2 left-2 z-20 cursor-grab active:cursor-grabbing p-1 rounded bg-white/80 opacity-0 group-hover:opacity-100 transition-opacity"
-                    >
-                        <GripVertical size={14} className="text-slate-400" />
-                    </div>
-
                     {/* Delete Button */}
                     <button
                         onClick={(e) => { e.stopPropagation(); onDelete(item.id) }}
@@ -310,17 +292,23 @@ function SortablePlaceCard({
     )
 }
 
+// ========== SORTABLE LUNCH BREAK (draggable) ==========
+
 function SortableLunchBreak({
     id,
+    selectedEatery,
     onDelete,
     onFindEateries,
+    onSelectEatery,
     eateries,
     eateriesLoading,
     showEateries
 }: {
     id: string
+    selectedEatery?: Eatery
     onDelete: (id: string) => void
     onFindEateries: () => void
+    onSelectEatery: (lunchId: string, eatery: Eatery) => void
     eateries: Eatery[]
     eateriesLoading: boolean
     showEateries: boolean
@@ -347,7 +335,7 @@ function SortableLunchBreak({
                 <span className="text-lg">🍽️</span>
             </div>
             <div className="flex-1">
-                <div className="bg-amber-50 rounded-xl p-3 border border-amber-200 relative">
+                <div className={`rounded-xl p-3 border relative ${selectedEatery ? 'bg-green-50 border-green-200' : 'bg-amber-50 border-amber-200'}`}>
                     {/* Drag Handle */}
                     <div
                         {...attributes}
@@ -365,44 +353,105 @@ function SortableLunchBreak({
                         <X size={12} className="text-red-500" />
                     </button>
 
-                    <div className="flex items-center justify-between">
+                    {/* Content: selected eatery vs generic */}
+                    {selectedEatery ? (
                         <div>
-                            <p className="text-sm font-medium text-amber-800">Lunch Break</p>
-                            <p className="text-xs text-amber-600">~90 min</p>
+                            <div className="flex items-center justify-between">
+                                <div>
+                                    <p className="text-sm font-semibold text-green-800">{selectedEatery.name}</p>
+                                    <p className="text-xs text-green-600">{selectedEatery.type} • {selectedEatery.vicinity}</p>
+                                    <div className="flex items-center gap-2 mt-1">
+                                        {selectedEatery.rating > 0 && (
+                                            <span className="flex items-center gap-1 text-xs text-amber-600">
+                                                <Star size={10} fill="currentColor" />
+                                                {selectedEatery.rating}
+                                                {selectedEatery.review_count ? ` (${selectedEatery.review_count})` : ''}
+                                            </span>
+                                        )}
+                                        <span className="text-xs text-green-500">✓ Selected</span>
+                                    </div>
+                                </div>
+                                <div className="flex flex-col gap-1.5">
+                                    <a
+                                        href={getGoogleMapsUrl(selectedEatery)}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="flex items-center gap-1 text-xs px-2.5 py-1 bg-blue-100 hover:bg-blue-200 text-blue-700 rounded-lg transition-colors"
+                                    >
+                                        <ExternalLink size={10} />
+                                        More Details
+                                    </a>
+                                    <button
+                                        onClick={onFindEateries}
+                                        className="text-xs px-2.5 py-1 bg-slate-100 hover:bg-slate-200 text-slate-600 rounded-lg transition-colors"
+                                    >
+                                        Change
+                                    </button>
+                                </div>
+                            </div>
                         </div>
-                        <button
-                            onClick={onFindEateries}
-                            disabled={eateriesLoading}
-                            className="flex items-center gap-1.5 text-xs px-3 py-1.5 bg-amber-200 hover:bg-amber-300 text-amber-800 rounded-lg transition-colors font-medium"
-                        >
-                            {eateriesLoading ? <Loader2 size={12} className="animate-spin" /> : <Utensils size={12} />}
-                            {eateriesLoading ? 'Searching...' : 'Find Eateries'}
-                        </button>
-                    </div>
+                    ) : (
+                        <div className="flex items-center justify-between">
+                            <div>
+                                <p className="text-sm font-medium text-amber-800">Lunch Break</p>
+                                <p className="text-xs text-amber-600">~90 min • Drag to reposition</p>
+                            </div>
+                            <button
+                                onClick={onFindEateries}
+                                disabled={eateriesLoading}
+                                className="flex items-center gap-1.5 text-xs px-3 py-1.5 bg-amber-200 hover:bg-amber-300 text-amber-800 rounded-lg transition-colors font-medium"
+                            >
+                                {eateriesLoading ? <Loader2 size={12} className="animate-spin" /> : <Utensils size={12} />}
+                                {eateriesLoading ? 'Searching...' : 'Find Eateries'}
+                            </button>
+                        </div>
+                    )}
 
                     {/* Eatery Suggestions */}
-                    {showEateries && eateries.length > 0 && (
+                    {showEateries && eateries.length > 0 && !selectedEatery && (
                         <div className="mt-3 pt-3 border-t border-amber-200 space-y-2">
                             <p className="text-xs font-semibold text-amber-700 mb-1">🍴 Nearby Eateries</p>
                             {eateries.map((eatery, i) => (
-                                <div key={i} className="bg-white rounded-lg p-2.5 border border-amber-100">
-                                    <div className="flex items-center justify-between">
-                                        <span className="font-medium text-sm text-slate-800">{eatery.name}</span>
-                                        {eatery.rating > 0 && (
-                                            <span className="flex items-center gap-1 text-xs text-amber-600">
-                                                <Star size={10} fill="currentColor" />
-                                                {eatery.rating}
-                                            </span>
-                                        )}
+                                <div key={i} className="bg-white rounded-lg p-2.5 border border-amber-100 flex items-start gap-2">
+                                    <div className="flex-1">
+                                        <div className="flex items-center justify-between">
+                                            <span className="font-medium text-sm text-slate-800">{eatery.name}</span>
+                                            {eatery.rating > 0 && (
+                                                <span className="flex items-center gap-1 text-xs text-amber-600">
+                                                    <Star size={10} fill="currentColor" />
+                                                    {eatery.rating}
+                                                    {eatery.review_count ? <span className="text-slate-400">({eatery.review_count})</span> : null}
+                                                </span>
+                                            )}
+                                        </div>
+                                        <p className="text-xs text-slate-500 mt-0.5">{eatery.type}</p>
+                                        <p className="text-xs text-slate-400">{eatery.vicinity}</p>
+                                        <div className="flex items-center gap-1.5 mt-1.5 flex-wrap">
+                                            {eatery.is_veg_friendly && (
+                                                <span className="text-[10px] px-1.5 py-0.5 bg-green-100 text-green-700 rounded-full">🌿 Veg Friendly</span>
+                                            )}
+                                            {eatery.is_forest_stall && (
+                                                <span className="text-[10px] px-1.5 py-0.5 bg-emerald-100 text-emerald-700 rounded-full">🏔️ Forest Stall</span>
+                                            )}
+                                        </div>
                                     </div>
-                                    <p className="text-xs text-slate-500 mt-0.5">{eatery.type}</p>
-                                    <p className="text-xs text-slate-400">{eatery.vicinity}</p>
-                                    {eatery.is_veg_friendly && (
-                                        <span className="text-[10px] px-1.5 py-0.5 bg-green-100 text-green-700 rounded-full mt-1 inline-block">🌿 Veg Friendly</span>
-                                    )}
-                                    {eatery.is_forest_stall && (
-                                        <span className="text-[10px] px-1.5 py-0.5 bg-emerald-100 text-emerald-700 rounded-full mt-1 inline-block">🏔️ Forest Stall</span>
-                                    )}
+                                    <div className="flex flex-col gap-1 flex-shrink-0">
+                                        <button
+                                            onClick={() => onSelectEatery(id, eatery)}
+                                            className="text-xs px-3 py-1.5 bg-green-500 hover:bg-green-600 text-white rounded-lg transition-colors font-medium"
+                                        >
+                                            Select
+                                        </button>
+                                        <a
+                                            href={getGoogleMapsUrl(eatery)}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="flex items-center justify-center gap-1 text-xs px-3 py-1.5 bg-blue-50 hover:bg-blue-100 text-blue-600 rounded-lg transition-colors"
+                                        >
+                                            <ExternalLink size={10} />
+                                            More Details
+                                        </a>
+                                    </div>
                                 </div>
                             ))}
                         </div>
@@ -430,16 +479,24 @@ export function ItineraryBuilder({ selectedPlaceIds, userConfig, onBack, allPlac
     const [sidebarDrawerOpen, setSidebarDrawerOpen] = useState(false)
     const isMobile = useIsMobile()
 
+    // Start hour per day (editable)
+    const defaultStartHour = PACE_START_HOURS[userConfig.pace.toLowerCase()] ?? 9
+    const [dayStartHours, setDayStartHours] = useState<Record<number, number>>({})
+
     // Eatery state
     const [eateries, setEateries] = useState<Record<string, Eatery[]>>({})
     const [eateriesLoading, setEateriesLoading] = useState<Record<string, boolean>>({})
     const [showEateries, setShowEateries] = useState<Record<string, boolean>>({})
 
-    // DnD sensors
+    // DnD sensors (for lunch breaks only)
     const sensors = useSensors(
         useSensor(PointerSensor, { activationConstraint: { distance: 5 } }),
         useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates })
     )
+
+    // Hotel display name
+    const hotelDisplayName = userConfig.hotel_location?.name
+        || `Hotel Area (${userConfig.hotel_cluster})`
 
     useEffect(() => {
         const buildItinerary = async () => {
@@ -463,16 +520,16 @@ export function ItineraryBuilder({ selectedPlaceIds, userConfig, onBack, allPlac
                 setSuggestions(data.suggestions || [])
                 setRemovedPlaces(data.removed_places || [])
 
-                // Convert backend days → unified item lists per day
                 const itemsMap: Record<number, ItineraryItem[]> = {}
+                const startHours: Record<number, number> = {}
                 data.days.forEach((day: ItineraryDay) => {
                     itemsMap[day.day] = placesToItems(day.places)
+                    startHours[day.day] = defaultStartHour
                 })
                 setDayItems(itemsMap)
+                setDayStartHours(startHours)
 
-                if (activeDay > data.days.length) {
-                    setActiveDay(1)
-                }
+                if (activeDay > data.days.length) setActiveDay(1)
             } catch (err) {
                 console.error('Error building itinerary:', err)
                 setError('Failed to build itinerary. Please try again.')
@@ -484,44 +541,64 @@ export function ItineraryBuilder({ selectedPlaceIds, userConfig, onBack, allPlac
         buildItinerary()
     }, [selectedPlaceIds, userConfig])
 
-    // Build day-cluster mapping for sidebar
     const dayClusterMap = useMemo(() => {
         const map: { [day: number]: string } = {}
-        days.forEach(day => {
-            map[day.day] = day.cluster
-        })
+        days.forEach(day => { map[day.day] = day.cluster })
         return map
     }, [days])
 
-    // Current day data
     const currentDay = days.find(d => d.day === activeDay)
     const currentItems = dayItems[activeDay] || []
+    const currentStartHour = dayStartHours[activeDay] ?? defaultStartHour
 
     // ========== HANDLERS ==========
+
+    const handleStartHourChange = useCallback((hour: number) => {
+        setDayStartHours(prev => ({ ...prev, [activeDay]: hour }))
+        setDayItems(prev => {
+            const items = prev[activeDay] || []
+            return { ...prev, [activeDay]: recalculateTimes(items, hour) }
+        })
+    }, [activeDay])
 
     const handleDragEnd = useCallback((event: DragEndEvent) => {
         const { active, over } = event
         if (!over || active.id === over.id) return
 
-        setDayItems(prev => {
-            const items = prev[activeDay] || []
-            const oldIndex = items.findIndex(item => getItemId(item) === active.id)
-            const newIndex = items.findIndex(item => getItemId(item) === over.id)
-            if (oldIndex === -1 || newIndex === -1) return prev
+        // Only lunch items are draggable
+        const items = dayItems[activeDay] || []
+        const activeItem = items.find(item => getItemId(item) === active.id)
+        if (!activeItem || activeItem.type !== 'lunch') return
 
-            const newItems = arrayMove(items, oldIndex, newIndex)
-            const recalculated = recalculateTimes(newItems, userConfig.pace)
-            return { ...prev, [activeDay]: recalculated }
+        const oldIndex = items.findIndex(item => getItemId(item) === active.id)
+        const newIndex = items.findIndex(item => getItemId(item) === over.id)
+        if (oldIndex === -1 || newIndex === -1) return
+
+        const newItems = arrayMove(items, oldIndex, newIndex)
+        const recalculated = recalculateTimes(newItems, currentStartHour)
+
+        // Reset eateries for this lunch since position changed
+        const lunchId = getItemId(activeItem)
+        setEateries(prev => { const next = { ...prev }; delete next[lunchId]; return next })
+        setShowEateries(prev => { const next = { ...prev }; delete next[lunchId]; return next })
+
+        // Clear selected eatery since position changed
+        const updatedItems = recalculated.map(item => {
+            if (item.type === 'lunch' && item.id === lunchId) {
+                return { ...item, selectedEatery: undefined }
+            }
+            return item
         })
-    }, [activeDay, userConfig.pace])
+
+        setDayItems(prev => ({ ...prev, [activeDay]: updatedItems }))
+    }, [activeDay, dayItems, currentStartHour])
 
     const handleDeleteItem = useCallback((id: string) => {
         setDayItems(prev => {
             const items = prev[activeDay] || []
             const filtered = items.filter(item => getItemId(item) !== id)
-            const recalculated = recalculateTimes(filtered, userConfig.pace)
+            const recalculated = recalculateTimes(filtered, currentStartHour)
 
-            // If deleting a place, move it to removed
             const deleted = items.find(item => item.type === 'place' && item.data.id === id)
             if (deleted && deleted.type === 'place') {
                 setRemovedPlaces(prev => [...prev, {
@@ -543,7 +620,6 @@ export function ItineraryBuilder({ selectedPlaceIds, userConfig, onBack, allPlac
             return { ...prev, [activeDay]: recalculated }
         })
 
-        // Update day's place_count
         setDays(prev => prev.map(day => {
             if (day.day === activeDay) {
                 const items = dayItems[activeDay] || []
@@ -553,16 +629,14 @@ export function ItineraryBuilder({ selectedPlaceIds, userConfig, onBack, allPlac
             }
             return day
         }))
-    }, [activeDay, userConfig.pace, dayItems])
+    }, [activeDay, currentStartHour, dayItems])
 
     const handleFindEateries = useCallback(async (lunchId: string) => {
-        // Toggle if already showing
-        if (showEateries[lunchId]) {
+        if (showEateries[lunchId] && eateries[lunchId]?.length) {
             setShowEateries(prev => ({ ...prev, [lunchId]: false }))
             return
         }
 
-        // Already fetched
         if (eateries[lunchId]?.length) {
             setShowEateries(prev => ({ ...prev, [lunchId]: true }))
             return
@@ -571,26 +645,20 @@ export function ItineraryBuilder({ selectedPlaceIds, userConfig, onBack, allPlac
         setEateriesLoading(prev => ({ ...prev, [lunchId]: true }))
 
         try {
-            // Find the places around this lunch break to get position
             const items = dayItems[activeDay] || []
             const lunchIdx = items.findIndex(item => item.type === 'lunch' && item.id === lunchId)
             const placesBefore = items.slice(0, lunchIdx).filter(i => i.type === 'place') as { type: 'place'; data: ItineraryPlace }[]
             const placesAfter = items.slice(lunchIdx + 1).filter(i => i.type === 'place') as { type: 'place'; data: ItineraryPlace }[]
 
-            // Get a representative lat/lng (midpoint of surrounding places' cluster)
             const nearbyPlaceNames = [
                 ...placesBefore.slice(-1).map(p => p.data.name),
                 ...placesAfter.slice(0, 1).map(p => p.data.name)
             ]
 
-            // Use the cluster of the current day
             const cluster = currentDay?.cluster || ''
-
-            // Default Kodaikanal center coords
             let lat = 10.2381
             let lng = 77.4892
 
-            // Try to get hotel location as reference
             if (userConfig.hotel_location) {
                 lat = userConfig.hotel_location.lat
                 lng = userConfig.hotel_location.lng
@@ -600,8 +668,7 @@ export function ItineraryBuilder({ selectedPlaceIds, userConfig, onBack, allPlac
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    lat,
-                    lng,
+                    lat, lng,
                     food_preference: userConfig.food_preference || 'flexible',
                     cluster,
                     place_names: nearbyPlaceNames
@@ -618,7 +685,21 @@ export function ItineraryBuilder({ selectedPlaceIds, userConfig, onBack, allPlac
         }
     }, [activeDay, dayItems, currentDay, userConfig])
 
-    // Handler for adding a place from sidebar
+    const handleSelectEatery = useCallback((lunchId: string, eatery: Eatery) => {
+        setDayItems(prev => {
+            const items = prev[activeDay] || []
+            const updated = items.map(item => {
+                if (item.type === 'lunch' && item.id === lunchId) {
+                    return { ...item, selectedEatery: eatery }
+                }
+                return item
+            })
+            return { ...prev, [activeDay]: updated }
+        })
+        setShowEateries(prev => ({ ...prev, [lunchId]: false }))
+    }, [activeDay])
+
+    // Sidebar handlers
     const handleAddPlace = async (placeId: string, _targetDay: number) => {
         if (itineraryPlaceIds.has(placeId)) return
 
@@ -647,8 +728,6 @@ export function ItineraryBuilder({ selectedPlaceIds, userConfig, onBack, allPlac
                 itemsMap[day.day] = placesToItems(day.places)
             })
             setDayItems(itemsMap)
-
-            // Remove from removedPlaces if it was there
             setRemovedPlaces(prev => prev.filter(p => p.id !== placeId))
         } catch (err) {
             console.error('Failed to add place:', err)
@@ -660,21 +739,16 @@ export function ItineraryBuilder({ selectedPlaceIds, userConfig, onBack, allPlac
         }
     }
 
-    // Handler for opening detail from sidebar
     const handleOpenSidebarDetail = (place: any) => {
         setSelectedPlace(place as ItineraryPlace)
     }
 
-    // Handler for adding a new place from Google Maps
     const handleAddNewPlace = async (placeName: string, _placeId: string) => {
         try {
             const fetchResponse = await fetch(API_ENDPOINTS.fetch, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    place_name: placeName,
-                    place_id: _placeId
-                })
+                body: JSON.stringify({ place_name: placeName, place_id: _placeId })
             })
 
             if (!fetchResponse.ok) {
@@ -686,13 +760,11 @@ export function ItineraryBuilder({ selectedPlaceIds, userConfig, onBack, allPlac
             const newPlaceId = fetchData.place?.id
 
             if (newPlaceId) {
-                // Refresh places data
                 const placesRes = await fetch(API_ENDPOINTS.places)
                 if (placesRes.ok) {
                     const placesData = await placesRes.json()
                     setAllPlacesState(placesData.places || [])
                 }
-
                 await handleAddPlace(newPlaceId, activeDay)
             }
         } catch (err: any) {
@@ -701,7 +773,6 @@ export function ItineraryBuilder({ selectedPlaceIds, userConfig, onBack, allPlac
         }
     }
 
-    // Handler for building itinerary with staged places
     const handleBuildWithStaged = async (stagedIds: string[]) => {
         const combined = [...new Set([...itineraryPlaceIds, ...stagedIds])]
         setItineraryPlaceIds(new Set(combined))
@@ -733,11 +804,9 @@ export function ItineraryBuilder({ selectedPlaceIds, userConfig, onBack, allPlac
         }
     }
 
-    // Handler for saving itinerary
     const handleSave = async () => {
         setSaveStatus('saving')
         try {
-            // Reconstruct days from current item state
             const saveDays = days.map(day => ({
                 ...day,
                 places: itemsToPlaces(dayItems[day.day] || [])
@@ -780,10 +849,7 @@ export function ItineraryBuilder({ selectedPlaceIds, userConfig, onBack, allPlac
             <div className="min-h-screen bg-slate-50 flex items-center justify-center">
                 <div className="text-center">
                     <p className="text-red-500 mb-4">{error}</p>
-                    <button
-                        onClick={onBack}
-                        className="px-6 py-3 bg-slate-900 text-white rounded-xl font-medium"
-                    >
+                    <button onClick={onBack} className="px-6 py-3 bg-slate-900 text-white rounded-xl font-medium">
                         Go Back
                     </button>
                 </div>
@@ -796,10 +862,7 @@ export function ItineraryBuilder({ selectedPlaceIds, userConfig, onBack, allPlac
             {/* Header */}
             <div className="sticky top-0 z-10 bg-slate-900/90 backdrop-blur-lg border-b border-slate-800 px-4 md:px-8 py-3 md:py-4">
                 <div className="max-w-5xl mx-auto flex items-center justify-between">
-                    <button
-                        onClick={onBack}
-                        className="flex items-center gap-2 text-slate-400 hover:text-white"
-                    >
+                    <button onClick={onBack} className="flex items-center gap-2 text-slate-400 hover:text-white">
                         <ArrowLeft size={18} />
                         <span className="hidden md:inline text-sm font-medium">Edit Selection</span>
                     </button>
@@ -815,13 +878,8 @@ export function ItineraryBuilder({ selectedPlaceIds, userConfig, onBack, allPlac
                                 : 'bg-indigo-600 hover:bg-indigo-500 text-white'
                                 }`}
                         >
-                            {saveStatus === 'saving' ? (
-                                <Loader2 size={16} className="animate-spin" />
-                            ) : saveStatus === 'saved' ? (
-                                <Check size={16} />
-                            ) : (
-                                <Save size={16} />
-                            )}
+                            {saveStatus === 'saving' ? <Loader2 size={16} className="animate-spin" /> :
+                                saveStatus === 'saved' ? <Check size={16} /> : <Save size={16} />}
                             <span className="hidden md:inline">
                                 {saveStatus === 'saving' ? 'Saving...' : saveStatus === 'saved' ? 'Saved!' : 'Save'}
                             </span>
@@ -869,13 +927,13 @@ export function ItineraryBuilder({ selectedPlaceIds, userConfig, onBack, allPlac
                     </button>
                 </div>
 
-                {/* Day Summary */}
+                {/* Day Summary + Start Time Picker */}
                 {currentDay && (
                     <div className="text-center mb-6 md:mb-8">
                         <h2 className="text-xl md:text-3xl font-bold text-white mb-2">
                             {currentDay.cluster}
                         </h2>
-                        <div className="flex items-center justify-center gap-4 md:gap-6 text-slate-400 text-sm">
+                        <div className="flex items-center justify-center gap-4 md:gap-6 text-slate-400 text-sm mb-4">
                             <span className="flex items-center gap-1.5 md:gap-2">
                                 <MapPin size={14} />
                                 {currentDay.place_count} stops
@@ -884,6 +942,26 @@ export function ItineraryBuilder({ selectedPlaceIds, userConfig, onBack, allPlac
                                 <Clock size={14} />
                                 ~{currentDay.total_drive_min} min driving
                             </span>
+                        </div>
+
+                        {/* Start Time Picker */}
+                        <div className="inline-flex items-center gap-2 bg-slate-800 rounded-xl px-4 py-2 border border-slate-700">
+                            <Clock size={14} className="text-indigo-400" />
+                            <span className="text-sm text-slate-300">Start at:</span>
+                            <div className="flex gap-1">
+                                {START_HOUR_OPTIONS.map(h => (
+                                    <button
+                                        key={h}
+                                        onClick={() => handleStartHourChange(h)}
+                                        className={`px-3 py-1 rounded-lg text-xs font-medium transition-all ${currentStartHour === h
+                                            ? 'bg-indigo-600 text-white shadow-md'
+                                            : 'bg-slate-700 text-slate-400 hover:bg-slate-600 hover:text-white'
+                                            }`}
+                                    >
+                                        {formatHour(h)}
+                                    </button>
+                                ))}
+                            </div>
                         </div>
                     </div>
                 )}
@@ -901,23 +979,31 @@ export function ItineraryBuilder({ selectedPlaceIds, userConfig, onBack, allPlac
                             {/* Vertical Line */}
                             <div className="absolute left-8 top-8 bottom-8 w-1 bg-gradient-to-b from-indigo-500 via-purple-500 to-pink-500 rounded-full" />
 
-                            {/* Hotel Start Node */}
-                            {currentDay.hotel_name && (
-                                <div className="flex items-center gap-4 pl-4 mb-4">
-                                    <div className="relative z-10 w-10 h-10 rounded-full bg-indigo-100 border-4 border-indigo-400 flex items-center justify-center shadow-md">
-                                        <Hotel size={14} className="text-indigo-600" />
-                                    </div>
-                                    <div className="flex-1 bg-indigo-50 rounded-xl p-3 border border-indigo-200">
-                                        <p className="text-sm font-medium text-indigo-800">{currentDay.hotel_name}</p>
-                                        <p className="text-xs text-indigo-600">
-                                            Depart at {currentDay.hotel_departure_time || currentDay.start_time}
-                                            {currentDay.hotel_to_first_min && ` • ${currentDay.hotel_to_first_min} min to first stop`}
-                                        </p>
-                                    </div>
+                            {/* Hotel Start Node — always visible */}
+                            <div className="flex items-center gap-4 pl-4 mb-4">
+                                <div className="relative z-10 w-10 h-10 rounded-full bg-indigo-100 border-4 border-indigo-400 flex items-center justify-center shadow-md">
+                                    <Hotel size={14} className="text-indigo-600" />
+                                </div>
+                                <div className="flex-1 bg-indigo-50 rounded-xl p-3 border border-indigo-200">
+                                    <p className="text-sm font-medium text-indigo-800">{hotelDisplayName}</p>
+                                    <p className="text-xs text-indigo-600">
+                                        Depart at {currentDay.hotel_departure_time || `${String(currentStartHour).padStart(2, '0')}:00`}
+                                        {currentDay.hotel_to_first_min
+                                            ? ` • ${currentDay.hotel_to_first_min} min to first stop`
+                                            : ''}
+                                    </p>
+                                </div>
+                            </div>
+
+                            {/* Travel from hotel to first place */}
+                            {currentDay.hotel_to_first_min && (
+                                <div className="flex items-center gap-2 pl-16 pb-2 text-slate-400">
+                                    <Route size={12} />
+                                    <span className="text-xs font-medium">{currentDay.hotel_to_first_min} min drive</span>
                                 </div>
                             )}
 
-                            {/* DnD Sortable List */}
+                            {/* DnD Context — only lunch items are sortable */}
                             <DndContext
                                 sensors={sensors}
                                 collisionDetection={closestCenter}
@@ -934,8 +1020,10 @@ export function ItineraryBuilder({ selectedPlaceIds, userConfig, onBack, allPlac
                                                     <SortableLunchBreak
                                                         key={item.id}
                                                         id={item.id}
+                                                        selectedEatery={item.selectedEatery}
                                                         onDelete={handleDeleteItem}
                                                         onFindEateries={() => handleFindEateries(item.id)}
+                                                        onSelectEatery={handleSelectEatery}
                                                         eateries={eateries[item.id] || []}
                                                         eateriesLoading={eateriesLoading[item.id] || false}
                                                         showEateries={showEateries[item.id] || false}
@@ -948,7 +1036,7 @@ export function ItineraryBuilder({ selectedPlaceIds, userConfig, onBack, allPlac
                                             const isLast = placeIdx === placeItems.length - 1
 
                                             return (
-                                                <SortablePlaceCard
+                                                <PlaceCard
                                                     key={item.data.id}
                                                     item={item.data}
                                                     idx={idx}
@@ -962,15 +1050,21 @@ export function ItineraryBuilder({ selectedPlaceIds, userConfig, onBack, allPlac
                                 </SortableContext>
                             </DndContext>
 
-                            {/* Hotel End Node */}
+                            {/* Travel from last place to hotel */}
+                            {currentDay.last_to_hotel_min && (
+                                <div className="flex items-center gap-2 pl-16 pt-2 text-slate-400">
+                                    <Route size={12} />
+                                    <span className="text-xs font-medium">{currentDay.last_to_hotel_min} min drive</span>
+                                </div>
+                            )}
+
+                            {/* Hotel End Node — always visible */}
                             <div className="flex items-center gap-4 pl-4 pt-4">
                                 <div className="relative z-10 w-8 h-8 rounded-full bg-indigo-100 border-4 border-indigo-400 flex items-center justify-center">
                                     <Hotel size={12} className="text-indigo-600" />
                                 </div>
                                 <span className="text-indigo-300 text-sm font-medium">
-                                    {currentDay.hotel_name
-                                        ? `Return to ${currentDay.hotel_name}`
-                                        : 'Return to hotel'}
+                                    Return to {hotelDisplayName}
                                     {currentDay.last_to_hotel_min && (
                                         <span className="text-slate-500 ml-2">• {currentDay.last_to_hotel_min} min</span>
                                     )}
@@ -999,11 +1093,7 @@ export function ItineraryBuilder({ selectedPlaceIds, userConfig, onBack, allPlac
                             {removedPlaces.map(place => (
                                 <div key={place.id} className="bg-slate-900/50 rounded-lg p-3 flex gap-3 items-center">
                                     {place.image_url && (
-                                        <img
-                                            src={place.image_url}
-                                            alt={place.name}
-                                            className="w-12 h-12 rounded-lg object-cover bg-slate-800"
-                                        />
+                                        <img src={place.image_url} alt={place.name} className="w-12 h-12 rounded-lg object-cover bg-slate-800" />
                                     )}
                                     <div className="flex-1">
                                         <div className="font-medium text-white text-sm">{place.name}</div>
@@ -1035,11 +1125,7 @@ export function ItineraryBuilder({ selectedPlaceIds, userConfig, onBack, allPlac
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         {suggestions.map(place => (
                             <div key={place.id} className="bg-slate-900 rounded-xl p-4 border border-slate-800 flex gap-4 items-center">
-                                <img
-                                    src={place.image_url || '/placeholder.jpg'}
-                                    alt={place.name}
-                                    className="w-16 h-16 rounded-lg object-cover bg-slate-800"
-                                />
+                                <img src={place.image_url || '/placeholder.jpg'} alt={place.name} className="w-16 h-16 rounded-lg object-cover bg-slate-800" />
                                 <div className="flex-1 min-w-0">
                                     <div className="font-semibold text-white text-sm mb-1 truncate">{place.name}</div>
                                     <div className="flex items-center gap-2 text-xs text-slate-400 mb-2">
