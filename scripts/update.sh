@@ -15,16 +15,31 @@ echo "🔄 Updating ${APP_DIR} from GitHub..."
 
 cd "${APP_DIR}"
 
-# 1. Pull latest code
+# 1. Back up server's places data (places added via web UI would be lost on pull)
+PLACES_JSON="${APP_DIR}/data/kodaikanal_places.json"
+BACKUP_FILE="/tmp/kodaikanal_places_backup.json"
+if [ -f "$PLACES_JSON" ]; then
+    echo "💾 Backing up kodaikanal_places.json..."
+    cp "$PLACES_JSON" "$BACKUP_FILE"
+fi
+
+# 2. Pull latest code
 echo "📥 Pulling latest changes..."
 git pull origin main
 
-# 2. Install/update Python dependencies
+# 3. Restore the backed-up places data
+if [ -f "$BACKUP_FILE" ]; then
+    echo "♻️  Restoring kodaikanal_places.json..."
+    cp "$BACKUP_FILE" "$PLACES_JSON"
+    rm -f "$BACKUP_FILE"
+fi
+
+# 4. Install/update Python dependencies
 echo "📦 Installing Python dependencies..."
 source venv/bin/activate
 pip install -r requirements.txt --quiet
 
-# 3. Restart the systemd service
+# 5. Restart the systemd service
 echo "🔁 Restarting ${SERVICE_NAME} service..."
 sudo systemctl restart "${SERVICE_NAME}"
 

@@ -1,13 +1,13 @@
 {
-  "trip_id": "cx3b4074z",
-  "user_id": "9yu01wbht",
-  "name": "Feb 25 - Feb 28",
-  "generated_at": "2026-02-13T19:36:38.673Z",
+  "trip_id": "qtnl12eak",
+  "user_id": "4wfioqamz",
+  "name": "Mar 26 - Mar 28",
+  "generated_at": "2026-02-14T10:44:32.880Z",
   "logistics": {
     "dates": {
       "value": {
-        "from": "2026-02-25T00:00:00.000Z",
-        "to": "2026-02-28T00:00:00.000Z"
+        "from": "2026-03-26T00:00:00.000Z",
+        "to": "2026-03-28T00:00:00.000Z"
       },
       "required": false
     },
@@ -33,7 +33,7 @@
   },
   "journey": {
     "origin_city": {
-      "value": "",
+      "value": "Chennai",
       "required": false
     },
     "mode_to_kodai": {
@@ -41,20 +41,19 @@
       "required": false
     },
     "transport_in_city": {
-      "value": "flexible",
+      "value": "own_vehicle",
       "required": false
     }
   },
   "stay": {
     "accommodation": {
       "value": {
-        "status": "booked",
+        "status": "undecided",
         "undecided_cluster": "Vattakanal",
         "booked_location": {
-          "name": "Silver Mist Kodaikanal/Kodaikanal Guesthouse/Kodaikanal Villas/Kodaikanal Homestay",
-          "lat": 10.2320515,
-          "lng": 77.5138735,
-          "google_place_id": "ChIJXdcbqlNmBzsRsr3Yn5V6u6o"
+          "name": "",
+          "lat": 0,
+          "lng": 0
         }
       },
       "required": false
@@ -75,10 +74,7 @@
     },
     "interests": {
       "value": [
-        "Relaxation",
-        "Food",
-        "Photography",
-        "Adventure"
+        "Spiritual"
       ],
       "required": true
     }

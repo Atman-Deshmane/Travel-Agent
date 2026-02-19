@@ -1,8 +1,8 @@
 {
-  "user_id": "34ozecrxb",
+  "user_id": "4wfioqamz",
   "name": "Arjun Sharma",
   "avatar_color": "#8B5CF6",
-  "generated_at": "2026-01-21T12:21:00.593Z",
+  "generated_at": "2026-02-14T10:44:32.880Z",
   "defaults": {
     "origin_city": {
       "value": "Chennai",
@@ -10,12 +10,12 @@
       "is_default": true
     },
     "food_preference": {
-      "value": "flexible",
+      "value": "veg",
       "required": false,
       "is_default": true
     },
     "mobility": {
-      "value": "medium",
+      "value": "high",
       "required": false,
       "is_default": true
     },
@@ -26,8 +26,7 @@
     },
     "interests": {
       "value": [
-        "Trekking",
-        "Nature"
+        "Spiritual"
       ],
       "required": true,
       "is_default": true

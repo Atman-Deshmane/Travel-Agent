@@ -1,45 +1,20 @@
 {
-  "user_id": "ya3tpdlqz",
+  "user_id": "ai-atman",
   "name": "Atman",
-  "avatar_color": "hsl(47.248271515483914, 70%, 60%)",
-  "generated_at": "2026-01-31T16:35:54.060Z",
+  "avatar_color": "hsl(99, 70%, 60%)",
+  "generated_at": "2026-02-19T10:43:13.830234",
   "defaults": {
-    "origin_city": {
-      "value": null,
-      "required": false,
-      "is_default": true
-    },
-    "food_preference": {
-      "value": "veg",
-      "required": false,
-      "is_default": true
-    },
-    "mobility": {
-      "value": "high",
-      "required": false,
-      "is_default": true
+    "interests": {
+      "value": [],
+      "required": true
     },
     "pace": {
-      "value": "balanced",
-      "required": false,
-      "is_default": true
+      "value": "packed",
+      "required": false
     },
-    "interests": {
-      "value": [
-        "Nature",
-        "Trekking",
-        "Relaxation",
-        "Food",
-        "Clouds",
-        "Museum"
-      ],
-      "required": true,
-      "is_default": true
-    },
-    "transport_mode_preference": {
-      "value": "flexible",
-      "required": false,
-      "is_default": true
+    "mobility": {
+      "value": "medium",
+      "required": false
     }
   }
 }

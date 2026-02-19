@@ -75,7 +75,7 @@ function App() {
       userConfig: {
         num_days: numDays,
         pace: activeTrip.pace || 'medium',
-        hotel_cluster: 'Town Center',
+        hotel_cluster: activeTrip.accommodation?.undecided_cluster || 'Town Center',
         hotel_location: hotelLocation,
         food_preference: activeTrip.food_preference || 'flexible',
         start_date: activeTrip.dates.from ? new Date(activeTrip.dates.from).toISOString() : undefined

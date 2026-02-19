@@ -1,8 +1,8 @@
 {
-  "user_id": "9yu01wbht",
+  "user_id": "ai-bruce wayne",
   "name": "Bruce Wayne",
-  "avatar_color": "hsl(0.043810480881689706, 70%, 60%)",
-  "generated_at": "2026-02-10T12:55:04.060Z",
+  "avatar_color": "hsl(74, 70%, 60%)",
+  "generated_at": "2026-02-14T10:47:24.767Z",
   "defaults": {
     "origin_city": {
       "value": null,
@@ -10,12 +10,12 @@
       "is_default": true
     },
     "food_preference": {
-      "value": "veg",
+      "value": "flexible",
       "required": false,
       "is_default": true
     },
     "mobility": {
-      "value": "high",
+      "value": "medium",
       "required": false,
       "is_default": true
     },
@@ -26,10 +26,7 @@
     },
     "interests": {
       "value": [
-        "Relaxation",
-        "Food",
-        "Photography",
-        "Adventure"
+        "Spiritual"
       ],
       "required": true,
       "is_default": true

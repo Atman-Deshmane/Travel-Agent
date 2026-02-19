@@ -4,7 +4,7 @@ import { ArrowRight, ArrowLeft, Loader2, Sparkles, Tag, X, Plus, MoreVertical } 
 import { PlaceCard } from '../components/PlaceCard'
 import { WeightSlider } from '../components/WeightSlider'
 import { PlaceDetailModal } from '../components/PlaceDetailModal'
-import { API_ENDPOINTS } from '../config/api'
+import { API_BASE_URL, API_ENDPOINTS } from '../config/api'
 import { useIsMobile } from '../lib/useMediaQuery'
 
 interface ScoredPlace {
@@ -144,10 +144,17 @@ export function PlacesExplorer({ userProfile, tripConfig, onBack, onBuildItinera
             if (!response.ok) throw new Error('Failed to fetch places')
 
             const data = await response.json()
-            const fetchedPlaces = data.places || []
+            const fetchedPlaces = (data.places || []).map((p: ScoredPlace) => ({
+                ...p,
+                image_url: p.image_url?.startsWith('/') ? `${API_BASE_URL}${p.image_url}` : p.image_url
+            }))
             setPlaces(fetchedPlaces)
-            setByPopularity(data.by_popularity || [])
-            setBySimilarity(data.by_similarity || [])
+            const fixUrl = (p: ScoredPlace) => ({
+                ...p,
+                image_url: p.image_url?.startsWith('/') ? `${API_BASE_URL}${p.image_url}` : p.image_url
+            })
+            setByPopularity((data.by_popularity || []).map(fixUrl))
+            setBySimilarity((data.by_similarity || []).map(fixUrl))
 
             // Initial Auto Selection
             if (!hasAutoSelected.current && fetchedPlaces.length > 0) {

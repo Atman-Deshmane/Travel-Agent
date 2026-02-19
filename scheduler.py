@@ -673,10 +673,13 @@ class ItineraryScheduler:
                     place = self.places_data.get(item['id'], {})
                     content = place.get('content', {})
                     photo_ref = content.get('photo_reference')
+                    loc = place.get('location', {})
                     enriched.append({
                         'id': item['id'],
                         'name': place.get('name', item['id']),
                         'cluster': 'Forest Circuit',
+                        'lat': loc.get('lat'),
+                        'lng': loc.get('lng'),
                         'image_url': f"{API_BASE_URL}/api/photo/{photo_ref}" if photo_ref else '',
                         'tags': content.get('tags', [])[:3],
                         'rating': place.get('stats', {}).get('rating'),
@@ -694,10 +697,13 @@ class ItineraryScheduler:
                 for place in other_places:
                     content = place.get('content', {})
                     photo_ref = content.get('photo_reference')
+                    loc = place.get('location', {})
                     enriched.append({
                         'id': place['id'],
                         'name': place.get('name'),
                         'cluster': place.get('location', {}).get('cluster_zone', cluster_name),
+                        'lat': loc.get('lat'),
+                        'lng': loc.get('lng'),
                         'image_url': f"{API_BASE_URL}/api/photo/{photo_ref}" if photo_ref else '',
                         'tags': content.get('tags', [])[:3],
                         'rating': place.get('stats', {}).get('rating'),
@@ -707,7 +713,7 @@ class ItineraryScheduler:
                         'short_summary': content.get('short_summary', ''),
                         'best_time_text': content.get('best_time_text', ''),
                         'difficulty': place.get('logic', {}).get('difficulty', 'Easy'),
-                        'travel_to_next_min': 10,  # Estimate 10 min travel between merged clusters
+                        'travel_to_next_min': 10,
                         'is_forest_circuit': False
                     })
                 
@@ -730,10 +736,13 @@ class ItineraryScheduler:
                     place = self.places_data.get(item['id'], {})
                     content = place.get('content', {})
                     photo_ref = content.get('photo_reference')
+                    loc = place.get('location', {})
                     enriched.append({
                         'id': item['id'],
                         'name': item.get('name', place.get('name', item['id'])),
                         'cluster': cluster_name,
+                        'lat': loc.get('lat'),
+                        'lng': loc.get('lng'),
                         'image_url': f"{API_BASE_URL}/api/photo/{photo_ref}" if photo_ref else '',
                         'tags': content.get('tags', [])[:3],
                         'rating': place.get('stats', {}).get('rating'),

@@ -36,3 +36,4 @@ jobs:
           local-dir: ./trip-dashboard/dist/
           server-dir: ./
           protocol: ftps
+          dangerous-clean-slate: true

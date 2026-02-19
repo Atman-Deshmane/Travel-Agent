@@ -2,7 +2,7 @@
   "trip_id": "k3fj4rzee",
   "user_id": "ya3tpdlqz",
   "name": "Mar 21 - Mar 22",
-  "generated_at": "2026-01-28T12:40:10.329Z",
+  "generated_at": "2026-02-14T09:23:31.162Z",
   "logistics": {
     "dates": {
       "value": {
@@ -25,8 +25,8 @@
     },
     "family_composition": {
       "value": {
-        "has_kids": false,
-        "has_elders": false
+        "has_elders": false,
+        "has_kids": false
       },
       "required": false
     }

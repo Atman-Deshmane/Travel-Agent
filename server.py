@@ -252,39 +252,105 @@ VEG_KEYWORDS = [
     'jain', 'satvic'
 ]
 
+# Price level labels (Google Maps API returns 0-4)
+PRICE_LABELS = {
+    0: {'label': '₹', 'range': '₹50–200'},
+    1: {'label': '₹', 'range': '₹100–300'},
+    2: {'label': '₹₹', 'range': '₹300–600'},
+    3: {'label': '₹₹₹', 'range': '₹600–1,200'},
+    4: {'label': '₹₹₹₹', 'range': '₹1,200+'},
+}
+
+
+def _decode_polyline(encoded: str) -> list:
+    """Decode a Google Maps encoded polyline into a list of (lat, lng) tuples."""
+    points = []
+    idx, lat, lng = 0, 0, 0
+    while idx < len(encoded):
+        for attr in ('lat', 'lng'):
+            shift, result = 0, 0
+            while True:
+                b = ord(encoded[idx]) - 63
+                idx += 1
+                result |= (b & 0x1F) << shift
+                shift += 5
+                if b < 0x20:
+                    break
+            val = ~(result >> 1) if (result & 1) else (result >> 1)
+            if attr == 'lat':
+                lat += val
+            else:
+                lng += val
+        points.append((lat / 1e5, lng / 1e5))
+    return points
+
+
+def _find_route_midpoint(origin_lat, origin_lng, dest_lat, dest_lng):
+    """Get the actual midpoint along the driving route using Google Maps Directions API."""
+    try:
+        gmaps = get_maps_client()
+        result = gmaps.directions(
+            origin=(origin_lat, origin_lng),
+            destination=(dest_lat, dest_lng),
+            mode='driving'
+        )
+        if result and result[0].get('overview_polyline', {}).get('points'):
+            polyline = result[0]['overview_polyline']['points']
+            points = _decode_polyline(polyline)
+            if points:
+                mid_idx = len(points) // 2
+                return points[mid_idx]
+    except Exception as e:
+        print(f"Route midpoint calculation failed, falling back to geographic midpoint: {e}")
+    
+    # Fallback: geographic midpoint
+    return ((origin_lat + dest_lat) / 2, (origin_lng + dest_lng) / 2)
+
 
 @app.route('/api/nearby-eateries', methods=['POST'])
 def nearby_eateries():
     """
-    Find nearby eateries based on location, food preference, and cluster.
+    Find nearby eateries on the route between two places.
     
-    For non-Forest clusters: Google Maps Nearby Search.
+    For non-Forest clusters: Google Maps Nearby Search along driving route.
     For Forest Circuit: Gemini with Google Search grounding.
     
     Request body:
-        lat: float - latitude of the lunch location
-        lng: float - longitude of the lunch location
+        origin_lat/lng: coords of place before lunch
+        dest_lat/lng: coords of place after lunch
         food_preference: str - 'veg', 'non_veg', or 'flexible'
         cluster: str - cluster name (used to detect Forest Circuit)
         place_names: list[str] - optional, names of nearby places (for Forest Circuit prompt)
     
     Returns:
-        {"eateries": [{"name": "...", "type": "...", "rating": 4.5, "vicinity": "..."}]}
+        {"eateries": [{"name": "...", "type": "...", "rating": 4.5, "vicinity": "...", "price_level": 2, "price_range": "₹300–600"}]}
     """
     data = request.get_json()
-    lat = data.get('lat', 0)
-    lng = data.get('lng', 0)
     food_preference = data.get('food_preference', 'flexible').lower()
     cluster = data.get('cluster', '')
     place_names = data.get('place_names', [])
     
+    # Get flanking place coordinates
+    origin_lat = data.get('origin_lat')
+    origin_lng = data.get('origin_lng')
+    dest_lat = data.get('dest_lat')
+    dest_lng = data.get('dest_lng')
+    
+    # Fallback to legacy lat/lng if origin/dest not provided
+    if not origin_lat or not origin_lng:
+        origin_lat = data.get('lat', 10.2381)
+        origin_lng = data.get('lng', 77.4892)
+    if not dest_lat or not dest_lng:
+        dest_lat = origin_lat
+        dest_lng = origin_lng
+    
     try:
         if 'Forest Circuit' in cluster:
-            # Use Gemini with Google Search grounding for Forest Circuit
             eateries = _search_forest_circuit_eateries(place_names, food_preference)
         else:
-            # Use Google Maps Nearby Search
-            eateries = _search_nearby_restaurants(lat, lng, food_preference)
+            eateries = _search_on_route_restaurants(
+                origin_lat, origin_lng, dest_lat, dest_lng, food_preference
+            )
         
         return jsonify({"eateries": eateries})
     
@@ -295,13 +361,18 @@ def nearby_eateries():
         return jsonify({"eateries": [], "error": str(e)}), 500
 
 
-def _search_nearby_restaurants(lat: float, lng: float, food_preference: str) -> list:
-    """Search for restaurants near a location using Google Maps."""
+def _search_on_route_restaurants(origin_lat, origin_lng, dest_lat, dest_lng, food_preference: str) -> list:
+    """Search for restaurants along the driving route between two places."""
     gmaps = get_maps_client()
     
-    # Search for restaurants within 2km
+    # Find the midpoint along the actual driving route
+    mid_lat, mid_lng = _find_route_midpoint(origin_lat, origin_lng, dest_lat, dest_lng)
+    
+    print(f"🍽️ Searching on-route restaurants near ({mid_lat:.4f}, {mid_lng:.4f})")
+    
+    # Search for restaurants near the route midpoint
     results = gmaps.places_nearby(
-        location=(lat, lng),
+        location=(mid_lat, mid_lng),
         radius=2000,
         type='restaurant',
         rank_by=None
@@ -315,9 +386,11 @@ def _search_nearby_restaurants(lat: float, lng: float, food_preference: str) -> 
         name_lower = place.get('name', '').lower()
         
         if food_preference == 'veg':
-            # Skip restaurants that are primarily non-veg
             if any(kw in name_lower for kw in NON_VEG_KEYWORDS):
                 continue
+        
+        price_level = place.get('price_level')
+        price_info = PRICE_LABELS.get(price_level, {'label': '', 'range': ''}) if price_level is not None else {'label': '', 'range': ''}
         
         eateries.append({
             'name': place.get('name', ''),
@@ -326,7 +399,10 @@ def _search_nearby_restaurants(lat: float, lng: float, food_preference: str) -> 
             'review_count': place.get('user_ratings_total', 0),
             'vicinity': place.get('vicinity', ''),
             'is_veg_friendly': any(kw in name_lower for kw in VEG_KEYWORDS),
-            'place_id': place.get('place_id', '')
+            'place_id': place.get('place_id', ''),
+            'price_level': price_level,
+            'price_label': price_info['label'],
+            'price_range': price_info['range'],
         })
     
     # Sort: for veg preference, prioritize veg-friendly restaurants
@@ -366,9 +442,10 @@ List the top 3-5 options. For each, provide:
 1. Name or type of stall/shop
 2. What food/drinks they serve
 3. Which tourist spot gate they are near
+4. Approximate price for a meal/snack in Indian Rupees
 
 Respond ONLY in this JSON format, no other text:
-[{{"name": "...", "food_type": "...", "near_place": "..."}}]"""
+[{{"name": "...", "food_type": "...", "near_place": "...", "price_range": "₹XX–₹XX"}}]"""
         
         response = client.models.generate_content(
             model='gemini-2.0-flash',
@@ -381,7 +458,6 @@ Respond ONLY in this JSON format, no other text:
         
         # Parse the response
         response_text = response.text.strip()
-        # Clean up markdown code blocks if present
         if response_text.startswith('```'):
             response_text = response_text.split('\n', 1)[1]
             if response_text.endswith('```'):
@@ -391,7 +467,6 @@ Respond ONLY in this JSON format, no other text:
         import json as json_lib
         stalls = json_lib.loads(response_text)
         
-        # Format into standard eatery format
         eateries = []
         for stall in stalls[:3]:
             eateries.append({
@@ -400,7 +475,8 @@ Respond ONLY in this JSON format, no other text:
                 'rating': 0,
                 'review_count': 0,
                 'vicinity': f"Near {stall.get('near_place', 'Forest Circuit gates')}",
-                'is_forest_stall': True
+                'is_forest_stall': True,
+                'price_range': stall.get('price_range', '₹20–100'),
             })
         
         return eateries
@@ -409,14 +485,57 @@ Respond ONLY in this JSON format, no other text:
         print(f"Gemini search for Forest Circuit eateries failed: {e}")
         import traceback
         traceback.print_exc()
-        # Fallback with known info
         return [{
             'name': 'Tea & Snack Stalls',
             'type': 'Hot tea, coffee, hot chocolate, maggi, biscuits',
             'rating': 0,
             'vicinity': 'Outside gates of all Forest Circuit viewpoints',
-            'is_forest_stall': True
+            'is_forest_stall': True,
+            'price_range': '₹20–100',
         }]
+
+
+# ===== ROUTE MAP API =====
+
+@app.route('/api/route-map-url', methods=['POST'])
+def route_map_url():
+    """
+    Generate a Google Maps Embed API URL for displaying the day's route.
+    
+    Request body:
+        origin: {lat, lng} - start point (hotel)
+        destination: {lat, lng} - end point (hotel)
+        waypoints: [{lat, lng, name}] - ordered list of stops
+    
+    Returns:
+        {"embed_url": "https://www.google.com/maps/embed/v1/directions?..."}
+    """
+    data = request.get_json()
+    origin = data.get('origin', {})
+    destination = data.get('destination', {})
+    waypoints = data.get('waypoints', [])
+    
+    api_key = os.getenv('GOOGLE_MAPS_API_KEY', '')
+    
+    origin_str = f"{origin.get('lat')},{origin.get('lng')}"
+    dest_str = f"{destination.get('lat')},{destination.get('lng')}"
+    
+    # Build waypoints string (pipe-separated lat,lng)
+    wp_parts = [f"{wp['lat']},{wp['lng']}" for wp in waypoints if wp.get('lat') and wp.get('lng')]
+    wp_str = '|'.join(wp_parts)
+    
+    embed_url = (
+        f"https://www.google.com/maps/embed/v1/directions"
+        f"?key={api_key}"
+        f"&origin={origin_str}"
+        f"&destination={dest_str}"
+        f"&mode=driving"
+    )
+    
+    if wp_str:
+        embed_url += f"&waypoints={wp_str}"
+    
+    return jsonify({"embed_url": embed_url})
 
 
 # ===== EQUALIZER API (Scoring) =====
@@ -560,6 +679,35 @@ def save_itinerary():
         print(f"Error saving itinerary: {e}")
         import traceback
         traceback.print_exc()
+        return jsonify({"success": False, "error": str(e)}), 500
+
+
+@app.route('/api/load-itinerary/<user_name>/<trip_name>', methods=['GET'])
+def load_itinerary(user_name, trip_name):
+    """
+    Load a saved itinerary by user and trip name.
+    URL format: /api/load-itinerary/Atman/Mar_21_-_Mar_22
+    """
+    try:
+        filename = f"{trip_name}_itinerary.json"
+        filepath = f"user_data/{user_name}/{filename}"
+        
+        if not os.path.exists(filepath):
+            return jsonify({"success": False, "error": "Itinerary not found"}), 404
+        
+        with open(filepath, 'r') as f:
+            data = json.load(f)
+        
+        return jsonify({
+            "success": True,
+            "trip_name": data.get("trip_name", trip_name),
+            "saved_at": data.get("saved_at", ""),
+            "itinerary": data.get("itinerary", {}),
+            "user_name": user_name
+        })
+        
+    except Exception as e:
+        print(f"Error loading itinerary: {e}")
         return jsonify({"success": False, "error": str(e)}), 500
 
 
