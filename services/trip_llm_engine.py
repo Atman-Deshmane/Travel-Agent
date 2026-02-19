@@ -710,13 +710,9 @@ class TripLLMEngine:
                 text_parts = [part.text for part in response_parts if part.text]
                 final_response = " ".join(text_parts) if text_parts else "I'm here to help you plan your Kodaikanal trip!"
 
-                # Add assistant response to history
-                self.conversation_history.append(
-                    types.Content(
-                        role="model",
-                        parts=[types.Part(text=final_response)]
-                    )
-                )
+                # Add the FULL model response to history (preserves thought signatures
+                # required by Gemini 3 for multi-turn context continuity)
+                self.conversation_history.append(response.candidates[0].content)
 
                 return {"text": final_response, "ui_hint": ui_hint}
 
