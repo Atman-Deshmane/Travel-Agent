@@ -112,7 +112,7 @@ interface TripConfiguratorProps {
 }
 
 export function TripConfigurator({ onFetchPlaces }: TripConfiguratorProps) {
-    const { getActiveTrip, getCurrentUser, createTrip } = useUserStore()
+    const { getActiveTrip, getCurrentUser, createTrip, activeTripId: _activeTripId } = useUserStore()
     const activeTrip = getActiveTrip()
     const currentUser = getCurrentUser()
     const [loading, setLoading] = useState(true)

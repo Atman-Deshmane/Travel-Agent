@@ -1,8 +1,8 @@
 {
   "user_id": "ai-atman",
   "name": "Atman",
-  "avatar_color": "hsl(99, 70%, 60%)",
-  "generated_at": "2026-02-19T10:43:13.830234",
+  "avatar_color": "hsl(299, 70%, 60%)",
+  "generated_at": "2026-02-19T14:47:34.266017",
   "defaults": {
     "interests": {
       "value": [],

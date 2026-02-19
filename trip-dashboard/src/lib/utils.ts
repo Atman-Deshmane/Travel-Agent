@@ -6,11 +6,11 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export function generateId(): string {
-    return Math.random().toString(36).substring(2, 11)
+    return Date.now().toString(36) + Math.random().toString(36).substring(2, 9)
 }
 
 export function formatDateRange(from: Date | null, to: Date | null): string {
-    if (!from || !to) return "New Trip"
+    if (!from || !to) return 'New Trip'
     const options: Intl.DateTimeFormatOptions = { month: 'short', day: 'numeric' }
     return `${from.toLocaleDateString('en-US', options)} - ${to.toLocaleDateString('en-US', options)}`
 }

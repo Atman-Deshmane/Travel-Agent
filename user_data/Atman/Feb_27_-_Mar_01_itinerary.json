@@ -1,0 +1,512 @@
+{
+  "trip_name": "Feb 27 - Mar 01",
+  "saved_at": "2026-02-19T14:14:52.652803",
+  "itinerary": {
+    "days": [
+      {
+        "day": 1,
+        "cluster": "Town Center",
+        "places": [
+          {
+            "id": "bryant-park-kodaikanal",
+            "name": "Bryant Park",
+            "cluster": "Town Center",
+            "lat": 10.2314998,
+            "lng": 77.493196,
+            "image_url": "http://127.0.0.1:5001/api/photo/ATCDNfWEMteq5o8AIWk6TPgivW6QqJN2TWV09pBFZ4UzSchDBrZ-JN5B_6VtEtmrOoTqki0JxO_a5ZihbxxlZIzp1xswfU2_HiQSn_nq9cA33Xl5KuEzN1XiyAzZfM0rJ-jjd9zFsCpFLA-sNgBY5UAJzJAnWCCrx0cmB8Cv7pK4taF6IsN1zPPt9AOL_hig9S1dHeNWmVQ-oKuHgpXzOd7vCcR_3zEJIvH94R2qUMJGkX0xwM6gJhEeDpKR5KJUaG82U_WkddTA2m8-HuMxdmSLSvMc4ObhIJoi_CSZuc2_EEHkCdEtcEc-7J_4L7D7Vb5knc7o1vCVUEu06_nGuH6Zb-k1NWsDOeKKV8yRsB7M9Qco-x63BPmwnrHr8VGk0ExQxvIjjwSc4ojH5n0hC31lthyInW70UaQGeXG0R50he0Hdc4nib9ctl7amKBIeXZEa",
+            "tags": [
+              "Botanical Garden",
+              "Flowers",
+              "Nature"
+            ],
+            "rating": 4.2,
+            "review_count": 28181,
+            "avg_time_minutes": 90,
+            "tips": [
+              "Visit during the annual flower show in May.",
+              "Carry a camera for the picturesque scenery.",
+              "Pack food and a blanket for a picnic."
+            ],
+            "short_summary": "Bryant Park is a 20-acre botanical garden with diverse plant life and seasonal flower shows, perfect for nature lovers.",
+            "best_time_text": "Late afternoon (4:00 PM to 6:00 PM) for a relaxing stroll. Summer (April to June) for vibrant floral displays.",
+            "difficulty": "Easy",
+            "travel_to_next_min": 1,
+            "is_forest_circuit": false,
+            "has_lunch_before": false,
+            "scheduled_time": "09:00",
+            "departure_time": "10:30"
+          },
+          {
+            "id": "coakers-walk-kodaikanal",
+            "name": "Coakers Walk",
+            "cluster": "Town Center",
+            "lat": 10.2324008,
+            "lng": 77.4936446,
+            "image_url": "http://127.0.0.1:5001/api/photo/ATCDNfXE49_05Ns4PL7_VAHWB8S6AfPBIL3TXnCMLoXfoS1ioIHT9xQpUrgBxW5iFVSRZhKl2vpbEdhDfnPzW2j8oxJDsFYhr_FfSAF04aj-nNdPmgQxczjq75J3QSWJvhTl-N608YA-QpOlS3PVAjwStzWS_SZ9KxGCMsIzPIIXkreM7VBjz4tgMJnSv1VVa_4dawc-qa0cwggs4yUBuNcWMrxKc6CkQtBWs1KUjWAe12rrKTMEAYh62X5Y7xLKkjEQOPmPInkQeAxUPMajudvRBkc98gknSCG_gRfQ9g9AZ-owASzRbFBnHptLAHsdH5u1Qi__ltvGe0w0z0BKh0cosJ0raqF9yCYOUFJL9gz2kGqhbXG7VTzyjeBGBKgwqGXAK-6GvStec_9Ej-T9L5d3VMfEGIABcLyK-4w5Xd6ggdn2RtEm",
+            "tags": [
+              "Scenic Views",
+              "Walking",
+              "Photography"
+            ],
+            "rating": 4.4,
+            "review_count": 8465,
+            "avg_time_minutes": 60,
+            "tips": [
+              "Visit early to avoid crowds and enjoy misty surroundings.",
+              "Wear comfortable shoes for walking.",
+              "Carry woollens as it can get windy."
+            ],
+            "short_summary": "A 1km paved walking path offering panoramic views of valleys and hills, perfect for a serene experience in Kodaikanal.",
+            "best_time_text": "Early mornings or late evenings for clear views and pleasant weather.",
+            "difficulty": "Easy",
+            "travel_to_next_min": 5,
+            "is_forest_circuit": false,
+            "has_lunch_before": false,
+            "scheduled_time": "10:31",
+            "departure_time": "11:31"
+          },
+          {
+            "id": "vintage-lover-museum-kodaikanal",
+            "name": "VINTAGE LOVER MUSEUM",
+            "cluster": "Town Center",
+            "lat": 10.2380324,
+            "lng": 77.4867762,
+            "image_url": "http://127.0.0.1:5001/api/photo/ATCDNfVhNIYxIp76eOeQzsAYfsaff-rRJWbNY2SfTHkHR0SopfB0_h6FLYx4ZDjIzm8it6bHDJd1dWuaihtSJy0g2BzVIPlp2U0K26JYPefmXAqytcqA-GNqFmkIZnXU2MK0M3Jkpttxmcmu_tqKt_n182K2WHLkvgVO5plkUG6nAwy9oefdqRTrvNo-VpSSY0rqGHQ8TH4NZmONAm0xuOeUL_YARy8K5eovvkk7H9K2Z07dAXojRRY66g3uFRsFkHaQGjZ_AkR71bR9AG4LVymDl8tUhXkMRMkm3g__l8wVy40mQwaR8uBycwTWYmVXKYtuJr4ckPhrnA-7MCLPiyKqIcAT43Db9bRAN4IEZ-zFIuqoww88asAxS19mks1UIfIZSupooHJcujfKXr_-aKzHmr0UsBTUr7nnnW5o76AHmmKDEzPsz_ys3y2RXd7-SmE2",
+            "tags": [
+              "Museum",
+              "Vintage",
+              "History"
+            ],
+            "rating": 4.8,
+            "review_count": 1941,
+            "avg_time_minutes": 60,
+            "tips": [
+              "Allocate at least an hour to fully enjoy the exhibits.",
+              "Check for any musty smell mentioned in reviews, and prepare accordingly.",
+              "Photography is allowed, so bring your camera to capture the vintage collection."
+            ],
+            "short_summary": "A captivating museum showcasing vintage items, offering a nostalgic trip down memory lane in Kodaikanal.",
+            "best_time_text": "Visit during the weekdays to avoid crowds. October to June offers pleasant weather.",
+            "difficulty": "Easy",
+            "travel_to_next_min": 1,
+            "is_forest_circuit": false,
+            "has_lunch_before": false,
+            "scheduled_time": "11:36",
+            "departure_time": "12:36"
+          },
+          {
+            "id": "7d-theater-kodaikanal",
+            "name": "7D Theater",
+            "cluster": "Town Center",
+            "lat": 10.2375991,
+            "lng": 77.4876116,
+            "image_url": "http://127.0.0.1:5001/api/photo/ATCDNfX8UgKnkOALlMxdlL2DXqfKwGCCpURkylDbMtwBCZrWJGRuTrUL0S0D4WTJKPMsvDf-KxjJ2j1ijyUPzLtXnDtPVynp-nVgCaHPhftgUp5UNgdqGJySglXskhOF1nKMnt7zGgu4SplmAB8V2fdo_YSZB0T78kPFnpqisgOqIPadUb03RRsCPVmbN1q7zbadb07gQsX2FUw8olP3zNT-tz0Hn8_0CEPbOcsPK3dXD0cITxxGkvSCSrlV67LspHh71k-2Tto34q0nPjZkP2gtyJGDg50uzzGkOKnYainv4sy_QzDfDbYPGV0PIkM1HyUPx2JwbBNH8J1Y-UzpL4F6SK-47Cdg4qb67n9mfgJ6G59ih6vHaiMvEnJUDO1LcQM_q5Y9-sh5w5ebnZAXi8cQbV_PPjeFe79mEBVMVaqB-mRKubA0",
+            "tags": [
+              "7D Theater",
+              "Entertainment",
+              "Family Fun"
+            ],
+            "rating": 3.8,
+            "review_count": 1846,
+            "avg_time_minutes": 15,
+            "tips": [
+              "Check for seat quality before the show.",
+              "Be prepared for a potentially bumpy ride.",
+              "Consider other attractions nearby, like the Horror House."
+            ],
+            "short_summary": "Experience multi-dimensional visuals with 3D specs at this theater by Kodai Lake; a great attraction for kids.",
+            "best_time_text": "Open 10 AM to 8 PM. Any time during the day",
+            "difficulty": "Easy",
+            "travel_to_next_min": 5,
+            "is_forest_circuit": false,
+            "has_lunch_before": false,
+            "scheduled_time": "12:37",
+            "departure_time": "12:52"
+          },
+          {
+            "id": "kodaikanal-lake-kodaikanal",
+            "name": "Kodaikanal Lake",
+            "cluster": "Town Center",
+            "lat": 10.2343586,
+            "lng": 77.4863295,
+            "image_url": "http://127.0.0.1:5001/api/photo/ATCDNfU2L2hnFRg8IxV1h6o2a31hlystRSK49q3v-f08HVe2jXufTIBDrRiSAmyHI02VcqBF2RWOhQLx5XYYXgF_9jmHCYtj-L29c373LpmC4L6EGD7eM5Lhvo8tFMYxHbKw-MlTbWt0Ux1zc5R8JLd0JPeXQz0_PJM-bsVY8niXYvDVg8p4o72k0sYEw-A6vZHTqrqfDFYpWafb_3VtCdMdfa751Cv-boLXqOanxQfwfuGKONb8pEwGbkXHDA3NMoi007Lz3NEm5RkcpwkgHc_EI3fgSY0ixkfLlEFufCd_siJMVJnm6Gc4Ico1RulkdWP81H9Xzx9UCii7swB4OTUWMbnq3CeHnQjh4OiCrYPkvGMFGdysXuosJMs9XTQivAlYsmMk5nX4hAamUjdIKzfxPcNQPbOoyflUoL9bol1hQZzVqA",
+            "tags": [
+              "Lake",
+              "Boating",
+              "Cycling"
+            ],
+            "rating": 4.5,
+            "review_count": 8318,
+            "avg_time_minutes": 120,
+            "tips": [
+              "Visit early morning or late afternoon to avoid crowds.",
+              "Bargain for the best rates when renting cycles.",
+              "Carry snacks and a blanket for a lakeside picnic."
+            ],
+            "short_summary": "A star-shaped, man-made lake in Kodaikanal offering boating, cycling, and scenic beauty. Perfect for relaxation and nature lovers.",
+            "best_time_text": "October to June for pleasant weather. Early mornings are ideal for serene experience and photography.",
+            "difficulty": "Easy",
+            "travel_to_next_min": 6,
+            "is_forest_circuit": false,
+            "has_lunch_before": false,
+            "scheduled_time": "12:57",
+            "departure_time": "14:57"
+          }
+        ],
+        "total_drive_min": 18,
+        "place_count": 5,
+        "end_time": "15:03",
+        "start_time": "09:00",
+        "target_end_time": "18:00"
+      },
+      {
+        "day": 2,
+        "cluster": "Forest Circuit",
+        "places": [
+          {
+            "id": "green-valley-viewpoint-kodaikanal",
+            "name": "Green Valley Viewpoint",
+            "cluster": "Forest Circuit",
+            "lat": 10.2110418,
+            "lng": 77.4754523,
+            "image_url": "http://127.0.0.1:5001/api/photo/ATCDNfVd5a1lli6xPgPClSWgzX_BYKysfj7OQlcAEDskGBSPgL1IrQZPSQc01xx1W5ug56pLaKmGpfhqF6IULh7gacu4g37vY7OnGY2uiLxabkAtl28bgY6qrgL16oE3fYx4wEXWJIazcyqHtA3F6vno935qelVw2_4m7I_6VF_jt7IYA4A5yLUheYsqArzj0P-geIM9wmtUsP-rk4VpTnR7a6A5119QHN22ItrXyhZz1vNOb0hNCur8Bp9P_d81whIXqcX0rU4SPWujAhMoXJEONYQ0BTh7Krslps84PoJdYA4lfZyO5G3SnjYwjbBgtBYmHw7R4wZiXQjDOdbFkG4mm646WlxCBUWBIyR6GD4kyH4WDXHk04JGJIsdj1WFH95IBADOQS2M0JRYO3dGC0Xw7ds5g17jFuIAf6yuRMdkrqfytUHcuVHyAWfLr8d7jQ",
+            "tags": [
+              "Valley View",
+              "Scenic Views",
+              "Mountains"
+            ],
+            "rating": 4.3,
+            "review_count": 10010,
+            "avg_time_minutes": 45,
+            "tips": [
+              "Visit between 10 AM and 3 PM to avoid mist.",
+              "Beware of monkeys; they may snatch food and belongings.",
+              "Bargain at the shops for souvenirs and homemade chocolates."
+            ],
+            "short_summary": "Green Valley Viewpoint offers stunning panoramas of valleys, hills, and the Vaigai Dam. Once known as Suicide Point, it's now a safe, popular spot.",
+            "best_time_text": "Between 10 AM and 3 PM for clear views",
+            "difficulty": "Easy",
+            "travel_to_next_min": 5,
+            "is_forest_circuit": true,
+            "has_lunch_before": false,
+            "scheduled_time": "09:00",
+            "departure_time": "09:45"
+          },
+          {
+            "id": "guna-cave-kodaikanal",
+            "name": "Guna Cave",
+            "cluster": "Forest Circuit",
+            "lat": 10.2101457,
+            "lng": 77.46302399999999,
+            "image_url": "http://127.0.0.1:5001/api/photo/ATCDNfVm9I9YjQ-o6VETX4ysq59Jx5c7_2IuzriEQjdT7O1o_BPJd-znYa6nJFRgKR43YzVmp3D8IF5BtesSodN7wRwSY83vi1zFVWg8YvkVG4JAEZuwgYwLORyM3UCvwCXbEZfpHQYrWH0VAL4d33DO2t6gTWWkZAFg65QblCzPsNubiEcHewtZNkTH9lP_KQ8mm-4UtH1D6ZJrBB2LrFMsgHSR-_fGjmL-TzaG_vc8yZOeMkASju0qMavVBgu3MLHYw6yRVPtzSx6WRv6T7KwVJ2Q-dUwK2noo5xDS87eYPntqml3yKTsASqAWmOud_z-Kwl9Euiice3A_vra1WKAyM0yeIXAjoNmq_XFrN6tHXIoEw71G5QzKPCa1BMoRbk2qaZmo_W0ZY82K5808qeQ4plI3w20FrJydgXnRsUbMX0IDbg",
+            "tags": [
+              "Scenic",
+              "Nature",
+              "Tourism"
+            ],
+            "rating": 4.2,
+            "review_count": 18310,
+            "avg_time_minutes": 60,
+            "tips": [
+              "Carry water and snacks",
+              "Wear comfortable shoes",
+              "Check weather before visiting"
+            ],
+            "short_summary": "A popular tourist destination in Kodaikanal.",
+            "best_time_text": "Early morning or late afternoon",
+            "difficulty": "Easy",
+            "travel_to_next_min": 1,
+            "is_forest_circuit": true,
+            "has_lunch_before": false,
+            "scheduled_time": "09:50",
+            "departure_time": "10:50"
+          },
+          {
+            "id": "pine-forest-kodaikanal",
+            "name": "Pine Forest",
+            "cluster": "Forest Circuit",
+            "lat": 10.2136358,
+            "lng": 77.4588208,
+            "image_url": "http://127.0.0.1:5001/api/photo/ATCDNfV2y7sgiuuzjgfkDZCf4LaPvPRtWVD4KZxFRhWuXeDPRxhUV1tZSDzuk1exbgYtUgOSvyfDWNl6yVqln70BlvsQ7JOdFVs4degoUvyCBHr4dwd15gjF3fFzc0VKTon4eHHu48a2S9US7I1UtA1inLkRwZ1zybA8_OJGvPtXwlqsC6EBonPGDxR1VSklBUBiUSQGnyU3upcHpoIRiYz-3KjKN3BjEgUw0bFzOwoMHmly9kqMTx3ecIG4Q1iLTHanRgOItKd_ms2f8WcnMxaG17CeSUb05s2vSyFcyBdAviDVoRcoG4ABAGlbxhTah_ifYD9uxE_4gqYRfH6eGANWsb4vOMNlYx5LrAcZejRuW80yghsEvVDVlWKJl9_Qr0xdZfLJulpjHDNclTYq_D-gYLnfEhrID0e2zJJr3Uv0HmGvRPM",
+            "tags": [
+              "Pine Trees",
+              "Nature Walks",
+              "Photography"
+            ],
+            "rating": 4.4,
+            "review_count": 19212,
+            "avg_time_minutes": 90,
+            "tips": [
+              "Wear comfortable shoes for walking on uneven terrain.",
+              "Carry water and snacks as there are limited options nearby.",
+              "Be mindful of wildlife and avoid disturbing the ecosystem."
+            ],
+            "short_summary": "Serene pine forest with towering trees, perfect for nature walks, photography, and relaxation.",
+            "best_time_text": "January to July for pleasant climate. Weekday mornings are less crowded.",
+            "difficulty": "Easy",
+            "travel_to_next_min": 7,
+            "is_forest_circuit": true,
+            "has_lunch_before": false,
+            "scheduled_time": "10:51",
+            "departure_time": "12:21"
+          },
+          {
+            "id": "moir-point-kodaikanal",
+            "name": "Moir Point",
+            "cluster": "Forest Circuit",
+            "lat": 10.210484,
+            "lng": 77.4481595,
+            "image_url": "http://127.0.0.1:5001/api/photo/ATCDNfUgwWvjv5ilSP82K7fXs6-XIH2Xn6GmHBJhM38JNw-5BmdIyZHxh4DAKfslS1C7Y47iy0xg05yN2i46Hi7J7YkhsdG9mz_H4e9gL4nl6nYrI9G5xUnA-1hoz1VZoMG3yfL9gl6Rez93JvPvEnKrsZRHdU3UF1jlq2hlfGahOYwe32SzYXUs_MeJu4uQpDj_dqIjcT6ypb74hKPPj0eBcj-lrS1c845YP-IIJ5Xm1Dwmr_8Vkqde0brAvrEJZ2kPiFNmW-YAHbQWpua3l3eT99QgMsC8p0nFmStf9wCWpcwAKJBb7kdthfwc9cMyez8NLzAVebvlJR8o_ZXpOkRVCOsbAQRCaBW_1jWbxppaYlT84NoqECkgG4FkvtPBsAoX1zvfqVQXtHuD5dqPlMCcOl4lHPGEM-NUDJjveABsvEr5tVlf",
+            "tags": [
+              "Scenic Viewpoint",
+              "Valley Views",
+              "Photography"
+            ],
+            "rating": 4.2,
+            "review_count": 12034,
+            "avg_time_minutes": 45,
+            "tips": [
+              "Visit during weekdays to avoid crowds.",
+              "Carry a light jacket as it can be windy.",
+              "Bring a camera to capture the scenery."
+            ],
+            "short_summary": "Moir Point offers panoramic views of valleys and hills. Named after Sir Thomas Moir, it's a popular, easily accessible spot.",
+            "best_time_text": "October to June for clear views; mornings or late afternoons for softer light.",
+            "difficulty": "Easy",
+            "travel_to_next_min": 0,
+            "is_forest_circuit": true,
+            "has_lunch_before": false,
+            "scheduled_time": "12:28",
+            "departure_time": "13:13"
+          }
+        ],
+        "total_drive_min": 13,
+        "place_count": 4,
+        "end_time": "13:13",
+        "start_time": "09:00",
+        "target_end_time": "18:00"
+      },
+      {
+        "day": 3,
+        "cluster": "Vattakanal",
+        "places": [
+          {
+            "id": "dolphin-nose-kodaikanal",
+            "name": "Dolphin Nose",
+            "cluster": "Vattakanal",
+            "lat": 10.2090856,
+            "lng": 77.4872073,
+            "image_url": "http://127.0.0.1:5001/api/photo/ATCDNfWwMaDj1TFY-6e4pGPIfHOa3qA6vSeedXQnQTrHah_H7m9tPt7HyEofTwHQvq3o1qLWOfqYid7KB1P880pWmOBn44vy8JuKDrSYgC60rcmTXkMmtksKvcVphBvOcQqXlY2Ui667-xxLwijMxQxMLtvXo7sRfW4JyiJNTV58PU-kP8ATnchApva6TBVVloP4epu5gwl2xCo5iwc2UUO1AW8Ys2oFNx2L3dLVR5Ztnwng6LYE076RqnT0xwuie08BjXd0OoahjgGLNyTCD3T9inrzq2-6z2wgT6W0ZGA2W7lvOn4bZjhHBtQSfvhlME9LKUiIU2MbncVVTkrwk7gKqj0T6fmlFlDbSRO1ig77dKPX_QonNO7O7sxXxgJMDyiiPrBZyYroNYJ-3Rmtgi2AWEhp914q6va3J8CmGhi6sWc",
+            "tags": [
+              "Scenic Viewpoint",
+              "Trekking",
+              "Palani Hills"
+            ],
+            "rating": 4.5,
+            "review_count": 6763,
+            "avg_time_minutes": 150,
+            "tips": [
+              "Start early to avoid crowds and the midday sun.",
+              "Wear sturdy trekking shoes with good grip.",
+              "Check weather conditions before you start trekking."
+            ],
+            "short_summary": "A cliff resembling a dolphin's nose offering panoramic views after a difficult 3km trek.",
+            "best_time_text": "Early morning before 9:00 AM or post-monsoon (October to March) for clear skies",
+            "difficulty": "Hard",
+            "travel_to_next_min": 0,
+            "is_forest_circuit": false,
+            "has_lunch_before": false,
+            "scheduled_time": "09:00",
+            "departure_time": "11:30"
+          },
+          {
+            "id": "altaf-s-cafe-kodaikanal",
+            "name": "Altaf's Cafe",
+            "cluster": "Vattakanal",
+            "lat": 10.2148598,
+            "lng": 77.4853995,
+            "image_url": "http://127.0.0.1:5001/api/photo/ATCDNfUJ7jmcEJSiGTYoCmRHs6f5HpSml1aq59uNExmKN6b-NPJwt2S0KPmg674KwbkfJJsZOZLGOpkfoeNLSFIeSyxEASUI-3kflGE8hFb7BrUfYeLL3yP7xDHbexU_QvU4_wELcxFASyjNfd6CTntxDSqDerWQrLIJ-QijXe3t36cj3-AERuZtL9Jb04DC0icwhE4pmYEYkaaiVd9CmANFSdysvMT4VAOgR5Jd0Av1zR7EqWzg8FgVSC_pwjA5vizecHVmQnPoK1T07gsjCGuzE14TuABic0_t4DFZlfE9_TrI3g",
+            "tags": [
+              "Middle Eastern cuisine",
+              "Valley view",
+              "Cozy atmosphere"
+            ],
+            "rating": 4.3,
+            "review_count": 4951,
+            "avg_time_minutes": 120,
+            "tips": [
+              "Try the falafel, shakshuka, and ginger honey tea.",
+              "Go early to avoid crowds and find parking.",
+              "Vegetarian options are highly recommended."
+            ],
+            "short_summary": "Altaf's Cafe in Vattakanal offers Middle Eastern cuisine and stunning mountain views in a cozy, laid-back atmosphere.",
+            "best_time_text": "Early mornings are recommended to enjoy the mist and avoid crowds.",
+            "difficulty": "Easy",
+            "travel_to_next_min": 5,
+            "is_forest_circuit": false,
+            "has_lunch_before": false,
+            "scheduled_time": "11:30",
+            "departure_time": "13:30"
+          },
+          {
+            "id": "liril-falls-kodaikanal",
+            "name": "Liril Falls",
+            "cluster": "Vattakanal",
+            "lat": 10.2212793,
+            "lng": 77.4819052,
+            "image_url": "http://127.0.0.1:5001/api/photo/ATCDNfXqnDHAe6kBC5UW4gjodgp9-d-xIg6ScYpxnBbjcpBtnGaz3lPmTGFq2eYmNKNkBCdMHphnWJ9hiLUpObIoSLrs4brzt8NpymBk7DA0Ws_zSWaqa-dqZFHPfllQcJKB63pc8Ach5VCzK4FB_d4lE_Lzp6qECSOrcWeTnahuV6w3nLCLlAwyjW-1B54WOzy7RhrAs5fsNxT_4dJHrVtjzjVrfNmG_nWHNqN_0-GURWlZOwePDkfWsUlwFbo1V21sobmh6zEetzbzbFIBSY_wk4VWi2-KtYJOj7DUCKlSy9exSedfi7NzB3HMVzDpXUABw4JyxAhFg19rAWyWmTrYqqyr37Nj9Gk5--Awpbq2r8vINPlHOOz6UQXIxS85E4IViFEu38TfLhxR6bgrDjmu0Cg--Lstjdr4JIWJEtjK8r797SJb",
+            "tags": [
+              "Waterfall",
+              "Trekking",
+              "Photography"
+            ],
+            "rating": 4.1,
+            "review_count": 9496,
+            "avg_time_minutes": 60,
+            "tips": [
+              "Wear sturdy, non-slip shoes for the trek.",
+              "Be cautious of slippery rocks, especially during the rainy season.",
+              "Carry water and essentials as amenities are limited."
+            ],
+            "short_summary": "Liril Falls, also known as Pambar Falls, is a scenic waterfall in Kodaikanal, famed for the Liril soap advertisement shot here.",
+            "best_time_text": "Monsoon season (June to September) for full flow, or early mornings for fewer crowds.",
+            "difficulty": "Moderate",
+            "travel_to_next_min": 7,
+            "is_forest_circuit": false,
+            "has_lunch_before": true,
+            "scheduled_time": "15:05",
+            "departure_time": "16:05"
+          },
+          {
+            "id": "upper-lake-view-kodaikanal",
+            "name": "Upper Lake View",
+            "cluster": "Vattakanal",
+            "lat": 10.2303509,
+            "lng": 77.4754961,
+            "image_url": "http://127.0.0.1:5001/api/photo/ATCDNfX-MQqv06ii8XXyZHBgiuden672KJwIy-eVGss4zkY6eDeIN3SgpTPF8Z58aoiyOdL58Qy24kUcLOyxStcUefANA8oGC0F1Vl52Qj9WJCfz8gabB9od9B059bnDX2WGKSc3GRXBfHurHlchR_rrlzi3ZfdfjuL_oxkbANCK05ni9T2YWuM3NdOWfCgxpl86uM28UVdS7sZiRzCVXkzQ2UENq8qQl9wTc_8yiyunI2Z02QbPa8W6-JYWmnNbr-44SfNO4BRi_n8qrW3l3W5aFq-dhh3V7o7gIRU_OqOwmoOs0KWMbtaf0YeCcKhVp9IYz3Fr9DgqWHgg1Z0Ymv6Om90V0GEbTNZml8IzBIxjEiIoS-KX7Vv_RwzvIRiHGVFY6fi6TklC1GyQPn6wODlgs_qE_QKOslwrAxYfhJbkTM0",
+            "tags": [
+              "Lake View",
+              "Scenic View",
+              "Photography"
+            ],
+            "rating": 4.3,
+            "review_count": 8519,
+            "avg_time_minutes": 30,
+            "tips": [
+              "Visit during daytime for clear surroundings.",
+              "Carry a camera for stunning photos.",
+              "Be cautious of pricing at tea stalls."
+            ],
+            "short_summary": "Offers a panoramic view of Kodaikanal Lake and surrounding green valleys. Ideal for photographers and nature lovers.",
+            "best_time_text": "October to June for pleasant weather and clear views. Early morning or late afternoon for magical light.",
+            "difficulty": "Easy",
+            "travel_to_next_min": 5,
+            "is_forest_circuit": false,
+            "has_lunch_before": false,
+            "scheduled_time": "16:12",
+            "departure_time": "16:42"
+          },
+          {
+            "id": "kodaikanal-solar-observatory-museum-kodaikanal",
+            "name": "Kodaikanal Solar Observatory Museum",
+            "cluster": "Vattakanal",
+            "lat": 10.2288692,
+            "lng": 77.4627297,
+            "image_url": "http://127.0.0.1:5001/api/photo/ATCDNfW0VhLvflydKDWqgas6lKm0N69VyE9rAtKT-dD4L9EdvfeOTKqivQUH8ZJ4OtIsaMHyYTULcVR6DiiT0Mpl4_WTCM9Ggk3zlfdt9u25-FrdlfkHap4Gpz9rP3rp1x7YLWaNuZwDChCqRHuk2r6wZ0DxWOzLzIfGWxpYP3smhFC-J5Ru7GVYJ5pFC55T7DercAmRbiVARuCd7UTveWhXsSEMf7vu0KMoIsn_Mzc0hbhY_NJW40qcVzIQ4imnmKvbVFbIHUF2Xp8X9vANzJ2_Cga1oOmXCwE2pbc3Cb39kmMx-w",
+            "tags": [
+              "Solar science",
+              "Astronomy",
+              "Educational"
+            ],
+            "rating": 4.3,
+            "review_count": 3582,
+            "avg_time_minutes": 67,
+            "tips": [
+              "Visit in the morning for the best views of the sun.",
+              "Check visiting hours before heading out.",
+              "Cameras may not be allowed inside."
+            ],
+            "short_summary": "Explore solar science and India's astronomy legacy in the quiet, misty hills of Kodaikanal.",
+            "best_time_text": "Morning, between 10 AM and 12 PM for clear skies",
+            "difficulty": "Easy",
+            "travel_to_next_min": 5,
+            "is_forest_circuit": false,
+            "has_lunch_before": false,
+            "scheduled_time": "16:47",
+            "departure_time": "17:54"
+          }
+        ],
+        "total_drive_min": 22,
+        "place_count": 5,
+        "end_time": "17:59",
+        "start_time": "09:00",
+        "target_end_time": "18:00"
+      }
+    ],
+    "start_hour": 9,
+    "end_hour": 18,
+    "suggestions": [
+      {
+        "id": "kodai-jeep-safari-kodaikanal-jeep-safari-kodaikanal",
+        "name": "Kodai Jeep Safari | Kodaikanal jeep safari",
+        "cluster": "Town Center",
+        "image_url": "http://127.0.0.1:5001/api/photo/ATCDNfXWOVQyt9EC7jRGso8C9gsPmL3pTwKzBXmMfwyBBU7-vtJkP7rQctZuFDhdgqsicea-Ek1RxddbdNZy5vAQ06jnY2dMUmX05WBFLZKPywi8IxG4_dFWDLkgSdzygI9hUsPWoC4ZSu0k2a5voETXUi61fpRS0lsokTHPELstC8BP-8IwDm5KYJoCb4BHyeDZmcboq_Z7zfFq3eEzm7XJh2UJMSiPRL5px-Kdg3B7Y1Wh_GlQIwE8UmsUzdlZ0Cx674G0Bo6cAgBNTsQiLKd3KmUoMKMiKgHn-js4DOZ6TV63jOV60Q-8wYCG9661e-vUXMPfnWFQzFKc0fcjeugbOi-64BzdAIgSLE8-CDsZKHImEtvYOLQpUOvSZb1TI4hOhtWaXLw3OQidzUysdObVDW0MHtW7RvYWPLmWmBEe8x8TfSYH",
+        "rating": 5,
+        "review_count": 740,
+        "avg_time_minutes": 240,
+        "difficulty": "Moderate"
+      },
+      {
+        "id": "sarts-gallery-kodaikanal",
+        "name": "Sarts gallery",
+        "cluster": "Town Center",
+        "image_url": "http://127.0.0.1:5001/api/photo/ATCDNfVfnqIaehYXdrezdkTci_7vNIJyv1VZYEtJ9AdWSt63uZTKPJE2KEqoC0TahfSMp7qRHL-xCglhc1dO4FiBFKNepjWpXYPdAUVJSHwigvOYdPMmIKZfFNKq7DxMMVc7PO1AaEMa9xsXbK53tliXPFUC4obZsBJOjqjofdD5cDEA1Erxrr0utL3yzpdBdlcOoT7Fgf1GiX4NXkTcFR8WgR9WefzDoMlzbaulvDk0fz3xgq7i1_mQZhvzAGt3kvNU3TUAguvt4YY1mZk7CjI8-8yMFHZ-1vC7YG-J0EXmdqYk539x7BBsamQpwzh2fVDYY9bM4qNDS7B5URyLR2K2__RttLWEZ56Y8ZJbxmoyELy_0lxXVeKw0oojn7l9qDiP4b9VG8MBnik7N4P_bSjO-DBDMfpnTmg7V119s5ATXjmN9co",
+        "rating": 4.3,
+        "review_count": 1743,
+        "avg_time_minutes": 60,
+        "difficulty": "Easy"
+      },
+      {
+        "id": "vattakanal-waterfalls-kodaikanal",
+        "name": "Vattakanal Waterfalls",
+        "cluster": "Vattakanal",
+        "image_url": "http://127.0.0.1:5001/api/photo/ATCDNfWh5cfH_SLFr0JRJfyh95EjgEioC1s9DqItnkvkGOnXJME9sTemzyND_8etpJ1sMQYf7qBDkMlPldOth6buccKoGMPXkAPdw2XD6FsbCOI7m9Qhhuw9tiMXI-918iu47RMjQYNJzJCBMZuBwVfOK_T5jur1M-tlndRbJPwsqltF3lzpQTFEpdCw4_IFJ33GYnVieHl7LvX1DI1I-6779AK8x4lMM18cUHKA7LIdP4FEtzM6VPs2V94rWoYrrFsZqIxUDUl1C-TX1J9P96aPuigiwGrR1oeeZxge-Wp9Evp9IjqbK-yf9eGUo5rKJilB06WE7N_I-Aa3asrOqiUOL1XnUniWsenC01AYuK4uUWx0RmhotWHVpqm4wPzgin_fh2dF9Ka9vk_KKAgechxtYsFx1JBWoTisTngGJz3ggv8y8MZEdxO1fq3Gqk0brQ",
+        "rating": 4.3,
+        "review_count": 1255,
+        "avg_time_minutes": 60,
+        "difficulty": "Easy"
+      },
+      {
+        "id": "palani-hills-view-point-kodaikanal",
+        "name": "Palani Hills View Point",
+        "cluster": "Town Center",
+        "image_url": "http://127.0.0.1:5001/api/photo/ATCDNfVhNX5RmII0CYSqRn_9VgslmQXHwMj2A9F_4HFQz-s3JvbVi4y8KnGTgb3acZmh64Ktkc0433SKIhTF2GjaoKHy78Bx3HfYPM4yMAaNFqpR7rp4rbkq1x37HkQPUPzqvVu76TFht86kuM5v2fvsYgdDixXDn9h_Gprx68i85ZySDpNIZBoozVeCos_mrA-CKNwJXjN1rltuE1pBvoM7oTNKHv3l3ceYXE-Wy-pyPiyGWe2T1wD5sjUkWle-wodJjvCGTCN38qCTco6szb761vH9P0qzReQQmj7O8yWLYYhkSOsDv57ttsjvAru9fltGZHt2poURryhQdwq7aZbK0ZowRiyc_nL2foEmstDfAQJhQGKWswVIKCKlRbw5G9e5FqvgCDnvuhCaLV69HLXyUA7IoV4bTFoEjukiC9GXMJXpZ8Lh",
+        "rating": 4.3,
+        "review_count": 121,
+        "avg_time_minutes": 45,
+        "difficulty": "Easy"
+      },
+      {
+        "id": "government-rose-garden-kodaikanal-kodaikanal",
+        "name": "Government Rose Garden , Kodaikanal",
+        "cluster": "Vattakanal",
+        "image_url": "http://127.0.0.1:5001/api/photo/ATCDNfVqsHu-pRKUe9jlb1PT1x_HZRDTdjCMqSY2zUBb4co-zawzq72Er_znsc3-i7KxuxLnA8nzKg6Y6iYuwz-Hl3v-Bg8lH6EcQ5D8En7ImlUPobUCpBB6EZaEntEMMqXS0BLs44ozuLtZRCMr_gyRQ4k1M_9kc6Zns9bGLT4F_FhUP_c9fZ75-3g4moYyiKyFIqFXYPJN12XBMpHscYF-EAk721tFwJcS0Kbk88GO3GRei8QEj8_b-eZJM-u8QzmRH0prYtw2YZ32mXpWPpLdqxgPWsPbSOg7yX3comcK_IGEyw",
+        "rating": 4.2,
+        "review_count": 1496,
+        "avg_time_minutes": 75,
+        "difficulty": "Easy"
+      }
+    ],
+    "removed_places": [
+      {
+        "id": "fairy-falls-kodaikanal",
+        "name": "Fairy Falls",
+        "cluster": "Vattakanal",
+        "reason": "exceeded_end_time",
+        "reason_text": "Could not fit within 18:00 end time (pace: medium)",
+        "image_url": "http://127.0.0.1:5001/api/photo/ATCDNfVYU5iLD-ebOV_FCqJYAsx_Mtjq9GOzp3NiVqb4d8n5IYwldWnHKpXYoPvqGDm-J0UH1Zs4I8CTw0YYj7EEUJJfaJbh2DfpjjKOKwI2h3EqZDY2c5RDkXWgVzI8Nd5Ng0XZ4q68WdunoQtP0wRafX_nDfGo5JU2-la67iW5ZRwNJF2xauWNsYDdohq5p0QoLZU4mw-SJeW_iccqsQ094KWJsO45tPpftmiBKy0no_wQ5ZwlE_A2YaeCM6BWpzxliWs8qph8Q8zHtVR1b2QtECdSIDLvsLk4W0D-mTIBmqaI8gJYJeWMk7f4r5I_PHa39MEBHulw0jAeMybrBWkUb_HDNLvHBWkDBpjiroR6UC09JZnjqMZdC74ApL-4iVgCiEPTdif1YNCXJhhYQcPE7OLJs6YZ2cl7ODwe7Fhiplep-iA",
+        "avg_time_minutes": 20
+      }
+    ]
+  }
+}

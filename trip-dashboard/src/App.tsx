@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import './index.css'
 import { AppLayout } from './components/layout/AppLayout'
-import { ModeToggle } from './components/layout/ModeToggle'
 import { Sidebar } from './components/layout/Sidebar'
 import { TripConfigurator } from './components/dashboard/TripConfigurator'
 import { PlacesExplorer } from './pages/PlacesExplorer'
@@ -10,16 +9,12 @@ import { ChatMode } from './pages/ChatMode'
 import { PlacesDatabase } from './pages/PlacesDatabase'
 import { useUserStore } from './store/useUserStore'
 
-type MainTab = 'plan' | 'explore'
-type PlanMode = 'manual' | 'ai'
+type ActiveTab = 'manual' | 'ai' | 'explore'
 type ManualView = 'configurator' | 'explorer' | 'itinerary'
 
 function App() {
-  // Main tab state
-  const [mainTab, setMainTab] = useState<MainTab>('plan')
-
-  // Plan Trip mode toggle (Manual first by default)
-  const [planMode, setPlanMode] = useState<PlanMode>('manual')
+  // Single top-level tab state
+  const [activeTab, setActiveTab] = useState<ActiveTab>('manual')
 
   // Manual mode navigation
   const [manualView, setManualView] = useState<ManualView>('configurator')
@@ -93,20 +88,19 @@ function App() {
     setManualView('explorer')
   }
 
-  // Render content based on main tab
+  // Render content based on active tab
   const renderContent = () => {
-    // EXPLORE TAB - Show places database
-    if (mainTab === 'explore') {
+    // EXPLORE TAB
+    if (activeTab === 'explore') {
       return <PlacesDatabase />
     }
 
-    // PLAN TAB
-    // AI Chat mode
-    if (planMode === 'ai') {
+    // AI TAB
+    if (activeTab === 'ai') {
       return <ChatMode />
     }
 
-    // Manual mode - different views
+    // MANUAL TAB - different views
     if (manualView === 'explorer' && explorerData && activeTrip) {
       return (
         <PlacesExplorer
@@ -153,13 +147,8 @@ function App() {
 
   return (
     <AppLayout
-      mainTab={mainTab}
-      onMainTabChange={setMainTab}
-      secondaryNav={
-        mainTab === 'plan' ? (
-          <ModeToggle mode={planMode} onModeChange={setPlanMode} />
-        ) : null
-      }
+      activeTab={activeTab}
+      onTabChange={setActiveTab}
     >
       {renderContent()}
     </AppLayout>

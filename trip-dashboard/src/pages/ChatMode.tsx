@@ -45,14 +45,28 @@ export function ChatMode() {
     const mediaRecorderRef = useRef<MediaRecorder | null>(null)
     const audioChunksRef = useRef<Blob[]>([])
 
-    const messagesEndRef = useRef<HTMLDivElement>(null)
+    const messagesContainerRef = useRef<HTMLDivElement>(null)
     const inputRef = useRef<HTMLTextAreaElement>(null)
+    const initialLoadRef = useRef(true)
 
-    // Auto-scroll to bottom (only after user sends a message, not on initial load)
+    // Auto-scroll to bottom when new messages arrive
     useEffect(() => {
-        if (messages.length > 1) {
-            messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
+        const container = messagesContainerRef.current
+        if (!container) return
+
+        // Skip the initial greeting load
+        if (initialLoadRef.current) {
+            initialLoadRef.current = false
+            return
         }
+
+        // Always scroll to bottom when a new message is added
+        requestAnimationFrame(() => {
+            container.scrollTo({
+                top: container.scrollHeight,
+                behavior: 'smooth'
+            })
+        })
     }, [messages])
 
     const sendMessage = async (text: string) => {
@@ -326,14 +340,18 @@ export function ChatMode() {
     }
 
     return (
-        <div className="flex flex-col h-[calc(100dvh-3rem)] md:h-[calc(100vh-3.5rem)] bg-slate-50 overflow-hidden relative">
+        <div className="flex flex-col h-[calc(100dvh-48px)] md:h-[calc(100vh-64px)] bg-slate-50 overflow-hidden relative">
             {/* Background decoration */}
             <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-gradient-to-br from-indigo-100/40 to-purple-100/40 rounded-full blur-3xl opacity-60 -translate-y-1/2 translate-x-1/2 pointer-events-none" />
             <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-gradient-to-tr from-emerald-100/40 to-teal-100/40 rounded-full blur-3xl opacity-60 translate-y-1/2 -translate-x-1/2 pointer-events-none" />
             {/* Messages */}
-            <div className="flex-1 overflow-y-auto px-4 py-6 relative z-10">
+            <div
+                ref={messagesContainerRef}
+                className="flex-1 overflow-y-auto px-4 py-6 relative z-10"
+                style={{ overscrollBehavior: 'contain' }}
+            >
                 <div className="max-w-4xl mx-auto space-y-6">
-                    <AnimatePresence mode="popLayout">
+                    <AnimatePresence mode="sync">
                         {messages.map((message) => {
                             // Simple markdown rendering for **bold**
                             const renderText = (text: string) => {
@@ -466,7 +484,8 @@ export function ChatMode() {
                         </motion.div>
                     )}
 
-                    <div ref={messagesEndRef} />
+                    {/* Bottom spacer so last message is never behind input */}
+                    <div className="h-2" />
                 </div>
             </div>
 

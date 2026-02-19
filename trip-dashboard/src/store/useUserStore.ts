@@ -305,8 +305,17 @@ export const useUserStore = create<UserStore>()(
                         state.currentUserId = mockUsers[0]?.id || null
                     }
 
-                    // Deserialize dates for all trips
-                    state.trips = state.trips.map(trip => deserializeDates(trip))
+                    // Deserialize dates + deduplicate trip IDs (fix corrupted data)
+                    const seenIds = new Set<string>()
+                    state.trips = state.trips.map(trip => {
+                        const deserialized = deserializeDates(trip)
+                        if (seenIds.has(deserialized.id)) {
+                            console.warn(`Duplicate trip ID detected: ${deserialized.id} ("${deserialized.name}"). Assigning new ID.`)
+                            return { ...deserialized, id: generateId() }
+                        }
+                        seenIds.add(deserialized.id)
+                        return deserialized
+                    })
                 }
             },
         }

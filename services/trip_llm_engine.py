@@ -87,6 +87,48 @@ Remember: You're not just collecting data - you're crafting a memorable experien
 """
 
 
+def get_system_prompt_with_context(session_state: dict) -> str:
+    """Build system prompt with current session state injected for explicit context."""
+    base = get_system_prompt()
+    
+    # If nothing collected yet, return base prompt
+    has_data = any([
+        session_state.get("user_name"),
+        session_state.get("dates", {}).get("from"),
+        session_state.get("pace"),
+        session_state.get("interests"),
+        session_state.get("group_type"),
+    ])
+    if not has_data:
+        return base
+    
+    context_lines = ["\n## CURRENT SESSION STATE (already collected — do NOT re-ask for these):"]
+    
+    if session_state.get("user_name"):
+        context_lines.append(f"- User name: {session_state['user_name']}")
+    if session_state.get("dates", {}).get("from"):
+        context_lines.append(f"- Trip dates: {session_state['dates']['from']} to {session_state['dates'].get('to', '?')}")
+    if session_state.get("group_type"):
+        context_lines.append(f"- Group type: {session_state['group_type']}")
+    if session_state.get("has_elders"):
+        context_lines.append("- Has senior/elderly members")
+    if session_state.get("has_kids"):
+        context_lines.append("- Has children")
+    if session_state.get("pace"):
+        context_lines.append(f"- Pace: {session_state['pace']}")
+    if session_state.get("mobility_level"):
+        context_lines.append(f"- Mobility level: {session_state['mobility_level']}")
+    if session_state.get("interests"):
+        context_lines.append(f"- Interests: {', '.join(session_state['interests'])}")
+    if session_state.get("selected_place_ids"):
+        context_lines.append(f"- Selected places: {len(session_state['selected_place_ids'])} places selected")
+    if session_state.get("itinerary"):
+        context_lines.append("- Itinerary: already built")
+    
+    return base + "\n".join(context_lines) + "\n"
+
+
+
 class TripLLMEngine:
     """
     LLM Engine that manages conversation with Gemini and handles function calling
@@ -627,6 +669,8 @@ class TripLLMEngine:
         Process a user message and return the assistant's response.
         Handles function calling loop automatically.
         """
+        import time
+
         # Add user message to history
         self.conversation_history.append(
             types.Content(
@@ -635,11 +679,11 @@ class TripLLMEngine:
             )
         )
 
-        # Generate config with system instruction, tools, and optimized thinking
+        # Generate config with context-injected system prompt and minimal thinking
         config = types.GenerateContentConfig(
-            system_instruction=get_system_prompt(),
+            system_instruction=get_system_prompt_with_context(self.session_state),
             tools=self.tools,
-            thinking_config=types.ThinkingConfig(thinking_level="low")
+            thinking_config=types.ThinkingConfig(thinking_level="minimal")
         )
 
         # Maximum iterations for function calling loop
@@ -651,11 +695,14 @@ class TripLLMEngine:
             iteration += 1
 
             # Call the model
+            t0 = time.time()
             response = self.client.models.generate_content(
                 model=self.model_id,
                 contents=self.conversation_history,
                 config=config
             )
+            elapsed = time.time() - t0
+            print(f"⏱️  API call #{iteration} took {elapsed:.1f}s")
 
             # Check if we have a response
             if not response.candidates or not response.candidates[0].content.parts:
@@ -679,6 +726,7 @@ class TripLLMEngine:
                 )
 
                 # Execute each function and collect results
+                function_results_data = {}
                 function_responses = []
                 for part in function_calls:
                     fc = part.function_call
@@ -688,6 +736,8 @@ class TripLLMEngine:
                     hint = self._get_ui_hint(fc.name, result)
                     if hint:
                         ui_hint = hint
+
+                    function_results_data[fc.name] = result
 
                     function_responses.append(
                         types.Part(
@@ -705,14 +755,35 @@ class TripLLMEngine:
                         parts=function_responses
                     )
                 )
+
+                # For simple context-saving calls, generate follow-up locally
+                # instead of making another slow API call
+                func_names = list(function_results_data.keys())
+                if func_names == ["save_trip_context"]:
+                    follow_up = self._generate_local_followup()
+                    if follow_up:
+                        self.conversation_history.append(
+                            types.Content(
+                                role="model",
+                                parts=[types.Part(text=follow_up)]
+                            )
+                        )
+                        return {"text": follow_up, "ui_hint": ui_hint}
+
+                # For data-returning functions (fetch_ranked_places, build_itinerary),
+                # continue the loop to let the model present the results
             else:
                 # No function calls - we have the final response
                 text_parts = [part.text for part in response_parts if part.text]
                 final_response = " ".join(text_parts) if text_parts else "I'm here to help you plan your Kodaikanal trip!"
 
-                # Add the FULL model response to history (preserves thought signatures
-                # required by Gemini 3 for multi-turn context continuity)
-                self.conversation_history.append(response.candidates[0].content)
+                # Store plain text in history
+                self.conversation_history.append(
+                    types.Content(
+                        role="model",
+                        parts=[types.Part(text=final_response)]
+                    )
+                )
 
                 return {"text": final_response, "ui_hint": ui_hint}
 
@@ -720,6 +791,35 @@ class TripLLMEngine:
             "text": "I apologize, but I'm having trouble processing your request. Please try again.",
             "ui_hint": None
         }
+
+    def _generate_local_followup(self) -> str:
+        """Generate a contextual follow-up message locally based on session state.
+        Avoids a slow second API call for predictable conversation flow."""
+        state = self.session_state
+        name = state.get("user_name")
+
+        # After collecting name → ask for dates
+        if name and not state["dates"].get("from"):
+            return f"Hi {name}! 😊 Great to meet you! I'd love to help you plan an amazing Kodaikanal trip. When are you planning to visit?"
+
+        # After collecting dates → ask about group & pace
+        if state["dates"].get("from") and not state.get("pace"):
+            return "Awesome dates! 🗓️ To help me craft the perfect itinerary, I have a couple more questions:\n\n• **Who's traveling?** (Solo, couple, family, or friends?)\n• **What pace do you prefer?** (Chill ~3 places/day, balanced ~5/day, or packed 8+/day?)\n• **How's your group's fitness level?** Are treks and high-physical-effort activities okay?"
+
+        # After collecting group/pace → ask about interests
+        if state.get("pace") and not state.get("interests"):
+            return "Perfect! 🎯 Now, what kind of experiences are you looking for? Pick the ones that excite you:\n\n🌿 **Nature & Viewpoints** – scenic lookouts, lakes, forests\n🧘 **Peaceful & Serene spots** – quiet gardens, meditation spaces\n🥾 **Adventure & Trekking** – trails, waterfalls, off-the-beaten-path\n☕ **Cafes & Food** – cozy cafes, local cuisine\n🛕 **Religious & Cultural sites** – temples, heritage spots\n📸 **Photography spots** – Instagram-worthy locations\n\nWhat catches your eye?"
+
+        # After collecting interests → ready to fetch places
+        if state.get("interests") and not state.get("selected_place_ids"):
+            return "Love your choices! 🌟 Let me find the best places that match your preferences. Give me a moment to pull up personalized recommendations..."
+
+        # After selecting places → ready to build itinerary
+        if state.get("selected_place_ids") and not state.get("itinerary"):
+            return "Great selections! 🗺️ Let me put together an optimized day-wise itinerary for you..."
+
+        # Fallback — let the model handle it
+        return ""
 
     def reset_conversation(self):
         """Reset the conversation history and session state."""
