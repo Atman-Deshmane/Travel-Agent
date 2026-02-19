@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { Search, Star, MapPin, Link as LinkIcon, ExternalLink, X, ChevronDown, Grid3X3, Map, Loader2, Check, Plus, MapPinned } from 'lucide-react';
-import { API_ENDPOINTS } from '../config/api';
+import { API_ENDPOINTS, API_BASE_URL } from '../config/api';
 import { MapContainer, TileLayer, Marker } from 'react-leaflet';
 import L from 'leaflet';
 
@@ -29,6 +29,7 @@ interface Place {
         best_time_text: string;
         photo_reference?: string;
         hero_image_url?: string;
+        local_image?: string;
     };
     sources: string[];
 }
@@ -114,6 +115,10 @@ export function PlacesDatabase() {
     };
 
     const getImageUrl = (place: Place) => {
+        // Priority: local image (permanent) > photo proxy (may expire) > hero URL (external)
+        if (place.content?.local_image) {
+            return `${API_BASE_URL}/api/images/${place.content.local_image.replace('images/', '')}`;
+        }
         if (place.content?.photo_reference) {
             return API_ENDPOINTS.photo(place.content.photo_reference);
         }

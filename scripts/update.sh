@@ -15,23 +15,37 @@ echo "🔄 Updating ${APP_DIR} from GitHub..."
 
 cd "${APP_DIR}"
 
-# 1. Back up server's places data (places added via web UI would be lost on pull)
+# 1. Back up server's places data & images (would be lost on pull)
 PLACES_JSON="${APP_DIR}/data/kodaikanal_places.json"
+IMAGES_DIR="${APP_DIR}/data/images"
 BACKUP_FILE="/tmp/kodaikanal_places_backup.json"
+BACKUP_IMAGES="/tmp/kodaikanal_images_backup"
+
 if [ -f "$PLACES_JSON" ]; then
     echo "💾 Backing up kodaikanal_places.json..."
     cp "$PLACES_JSON" "$BACKUP_FILE"
+fi
+if [ -d "$IMAGES_DIR" ]; then
+    echo "💾 Backing up images directory..."
+    rm -rf "$BACKUP_IMAGES"
+    cp -r "$IMAGES_DIR" "$BACKUP_IMAGES"
 fi
 
 # 2. Pull latest code
 echo "📥 Pulling latest changes..."
 git pull origin main
 
-# 3. Restore the backed-up places data
+# 3. Restore the backed-up data
 if [ -f "$BACKUP_FILE" ]; then
     echo "♻️  Restoring kodaikanal_places.json..."
     cp "$BACKUP_FILE" "$PLACES_JSON"
     rm -f "$BACKUP_FILE"
+fi
+if [ -d "$BACKUP_IMAGES" ]; then
+    echo "♻️  Restoring images directory..."
+    mkdir -p "$IMAGES_DIR"
+    cp -r "$BACKUP_IMAGES/"* "$IMAGES_DIR/" 2>/dev/null || true
+    rm -rf "$BACKUP_IMAGES"
 fi
 
 # 4. Fix file ownership & permissions (git pull creates files as root)

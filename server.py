@@ -787,6 +787,21 @@ def get_photo(photo_reference):
         return jsonify({"error": str(e)}), 500
 
 
+@app.route('/api/images/<path:filename>')
+def serve_place_image(filename):
+    """Serve locally stored place images from data/images/."""
+    from flask import send_from_directory
+    
+    images_dir = os.path.join(os.path.dirname(__file__), 'data', 'images')
+    
+    if not os.path.exists(os.path.join(images_dir, filename)):
+        return jsonify({"error": "Image not found"}), 404
+    
+    response = send_from_directory(images_dir, filename)
+    response.headers['Cache-Control'] = 'public, max-age=2592000'  # Cache for 30 days
+    return response
+
+
 # ===== USER DATA PERSISTENCE ENDPOINTS =====
 
 import json

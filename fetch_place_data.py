@@ -68,6 +68,9 @@ POPULARITY_NORMALIZATION = 20000
 # Data output directory
 DATA_DIR = Path(__file__).parent / "data"
 
+# Images directory
+IMAGES_DIR = DATA_DIR / "images"
+
 # =============================================================================
 # DISTANCE HELPERS
 # =============================================================================
@@ -433,6 +436,49 @@ def calculate_popularity_score(review_count: int) -> float:
 MASTER_JSON_PATH = DATA_DIR / "kodaikanal_places.json"
 
 
+def download_place_image(place_slug: str, photo_reference: str) -> Optional[str]:
+    """
+    Download a place image from Google Maps and save it locally.
+    
+    Args:
+        place_slug: Slug ID of the place (used as filename)
+        photo_reference: Google Places photo reference
+    
+    Returns:
+        Relative path to saved image (e.g. 'images/bryant-park-kodaikanal.jpg'), or None on failure
+    """
+    import requests
+    
+    api_key = os.getenv('GOOGLE_MAPS_API_KEY')
+    if not api_key or not photo_reference:
+        return None
+    
+    IMAGES_DIR.mkdir(parents=True, exist_ok=True)
+    
+    image_path = IMAGES_DIR / f"{place_slug}.jpg"
+    
+    # Skip if already downloaded
+    if image_path.exists() and image_path.stat().st_size > 0:
+        logger.info(f"[Image] Already exists: {image_path.name}")
+        return f"images/{place_slug}.jpg"
+    
+    google_url = f"https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference={photo_reference}&key={api_key}"
+    
+    try:
+        response = requests.get(google_url, timeout=15)
+        if response.status_code == 200 and 'image' in response.headers.get('Content-Type', ''):
+            with open(image_path, 'wb') as f:
+                f.write(response.content)
+            logger.info(f"[Image] Saved: {image_path.name} ({len(response.content) // 1024}KB)")
+            return f"images/{place_slug}.jpg"
+        else:
+            logger.warning(f"[Image] Failed to download for {place_slug}: HTTP {response.status_code}")
+            return None
+    except Exception as e:
+        logger.error(f"[Image] Error downloading for {place_slug}: {e}")
+        return None
+
+
 def load_master_json() -> dict:
     """Load the master JSON file, or create empty structure if not exists."""
     DATA_DIR.mkdir(exist_ok=True)
@@ -595,7 +641,8 @@ def build_place_data(
             "best_time_text": gemini_data.get("best_time_text", ""),
             "tips": gemini_data.get("tips", [])[:3],  # Ensure max 3 tips
             "hero_image_url": gemini_data.get("hero_image_url"),
-            "photo_reference": maps_data.get("photo_reference")
+            "photo_reference": maps_data.get("photo_reference"),
+            "local_image": None  # Will be set after image download
         },
         
         "sources": gemini_data.get("source_links", []),
@@ -606,6 +653,13 @@ def build_place_data(
             "itinerary_include": itinerary_include
         }
     }
+    
+    # Download and store image locally
+    photo_ref = maps_data.get("photo_reference")
+    if photo_ref:
+        local_path = download_place_image(slug, photo_ref)
+        if local_path:
+            place_data["content"]["local_image"] = local_path
     
     return place_data
 

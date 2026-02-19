@@ -270,7 +270,9 @@ class ItineraryRanker:
                 'cluster': place.get('location', {}).get('cluster_zone', ''),
                 'nearest_cluster': place.get('location', {}).get('nearest_cluster'),
                 'image_url': (
-                    f"/api/photo/{place.get('content', {}).get('photo_reference')}"
+                    f"/api/images/{place.get('content', {}).get('local_image', '').replace('images/', '')}"
+                    if place.get('content', {}).get('local_image')
+                    else f"/api/photo/{place.get('content', {}).get('photo_reference')}"
                     if place.get('content', {}).get('photo_reference')
                     else self._clean_image_url(place.get('content', {}).get('hero_image_url'))
                     if place.get('content', {}).get('hero_image_url') and 
