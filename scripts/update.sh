@@ -34,16 +34,21 @@ if [ -f "$BACKUP_FILE" ]; then
     rm -f "$BACKUP_FILE"
 fi
 
-# 4. Install/update Python dependencies
+# 4. Fix file ownership & permissions (git pull creates files as root)
+echo "🔐 Fixing file permissions..."
+chown -R www-data:www-data "${APP_DIR}/data" "${APP_DIR}/user_data"
+chmod -R 775 "${APP_DIR}/data" "${APP_DIR}/user_data"
+
+# 5. Install/update Python dependencies
 echo "📦 Installing Python dependencies..."
 source venv/bin/activate
 pip install -r requirements.txt --quiet
 
-# 5. Restart the systemd service
+# 6. Restart the systemd service
 echo "🔁 Restarting ${SERVICE_NAME} service..."
 sudo systemctl restart "${SERVICE_NAME}"
 
-# 4. Wait a moment and check status
+# 7. Wait a moment and check status
 sleep 2
 if systemctl is-active --quiet "${SERVICE_NAME}"; then
     echo ""
