@@ -28,6 +28,7 @@ interface Place {
         tips: string[];
         best_time_text: string;
         photo_reference?: string;
+        hero_image_url?: string;
     };
     sources: string[];
 }
@@ -112,9 +113,14 @@ export function PlacesDatabase() {
         }
     };
 
-    const getPhotoUrl = (photoRef?: string) => {
-        if (!photoRef) return null;
-        return API_ENDPOINTS.photo(photoRef);
+    const getImageUrl = (place: Place) => {
+        if (place.content?.photo_reference) {
+            return API_ENDPOINTS.photo(place.content.photo_reference);
+        }
+        if (place.content?.hero_image_url) {
+            return place.content.hero_image_url;
+        }
+        return null;
     };
 
     // Debounced autocomplete search
@@ -402,11 +408,12 @@ export function PlacesDatabase() {
                         >
                             {/* Photo */}
                             <div className="relative h-28 bg-slate-100">
-                                {getPhotoUrl(hoveredPlace.content?.photo_reference) ? (
+                                {getImageUrl(hoveredPlace) ? (
                                     <img
-                                        src={getPhotoUrl(hoveredPlace.content?.photo_reference)!}
+                                        src={getImageUrl(hoveredPlace)!}
                                         alt={hoveredPlace.name}
                                         className="w-full h-full object-cover"
+                                        onError={(e) => (e.currentTarget.style.display = 'none')}
                                     />
                                 ) : (
                                     <div className="w-full h-full flex items-center justify-center text-slate-300">
@@ -457,11 +464,12 @@ export function PlacesDatabase() {
                         >
                             {/* Image */}
                             <div className="relative h-40 bg-slate-100">
-                                {getPhotoUrl(place.content?.photo_reference) ? (
+                                {getImageUrl(place) ? (
                                     <img
-                                        src={getPhotoUrl(place.content?.photo_reference)!}
+                                        src={getImageUrl(place)!}
                                         alt={place.name}
                                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                                        onError={(e) => (e.currentTarget.style.display = 'none')}
                                     />
                                 ) : (
                                     <div className="w-full h-full flex items-center justify-center text-slate-300">
@@ -522,12 +530,13 @@ export function PlacesDatabase() {
                     >
                         {/* Hero */}
                         <div className="relative h-64 bg-slate-900">
-                            {getPhotoUrl(selectedPlace.content?.photo_reference) ? (
+                            {getImageUrl(selectedPlace) ? (
                                 <>
                                     <img
-                                        src={getPhotoUrl(selectedPlace.content?.photo_reference)!}
+                                        src={getImageUrl(selectedPlace)!}
                                         alt={selectedPlace.name}
                                         className="w-full h-full object-cover opacity-60"
+                                        onError={(e) => (e.currentTarget.style.display = 'none')}
                                     />
                                     <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/40 to-transparent" />
                                 </>
