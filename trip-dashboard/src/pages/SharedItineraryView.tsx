@@ -29,7 +29,7 @@ interface ItineraryDay {
 }
 
 export function SharedItineraryView() {
-    const { userName, tripName } = useParams<{ userName: string; tripName: string }>()
+    const { userName, tripDates } = useParams<{ userName: string; tripDates: string }>()
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState<string | null>(null)
     const [days, setDays] = useState<ItineraryDay[]>([])
@@ -39,18 +39,18 @@ export function SharedItineraryView() {
     const [displayUserName, setDisplayUserName] = useState('')
 
     useEffect(() => {
-        if (!userName || !tripName) return
+        if (!userName || !tripDates) return
         const loadItinerary = async () => {
             setLoading(true); setError(null)
             try {
-                const response = await fetch(API_ENDPOINTS.loadItinerary(userName, tripName))
+                const response = await fetch(API_ENDPOINTS.loadItinerary(userName, tripDates))
                 if (!response.ok) {
                     if (response.status === 404) throw new Error('Itinerary not found. It may not have been saved yet.')
                     throw new Error('Failed to load itinerary')
                 }
                 const data = await response.json()
                 setDays(data.itinerary?.days || [])
-                setDisplayTripName(data.trip_name || tripName.replace(/_/g, ' '))
+                setDisplayTripName(data.trip_name || tripDates.replace(/_/g, ' '))
                 setDisplayUserName(data.user_name || userName.replace(/_/g, ' '))
                 setSavedAt(data.saved_at || '')
             } catch (err: any) {
@@ -58,7 +58,7 @@ export function SharedItineraryView() {
             } finally { setLoading(false) }
         }
         loadItinerary()
-    }, [userName, tripName])
+    }, [userName, tripDates])
 
     const currentDay = days.find(d => d.day === activeDay)
 

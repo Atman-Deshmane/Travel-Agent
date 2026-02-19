@@ -35,7 +35,7 @@ function App() {
     allPlaces: any[]
   } | null>(null)
 
-  const { getActiveTrip } = useUserStore()
+  const { getActiveTrip, getCurrentUser } = useUserStore()
   const activeTrip = getActiveTrip()
 
   const handleFetchPlaces = () => {
@@ -122,8 +122,9 @@ function App() {
 
     if (manualView === 'itinerary' && itineraryData) {
       // Get user and trip name for saving
-      const userName = activeTrip?.name?.split("'s")[0] || 'Guest'
-      const tripName = activeTrip?.name?.split("'s ")[1] || 'Trip'
+      const currentUser = getCurrentUser()
+      const userName = currentUser?.name || 'Guest'
+      const tripName = activeTrip?.name || 'Trip'
 
       return (
         <ItineraryBuilder

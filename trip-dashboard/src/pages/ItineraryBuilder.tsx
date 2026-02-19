@@ -614,13 +614,25 @@ export function ItineraryBuilder({ selectedPlaceIds, userConfig, onBack, allPlac
         } catch (err) { console.error('Failed to rebuild itinerary:', err) }
     }
 
+    // Build a date-based slug like "2026_Mar_13-Mar_15" from userConfig
+    const tripSlug = useMemo(() => {
+        if (!userConfig.start_date) return tripName.replace(/\s+/g, '_').replace(/\//g, '-')
+        const startDate = new Date(userConfig.start_date)
+        const endDate = new Date(startDate)
+        endDate.setDate(endDate.getDate() + (userConfig.num_days - 1))
+        const year = startDate.getFullYear()
+        const fmt = (d: Date) => d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }).replace(' ', '_')
+        return `${year}_${fmt(startDate)}-${fmt(endDate)}`
+    }, [userConfig.start_date, userConfig.num_days, tripName])
+
     const handleSave = async (): Promise<boolean> => {
         setSaveStatus('saving')
         try {
             const saveDays = days.map(day => ({ ...day, places: itemsToPlaces(dayItems[day.day] || []) }))
+            const safeUser = userName.replace(/\s+/g, '_')
             const response = await fetch(API_ENDPOINTS.saveItinerary, {
                 method: 'POST', headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ itinerary: { days: saveDays }, user_name: userName, trip_name: tripName })
+                body: JSON.stringify({ itinerary: { days: saveDays }, user_name: safeUser, trip_name: tripName, trip_slug: tripSlug })
             })
             if (!response.ok) throw new Error('Failed to save')
             setSaveStatus('saved'); setTimeout(() => setSaveStatus('idle'), 2000)
@@ -632,11 +644,10 @@ export function ItineraryBuilder({ selectedPlaceIds, userConfig, onBack, allPlac
         setShareStatus('sharing')
         const saved = await handleSave()
         if (!saved) { setShareStatus('idle'); return }
-        // Build permalink
-        const safeName = tripName.replace(/\s+/g, '_').replace(/\//g, '-')
+        // Build permalink: /kodaikanal/{userName}/{tripSlug}
         const safeUser = userName.replace(/\s+/g, '_')
         const base = window.location.origin + (import.meta.env.BASE_URL || '/')
-        const permalink = `${base}trip/${safeUser}/${safeName}`
+        const permalink = `${base}${safeUser}/${tripSlug}`
         try {
             await navigator.clipboard.writeText(permalink)
             setShareStatus('copied'); setTimeout(() => setShareStatus('idle'), 3000)

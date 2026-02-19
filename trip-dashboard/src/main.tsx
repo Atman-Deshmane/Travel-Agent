@@ -10,7 +10,7 @@ createRoot(document.getElementById('root')!).render(
     <BrowserRouter basename="/kodaikanal">
       <Routes>
         <Route path="/" element={<App />} />
-        <Route path="/trip/:userName/:tripName" element={<SharedItineraryView />} />
+        <Route path="/:userName/:tripDates" element={<SharedItineraryView />} />
       </Routes>
     </BrowserRouter>
   </StrictMode>,

@@ -640,6 +640,7 @@ def save_itinerary():
     {
         "user_name": "Atman",
         "trip_name": "Mar 21 - Mar 22",
+        "trip_slug": "2026_Mar_21-Mar_22",
         "itinerary": { days: [...], user_config: {...} }
     }
     """
@@ -648,10 +649,14 @@ def save_itinerary():
         
         user_name = data.get('user_name', 'Guest')
         trip_name = data.get('trip_name', 'Trip')
+        trip_slug = data.get('trip_slug', '')
         itinerary = data.get('itinerary', {})
         
-        # Create filename from trip name
-        safe_name = trip_name.replace(' ', '_').replace('/', '-')
+        # Use trip_slug for filename if provided, otherwise fall back to trip_name
+        if trip_slug:
+            safe_name = trip_slug
+        else:
+            safe_name = trip_name.replace(' ', '_').replace('/', '-')
         filename = f"{safe_name}_itinerary.json"
         
         # Ensure user folder exists
@@ -663,6 +668,7 @@ def save_itinerary():
         with open(filepath, 'w') as f:
             json.dump({
                 "trip_name": trip_name,
+                "trip_slug": trip_slug,
                 "saved_at": datetime.now().isoformat(),
                 "itinerary": itinerary
             }, f, indent=2)
@@ -686,13 +692,25 @@ def save_itinerary():
 def load_itinerary(user_name, trip_name):
     """
     Load a saved itinerary by user and trip name.
-    URL format: /api/load-itinerary/Atman/Mar_21_-_Mar_22
+    URL format: /api/load-itinerary/Bruce_Wayne/2026_Feb_25-Feb_27
+    Tries multiple folder/filename combinations to handle underscore vs space mismatches.
     """
     try:
         filename = f"{trip_name}_itinerary.json"
-        filepath = f"user_data/{user_name}/{filename}"
         
-        if not os.path.exists(filepath):
+        # Try multiple user folder name variants (underscore vs space)
+        user_variants = [user_name]
+        if '_' in user_name:
+            user_variants.append(user_name.replace('_', ' '))
+        
+        filepath = None
+        for user_folder_name in user_variants:
+            candidate = f"user_data/{user_folder_name}/{filename}"
+            if os.path.exists(candidate):
+                filepath = candidate
+                break
+        
+        if not filepath:
             return jsonify({"success": False, "error": "Itinerary not found"}), 404
         
         with open(filepath, 'r') as f:
