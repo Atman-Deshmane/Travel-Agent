@@ -45,8 +45,19 @@ export function WeightSlider({ value, onChange, disabled = false }: WeightSlider
                 />
             </div>
 
+            {/* Percentage Display */}
+            <div className="flex justify-center mt-3 mb-1">
+                <div className="flex items-center gap-1.5 px-3 py-1 bg-slate-50 rounded-full border border-slate-100">
+                    <span className="text-[11px] md:text-xs font-semibold text-blue-600">{100 - value}%</span>
+                    <span className="text-[10px] text-slate-400">Popularity</span>
+                    <span className="text-[10px] text-slate-300 mx-0.5">·</span>
+                    <span className="text-[11px] md:text-xs font-semibold text-purple-600">{value}%</span>
+                    <span className="text-[10px] text-slate-400">Interests</span>
+                </div>
+            </div>
+
             {/* Labels */}
-            <div className="flex justify-between mt-2.5">
+            <div className="flex justify-between mt-1">
                 <span className="text-[11px] md:text-xs font-medium text-blue-600">Go with popularity</span>
                 <span className="text-[11px] md:text-xs font-medium text-purple-600">Based on your interests</span>
             </div>
