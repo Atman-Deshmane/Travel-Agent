@@ -1,0 +1,52 @@
+# ============================================================
+# Travel Agent Backend - Hostinger VPS (Traefik-compatible)
+# Runs alongside n8n without touching its configuration
+# ============================================================
+
+services:
+  travel_backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: travel_backend
+    env_file:
+      - .env
+    environment:
+      - FLASK_ENV=production
+    volumes:
+      - ./data:/app/data
+      - ./user_data:/app/user_data
+    restart: always
+    labels:
+      - "traefik.enable=true"
+      # Route api.100cr.cloud to this container
+      - "traefik.http.routers.travelagent.rule=Host(`api.100cr.cloud`)"
+      - "traefik.http.routers.travelagent.tls=true"
+      - "traefik.http.routers.travelagent.entrypoints=web,websecure"
+      - "traefik.http.routers.travelagent.tls.certresolver=mytlschallenge"
+      # Tell Traefik which port our container listens on
+      - "traefik.http.services.travelagent.loadbalancer.server.port=5001"
+      # CORS middleware
+      - "traefik.http.middlewares.travelagent-cors.headers.accesscontrolallowmethods=GET,POST,OPTIONS,PUT,DELETE"
+      - "traefik.http.middlewares.travelagent-cors.headers.accesscontrolallowheaders=Content-Type,Authorization"
+      - "traefik.http.middlewares.travelagent-cors.headers.accesscontrolalloworiginlist=https://100cr.cloud,http://localhost:5173"
+      - "traefik.http.middlewares.travelagent-cors.headers.accesscontrolmaxage=1728000"
+      - "traefik.http.routers.travelagent.middlewares=travelagent-cors@docker"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5001/api/warmup"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 15s
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    networks:
+      - root_default
+
+# Connect to the EXISTING Traefik network (same one n8n uses)
+networks:
+  root_default:
+    external: true
